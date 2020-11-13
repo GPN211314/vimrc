@@ -26,7 +26,8 @@ if !g:is_nvim && g:is_vim8
 endif
 
 call plug#begin('~/.config/nvim/site')
-Plug 'Shougo/echodoc.vim'
+Plug 'mhartington/oceanic-next'
+"Plug 'Shougo/echodoc.vim'
 "Plug 'neovim/nvim-lspconfig'
 Plug 'wellle/targets.vim'
 Plug 'kassio/neoterm'
@@ -136,6 +137,10 @@ EOF
 
 
 let g:auto_save = 1
+"let g:neoterm_default_mod='botright'
+let g:neoterm_autojump=1
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = "virtual"
 
 let g:miniBufExplorerAutoStart = 0
 hi Comment cterm=italic
@@ -259,7 +264,8 @@ let g:clipboard = {
       \ }
 
 
-let g:airline_theme='onedark'
+"let g:airline_theme='onedark'
+let g:airline_theme='oceanicnext'
 "colorscheme nvcode
 
 let g:_background=0
@@ -286,9 +292,10 @@ syntax on
 
 
 set guifont=Fira\ Code:h14
-"set relativenumber
-set nohlsearch
-hi CursorColumn guibg=SlateBlue
+set relativenumber
+set noshowmode
+"set nohlsearch
+"hi CursorColumn guibg=SlateBlue
 set number
 set tabstop=4
 "set softtabstop=4
@@ -299,7 +306,7 @@ set autoindent
 set signcolumn=yes
 set inccommand=nosplit
 set mouse=a
-"set clipboard=unnamedplus
+set clipboard=unnamedplus
 "set nowrap
 set wrap
 set linebreak
@@ -327,11 +334,14 @@ set nowritebackup
 set hidden
 set encoding=utf-8
 set shortmess+=c
+set cursorline
 "hi Search guibg=#4b5263 guifg=NONE
 hi Search guibg=DarkCyan guifg=white
 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * hi NonText guifg=gray
+autocmd InsertEnter * set nocursorline 
+autocmd InsertLeave * set cursorline 
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Defx | endif
 autocmd VimEnter * silent! autocmd! FileExplorer
 autocmd VimEnter * if (argc() == 1 && isdirectory(argv(0)) && !exists("s:std_in")) | Startify | endif
@@ -372,8 +382,8 @@ let g:floaterm_keymap_next = '<C-l>'
 let g:floaterm_keymap_first = '<C-j>'
 let g:floaterm_keymap_last = '<C-k>'
 let g:floaterm_keymap_prev = '<C-h>'
-map <space>d :Defx<CR>
-"map <space>d :CocCommand explorer<CR>
+"map <space>d :Defx<CR>
+map <space>d :CocCommand explorer<CR>
 map <space>r :FloatermNew ranger<CR>
 "tnoremap <ESC> <c-\><c-n>
 
@@ -517,7 +527,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 let s:direction = 'leftabove'
 
 function! s:setcolum() abort
-    return 'mark:indent:icons:filename:type'
+    return 'mark:indent:indent:icons:filename:type'
 endfunction
 
 call defx#custom#option('_', {
@@ -782,14 +792,16 @@ endfunction
 let g:fzf_layout = { 'down': '25%' }
 let g:clap_insert_mode_only=v:true
 "hi FloatermBorder guifg=orange
-colorscheme doom-one
-hi CursorColumn guibg=SlateBlue
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
+colorscheme OceanicNext
 hi NonText guifg=gray
 hi EndOfBuffer guifg=bg
 
 set autochdir
 nmap <Tab> :bn<CR>
 nmap <S-Tab> :bp<CR>
+nmap <space>t :Ttoggle<CR>
 
 
 " nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
@@ -800,3 +812,8 @@ nmap <S-Tab> :bp<CR>
 " nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 " nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 " nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+
+let gitgutter_sign_added            = "\u00a0│"
+let gitgutter_sign_removed          = "\u00a0│"
+let gitgutter_sign_modified         = "\u00a0│"
+let gitgutter_sign_modified_removed = "\u00a0│"
