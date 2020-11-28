@@ -13,19 +13,10 @@ if (has("termguicolors"))
     "hi LineNr ctermbg=NONE guibg=NONE
 endif
 
-let g:is_nvim = has('nvim')
-let g:is_vim8 = v:version >= 800 ? 1 : 0
-
-" Reuse nvim's runtimepath and packpath in vim
-if !g:is_nvim && g:is_vim8
-  set runtimepath-=~/.vim
-    \ runtimepath^=~/.local/share/nvim/site runtimepath^=~/.vim
-    \ runtimepath-=~/.vim/after
-    \ runtimepath+=~/.local/share/nvim/site/after runtimepath+=~/.vim/after
-  let &packpath = &runtimepath
-endif
-
 call plug#begin('~/.config/nvim/site')
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'Jorengarenar/vim-MvVis'
 Plug 'gruvbox-community/gruvbox'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/completion-treesitter'
@@ -98,7 +89,6 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'voldikss/LeaderF-floaterm'
 call plug#end()
 
-colorscheme onedark 
 autocmd BufEnter * lua require'completion'.on_attach()
 lua <<EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -515,6 +505,36 @@ function! s:setcolum() abort
     return 'mark:indent:indent:icons:filename:type'
 endfunction
 
+function! s:defx_my_settings() abort
+  " ... configure defx as per :help defx-examples ...
+endfunction
+
+function! s:open_defx_if_directory()
+  " This throws an error if the buffer name contains unusual characters like
+  " [[buffergator]]. Desired behavior in those scenarios is to consider the
+  " buffer not to be a directory.
+  try
+    let l:full_path = expand(expand('%:p'))
+  catch
+    return
+  endtry
+
+  " If the path is a directory, delete the (useless) buffer and open defx for
+  " that directory instead.
+  if isdirectory(l:full_path)
+    execute "Defx `expand('%:p')` | bd " . expand('%:r')
+  endif
+endfunction
+
+augroup defx_config
+  autocmd!
+  autocmd FileType defx call s:defx_my_settings()
+
+  " It seems like BufReadPost should work for this, but for some reason, I can't
+  " get it to fire. BufEnter seems to be more reliable.
+  autocmd BufEnter * call s:open_defx_if_directory()
+augroup END
+
 call defx#custom#option('_', {
       \ 'columns': s:setcolum(),
       \ 'winwidth': 30,
@@ -616,7 +636,7 @@ function! s:defx_init()
         \     defx#do_action('close_tree') :
         \     defx#do_action('open_tree')
         \     )
-        \ : defx#do_action('drop')
+        \ : defx#do_action('call', 'DefxSmartL')
   nnoremap <silent><buffer><expr> sg
         \ defx#do_action('drop', 'vsplit')
   nnoremap <silent><buffer><expr> sv
@@ -774,7 +794,7 @@ let g:clap_insert_mode_only=v:true
 "hi FloatermBorder guifg=orange
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
-"hi NonText guifg=bg
+hi NonText guifg=cyan
 "hi EndOfBuffer guifg=bg
 
 set autochdir
@@ -792,6 +812,7 @@ nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> [g    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]g    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> g9    <cmd>lua vim.lsp.buf.rename()<CR>
 aug QFClose
   au!
   au WinLeave * if  &buftype == "quickfix"|ccl|LeaderfQuickFix|endif
@@ -805,31 +826,33 @@ let gitgutter_sign_modified_removed = "\u00a0│"
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2"}
 let g:Lf_WindowHeight = 0.3
 let g:Lf_IgnoreCurrentBufferName = 1
-let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+let g:Lf_PreviewResult = {'Function': 1, 'BufTag': 1 , 'QuickFix':1, 'LocList':1}
+let g:Lf_PreviewCode = 1
 
 noremap <space>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <space>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <space>s :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <space>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <space>ff :<C-U><C-R>=printf("Leaderf floaterm %s", "")<CR><CR>
 noremap <space>o :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
 noremap <space>a :<C-U><C-R>=printf("Leaderf quickfix %s", "")<CR><CR>
 noremap <space>e <cmd>lua vim.lsp.diagnostic.set_loclist({open_loclist=false,severity_limit="Warning"})<CR>:<C-U><C-R>=printf("Leaderf loclist %s", "")<CR><CR>
 noremap <space>rg :LeaderfRgInteractive<CR>
 
-hi! LspDiagnosticsDefaultWarning guifg=orange
-hi! LspDiagnosticsDefaultError guifg=red
-hi! LspDiagnosticsDefaultInformation guifg=darkcyan
-hi! LspDiagnosticsDefaultHint guifg=green
-
-hi! LspDiagnosticsUnderlineWarning cterm=underline gui=underline 
-hi! LspDiagnosticsUnderlineError cterm=underline gui=underline
-hi! LspDiagnosticsUnderlineInformation cterm=underline gui=underline
-hi! LspDiagnosticsUnderlineHint cterm=underline gui=underline
-
-hi! LspDiagnosticsFloatingWarning guifg=orange
-hi! LspDiagnosticsFloatingError guifg=red
-hi! LspDiagnosticsFloatingInformation guifg=darkcyan
-hi! LspDiagnosticsFloatingHint guifg=green
+autocmd ColorScheme * hi! LspDiagnosticsDefaultWarning guifg=orange
+        \    |hi! LspDiagnosticsDefaultError guifg=red
+        \    |hi! LspDiagnosticsDefaultInformation guifg=darkcyan
+        \    |hi! LspDiagnosticsDefaultHint guifg=green
+        \
+        \    |hi! LspDiagnosticsUnderlineWarning cterm=underline gui=underline
+        \    |hi! LspDiagnosticsUnderlineError cterm=underline gui=underline
+        \    |hi! LspDiagnosticsUnderlineInformation cterm=underline gui=underline
+        \    |hi! LspDiagnosticsUnderlineHint cterm=underline gui=underline
+        \
+        \    |hi! LspDiagnosticsFloatingWarning guifg=orange
+        \    |hi! LspDiagnosticsFloatingError guifg=red
+        \    |hi! LspDiagnosticsFloatingInformation guifg=darkcyan
+        \    |hi! LspDiagnosticsFloatingHint guifg=green
 
 sign define LspDiagnosticsSignError text=E texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
 sign define LspDiagnosticsSignWarning text=W texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
@@ -846,33 +869,38 @@ imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
 
 " Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
-" possible value: "length", "alphabet", "none"
-let g:completion_sorting = "length"
 let g:completion_trigger_keyword_length = 3 " default = 1
-let g:completion_trigger_on_delete = 0
+let g:completion_trigger_on_delete = 1
 augroup CompletionTriggerCharacter
     autocmd!
     autocmd BufEnter * let g:completion_trigger_character = ['.']
     autocmd BufEnter *.c,*.cpp,*.cc,*.h,*hpp let g:completion_trigger_character = ['.', '::']
 augroup end
 let g:completion_matching_ignore_case = 0
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 let g:completion_enable_auto_signature = 0
+let g:completion_enable_auto_paren = 1
 set pw=15
 set ph=10
 set pb=15
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_auto_change_source = 1
 let g:completion_chain_complete_list = {
-			\'cpp' : {
+			\'default' : {
 			\	'default' : [
-			\		{'complete_items' : ['lsp', 'snippet', 'ts']},
+			\		{'complete_items' : ['lsp', 'snippet', 'path']},
 			\		{'mode' : 'file'}
 			\	],
 			\	'comment' : [],
 			\	'string' : []
 			\	},
-			\'default' : [
-			\	{'complete_items': ['snippet', 'ts']}
-			\	]
+			\'vim' : [
+			\	{'complete_items': ['snippet']},
+			\	{'mode' : 'cmd'}
+			\	],
+			\'python' : [
+			\	{'complete_items': ['ts', 'path']}
+			\	],
 			\}
 
 let g:VM_theme = 'nord'
@@ -883,3 +911,7 @@ let g:VM_maps["Align"]             = '<leader>A'
 let g:VM_maps["Add Cursor Down"]   = '<S-Down>'
 let g:VM_maps["Add Cursor Up"]     = '<S-Up>'
 let g:VM_mouse_mappings = 1
+
+let g:AutoPairsShortcutToggle = ''
+let g:UltiSnipsExpandTrigger="<C-Tab>"
+colorscheme onedark
