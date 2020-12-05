@@ -359,9 +359,8 @@ autocmd Filetype json :IndentLinesDisable
 cmap w!! w suda://%
 "map <C-p> :Clap command_history<CR>
 " map <leader>b :Clap buffers<CR>
-map <space>b :LeaderfBuffer<CR>
+" map <space>b :LeaderfBuffer<CR>
 " map <space>g :Clap grep<CR>
-map <space>f :Leaderf self<CR>
 map <silent> <space>x :BufferClose<CR>:wincmd w<CR>:wincmd W<CR>
 "map z <Plug>(easymotion-prefix)
 "nnoremap gj :call EasyMotion#JK(0,0)<CR>
@@ -858,12 +857,21 @@ let g:Lf_WindowHeight = 0.3
 let g:Lf_IgnoreCurrentBufferName = 1
 let g:Lf_PreviewResult = {'Function': 1, 'BufTag': 1 , 'QuickFix':1, 'LocList':1}
 let g:Lf_PreviewCode = 1
+let g:Lf_CursorBlink=1
+" let g:Lf_TabpagePosition=2
 
-noremap <space>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+
+let g:Lf_ShortcutF='<space>ff'
+let g:Lf_ShortcutB='<space>fb'
+let g:Lf_DisableStl=1
+autocmd BufEnter * if  &buftype ==# "terminal"| set nornu | set nonu | set nobuflisted |endif
+autocmd Filetype leaderf set nornu | set nonu |endif
+" noremap <space>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <space>f :LeaderfSelf<CR>
 noremap <space>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <space>s :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <space>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-noremap <space>ff :<C-U><C-R>=printf("Leaderf floaterm %s", "")<CR><CR>
+noremap <leader>f :<C-U><C-R>=printf("Leaderf floaterm %s", "")<CR><CR>
 noremap <space>o :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
 noremap <space>a :<C-U><C-R>=printf("Leaderf quickfix %s", "")<CR><CR>
 noremap <space>e <cmd>lua vim.lsp.diagnostic.set_loclist({open_loclist=false,severity_limit="Warning"})<CR>:<C-U><C-R>=printf("Leaderf loclist %s", "")<CR><CR>
@@ -961,6 +969,7 @@ let g:winManagerWidth=30
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerSplitHorzSize=10     " New split window is n rows high.
 let g:bufExplorerOnlyOneTab=0
+let g:bufExplorerDefaultHelp=0     " Do not show default help.
 
 function! Defx_Start()
     exec 'Defx'
@@ -977,7 +986,6 @@ endfunction
 " function! Buffergator_IsValid()
 "     return 1
 " endfunction
-" let g:bufExplorerDefaultHelp=0     " Do not show default help.
 " let g:buffergator_autoupdate=1
 " let g:buffergator_autodismiss_on_select=0
 " let g:buffergator_viewport_split_policy="N"
