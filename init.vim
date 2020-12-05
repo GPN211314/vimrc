@@ -10,10 +10,22 @@ endif
 " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 if (has("termguicolors"))
     set termguicolors
-    "hi LineNr ctermbg=NONE guibg=NONE
 endif
 
 call plug#begin('~/.config/nvim/site')
+Plug 'paroxayte/vwm.vim'
+Plug 'jlanzarotta/bufexplorer'
+" Plug 'vim-scripts/bufexplorer.zip'
+Plug 'vim-scripts/winmanager--Fox'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-unimpaired'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'vim-scripts/BufOnly.vim'
+" Plug 'voldikss/vim-codelf'
+Plug 'tpope/vim-obsession'
+Plug 'RRethy/vim-illuminate'
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Jorengarenar/vim-MvVis'
@@ -29,11 +41,11 @@ Plug 'mhartington/oceanic-next'
 Plug 'Shougo/echodoc.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'wellle/targets.vim'
-"Plug 'kassio/neoterm'
+Plug 'kassio/neoterm'
 Plug '907th/vim-auto-save'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
-"Plug 'romgrk/barbar.nvim'
+Plug 'romgrk/barbar.nvim'
 Plug 'romgrk/doom-one.vim'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'Th3Whit3Wolf/onebuddy', {'branch': 'main'}
@@ -49,6 +61,7 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 "Plug 'arcticicestudio/nord-vim'
 "Plug 'vim-scripts/confirm-quit'
 Plug 'fholgado/minibufexpl.vim'
+" Plug 'weynhamz/vim-plugin-minibufexpl'
 Plug 'airblade/vim-gitgutter'
 "Plug 'epheien/termdbg'
 "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
@@ -58,7 +71,7 @@ Plug 'lambdalisue/suda.vim'
 Plug 'voldikss/vim-floaterm'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'joshdick/onedark.vim'
-"Plug 'preservim/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -77,7 +90,7 @@ Plug 'tpope/vim-abolish'
 "Plug '/nix/store/r3khvq4jp84rrzh8ika4xwgwnkvw0sfj-fzf-0.20.0/share/vim-plugins/fzf'
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'luochen1990/rainbow'
+"Plug 'luochen1990/rainbow'
 "Plug 'mileszs/ack.vim'
 Plug 'easymotion/vim-easymotion'
 "Plug 'majutsushi/tagbar'
@@ -99,14 +112,21 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = false,
   }
 )
-require'lspconfig'.ccls.setup{}
+require'lspconfig'.clangd.setup{}
+require'lspconfig'.pyls.setup{}
+require'lspconfig'.hls.setup{}
+
 require'nvim-treesitter.configs'.setup {
   -- Modules and its options go here
+  rainbow = {
+    enable = false,
+    disable = {'bash'} -- please disable bash until I figure #1 out
+  },
   highlight = { enable = true },
   incremental_selection = { enable = true },
   textobjects = {
     move = {
-      enable = true,
+      enable = false,
       goto_next_start = {
         ["]m"] = "@function.outer",
         ["]]"] = "@class.outer",
@@ -127,15 +147,19 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
-
+" require'lspconfig'.ccls.setup{
+"     completion = {
+"         enableSnippetInsertion = true
+"     }
+" }
 
 let g:auto_save = 1
-"let g:neoterm_default_mod='botright'
+let g:neoterm_default_mod='botright'
+let g:neoterm_size = '12'
 let g:neoterm_autojump=1
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = "virtual"
 
-let g:miniBufExplorerAutoStart = 0
 hi Comment cterm=italic
 let g:nvcode_hide_endofbuffer=1
 let g:nvcode_terminal_italics=1
@@ -145,15 +169,27 @@ let g:indentLine_enabled = 1
 let g:floaterm_height=0.9
 let g:floaterm_width=0.9
 let g:floaterm_winblend=0
+"let g:floaterm_wintype='popup'
 "let g:ranger_replace_netrw=1 "open ranger when vim open a directory
 let g:onedark_hide_endofbuffer=1
 let g:onedark_terminal_italics=1
 "let g:onedark_termcolors=256
-let g:airline#extensions#tabline#enabled=1
-let g:miniBufExplVSplit=30
-let g:miniBufExplBRSplit = 1
+let g:airline#extensions#tabline#enabled=0
+let g:miniBufExplorerAutoStart = 0
+let g:miniBufExplTabWrap = 1
+let g:miniBufExplVSplit=0
+" let g:miniBufExplBRSplit = 1
+let g:miniBufExplSplitToEdge = 0
+" let g:miniBufExplorerMoreThanOne=0
+" let g:miniBufExplBuffersNeeded = 1
+let g:miniBufExplMinHeight = 15
+let g:miniBufExplMaxHeight = 20
+let g:miniBufExplHideWhenDiff = 1
 
 let g:airline#extensions#whitespace#enabled = 1
+
+let g:airline#extensions#obsession#enabled = 1
+let g:airline#extensions#obsession#indicator_text = '$'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=' '
 let g:airline_right_sep=''
@@ -164,7 +200,7 @@ let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|start
 let g:airline#extensions#nvimlsp#enabled = 1
 let airline#extensions#nvimlsp#error_symbol = 'E:'
 let airline#extensions#nvimlsp#warning_symbol = 'W:'
-
+" let g:bufferline.closable = v:false
 let g:rainbow_active = 1
 let g:rainbow_conf = {
     \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
@@ -234,12 +270,12 @@ let g:tagbar_sort = 0
 let g:clipboard = {
       \   'name': 'ssh-sync',
       \   'copy': {
-      \      '+': ['ssh', 'bjhl@192.168.56.1', 'pbcopy'],
-      \      '*': ['ssh', 'bjhl@192.168.56.1', 'pbcopy'],
+      \      '+': ['ssh', 'macbook', 'pbcopy'],
+      \      '*': ['ssh', 'macbook', 'pbcopy'],
       \    },
       \   'paste': {
-      \      '+': ['ssh', 'bjhl@192.168.56.1', 'pbpaste'],
-      \      '*': ['ssh', 'bjhl@192.168.56.1', 'pbpaste'],
+      \      '+': ['ssh', 'macbook', 'pbpaste'],
+      \      '*': ['ssh', 'macbook', 'pbpaste'],
       \    },
       \   'cache_enabled': 1,
       \ }
@@ -316,13 +352,13 @@ set hidden
 set encoding=utf-8
 set shortmess+=c
 set cursorline
-"hi Search guibg=#4b5263 guifg=NONE
-"hi Search guibg=DarkCyan guifg=white
+autocmd InsertEnter * set nocursorline
+autocmd InsertLeave * set cursorline
+autocmd TermEnter * :IlluminationDisable
+autocmd TermLeave * :IlluminationEnable
 
 autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * hi NonText guifg=gray
-autocmd InsertEnter * set nocursorline
-autocmd InsertLeave * set cursorline
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Defx | endif
 autocmd VimEnter * silent! autocmd! FileExplorer
 autocmd VimEnter * if (argc() == 1 && isdirectory(argv(0)) && !exists("s:std_in")) | Startify | endif
@@ -334,7 +370,7 @@ map <leader>b :Clap buffers<CR>
 map <space>b :MBEToggle<CR>:MBEFocus<CR>
 map <space>g :Clap grep<CR>
 map <space>f :Leaderf self<CR>
-map <space>x :Bclose<CR>
+map <space>x :BufferClose<CR>
 "map z <Plug>(easymotion-prefix)
 "nnoremap gj :call EasyMotion#JK(0,0)<CR>
 "nnoremap gk :call EasyMotion#JK(0,1)<CR>
@@ -357,8 +393,14 @@ let g:floaterm_keymap_next = '<C-l>'
 let g:floaterm_keymap_first = '<C-j>'
 let g:floaterm_keymap_last = '<C-k>'
 let g:floaterm_keymap_prev = '<C-h>'
-map <space>d :Defx<CR>
-map <space>v :CocCommand explorer<CR>
+function! WMToggle_Wrapper()
+    let s:id=win_getid()
+    exec 'MBEClose'
+    exec 'WMToggle'
+    call win_gotoid(s:id)
+endfunction
+nnoremap <silent> <space>d :call WMToggle_Wrapper()<CR>
+" map <space>v :Defx<CR>
 map <space>r :FloatermNew ranger<CR>
 "tnoremap <ESC> <c-\><c-n>
 
@@ -535,10 +577,10 @@ augroup defx_config
   autocmd BufEnter * call s:open_defx_if_directory()
 augroup END
 
+      " \ 'winwidth': 30,
 call defx#custom#option('_', {
       \ 'columns': s:setcolum(),
-      \ 'winwidth': 30,
-      \ 'split': 'vertical',
+      \ 'split': 'no',
       \ 'direction': s:direction,
       \ 'show_ignored_files': 0,
       \ 'buffer_name': '',
@@ -683,17 +725,21 @@ function! DefxSmartL(_)
     normal! j
   else
     let filepath = defx#get_candidate()['action__path']
-    if tabpagewinnr(tabpagenr(), '$') >= 3    " if there are more than 2 normal windows
+    if tabpagewinnr(tabpagenr(), '$') >= 4    " if there are more than 2 normal windows
       if exists(':ChooseWin') == 2
         ChooseWin
       else
         let input = input('ChooseWin No./Cancel(n): ')
         if input ==# 'n' | return | endif
-        if input == winnr() | return | endif
+        if input ==# '1' | return | endif
+        if input ==# '2' | return | endif
+        " if input == winnr() | return | endif
         exec input . 'wincmd w'
       endif
+      exec 'wincmd w'
       exec 'e' filepath
     else
+      exec 'wincmd w'
       exec 'wincmd w'
       exec 'e' filepath
     endif
@@ -794,12 +840,11 @@ let g:clap_insert_mode_only=v:true
 "hi FloatermBorder guifg=orange
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
-hi NonText guifg=cyan
-"hi EndOfBuffer guifg=bg
 
 set autochdir
-nmap <Tab> :bn<CR>
-nmap <S-Tab> :bp<CR>
+nnoremap <silent> <Tab> :BufferNext<CR>
+nnoremap <silent> <S-Tab> :BufferPrevious<CR>
+nnoremap <silent> <C-s> :BufferPick<CR>
 nmap <space>t :Ttoggle<CR>
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
@@ -813,6 +858,7 @@ nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> [g    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]g    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <silent> g9    <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <space>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 aug QFClose
   au!
   au WinLeave * if  &buftype == "quickfix"|ccl|LeaderfQuickFix|endif
@@ -858,7 +904,7 @@ sign define LspDiagnosticsSignError text=E texthl=LspDiagnosticsSignError linehl
 sign define LspDiagnosticsSignWarning text=W texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
 sign define LspDiagnosticsSignInformation text=I texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
 sign define LspDiagnosticsSignHint text=H texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
-autocmd CursorHold * lua  vim.lsp.diagnostic.show_line_diagnostics()
+
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -871,11 +917,12 @@ imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
 set completeopt=menuone,noinsert,noselect
 let g:completion_trigger_keyword_length = 3 " default = 1
 let g:completion_trigger_on_delete = 1
-augroup CompletionTriggerCharacter
-    autocmd!
-    autocmd BufEnter * let g:completion_trigger_character = ['.']
-    autocmd BufEnter *.c,*.cpp,*.cc,*.h,*hpp let g:completion_trigger_character = ['.', '::']
-augroup end
+" augroup CompletionTriggerCharacter
+"     autocmd!
+"     autocmd BufEnter * let g:completion_trigger_character = ['.']
+"     autocmd BufEnter *.c,*.cpp,*.cc,*.h,*hpp let g:completion_trigger_character = ['::']
+" augroup end
+let g:completion_trigger_character = []
 let g:completion_matching_ignore_case = 0
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 let g:completion_enable_auto_signature = 0
@@ -883,35 +930,70 @@ let g:completion_enable_auto_paren = 1
 set pw=15
 set ph=10
 set pb=15
-let g:completion_enable_snippet = 'UltiSnips'
+"let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_auto_change_source = 1
 let g:completion_chain_complete_list = {
-			\'default' : {
-			\	'default' : [
-			\		{'complete_items' : ['lsp', 'snippet', 'path']},
-			\		{'mode' : 'file'}
-			\	],
-			\	'comment' : [],
-			\	'string' : []
-			\	},
-			\'vim' : [
-			\	{'complete_items': ['snippet']},
-			\	{'mode' : 'cmd'}
-			\	],
-			\'python' : [
-			\	{'complete_items': ['ts', 'path']}
-			\	],
-			\}
+        \'default' : {
+        \	'default' : [
+        \		{'complete_items' : ['lsp', 'ts', 'snippet']},
+        \		{'mode' : 'file'}
+        \	],
+        \	'comment' : [],
+        \	'string' : []
+        \	},
+        \'vim' : [
+        \	{'complete_items': ['snippet']},
+        \	{'mode' : 'cmd'}
+        \	]
+        \}
 
 let g:VM_theme = 'nord'
 let g:VM_maps = {}
 let g:VM_maps["Select All"]        = '<leader>a'
 let g:VM_maps["Visual All"]        = '<leader>a'
+
 let g:VM_maps["Align"]             = '<leader>A'
 let g:VM_maps["Add Cursor Down"]   = '<S-Down>'
 let g:VM_maps["Add Cursor Up"]     = '<S-Up>'
 let g:VM_mouse_mappings = 1
 
 let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsCenterLine = 0
 let g:UltiSnipsExpandTrigger="<C-Tab>"
-colorscheme onedark
+colorscheme doom-one
+hi NonText guifg=cyan
+hi EndOfBuffer guifg=bg
+"hi LineNr guifg=gray
+autocmd VimEnter * hi illuminatedWord guibg=#3e4556
+"hi Search guibg=#3e4556 guifg=none
+" inoremap <silent> <leader>k <C-R>=codelf#start()<CR>
+" nnoremap <silent> <leader>k :call codelf#start()<CR>
+let g:Defx_title="[Defx]"
+let g:MBE_title="[MBE]"
+let g:winManagerWindowLayout="Defx|MBE"
+" let g:bufExplorerMaxHeight=20
+let g:winManagerWidth=30
+let g:bufExplorerShowRelativePath=1
+let g:bufExplorerSplitHorzSize=10     " New split window is n rows high.
+let g:bufExplorerOnlyOneTab=0
+
+function! Defx_Start()
+    exec 'Defx'
+endfunction
+
+function! Defx_IsValid()
+    return 1
+endfunction
+
+function! MBE_Start()
+    exec 'set nornu'
+    exec 'set nonu'
+    exec 'MBEOpen'
+    exec 'set nu'
+    exec 'set rnu'
+endfunction
+
+function! MBE_IsValid()
+    return 1
+endfunction
+let g:bufExplorerDefaultHelp=0     " Do not show default help.
