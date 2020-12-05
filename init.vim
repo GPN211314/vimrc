@@ -1,18 +1,12 @@
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
 if (has("nvim"))
-"For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 if (has("termguicolors"))
     set termguicolors
 endif
 
 call plug#begin('~/.config/nvim/site')
+" Plug 'jeetsukumaran/vim-buffergator'
 Plug 'paroxayte/vwm.vim'
 Plug 'jlanzarotta/bufexplorer'
 " Plug 'vim-scripts/bufexplorer.zip'
@@ -60,7 +54,7 @@ Plug 'romgrk/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 "Plug 'arcticicestudio/nord-vim'
 "Plug 'vim-scripts/confirm-quit'
-Plug 'fholgado/minibufexpl.vim'
+" Plug 'fholgado/minibufexpl.vim'
 " Plug 'weynhamz/vim-plugin-minibufexpl'
 Plug 'airblade/vim-gitgutter'
 "Plug 'epheien/termdbg'
@@ -85,9 +79,8 @@ Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"Plug 'junegunn/fzf.vim'
-"Plug '/nix/store/r3khvq4jp84rrzh8ika4xwgwnkvw0sfj-fzf-0.20.0/share/vim-plugins/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-tmux-navigator'
 "Plug 'luochen1990/rainbow'
@@ -119,7 +112,7 @@ require'lspconfig'.hls.setup{}
 require'nvim-treesitter.configs'.setup {
   -- Modules and its options go here
   rainbow = {
-    enable = false,
+    enable = true,
     disable = {'bash'} -- please disable bash until I figure #1 out
   },
   highlight = { enable = true },
@@ -176,7 +169,6 @@ let g:onedark_terminal_italics=1
 "let g:onedark_termcolors=256
 let g:airline#extensions#tabline#enabled=0
 let g:miniBufExplorerAutoStart = 0
-let g:miniBufExplTabWrap = 1
 let g:miniBufExplVSplit=0
 " let g:miniBufExplBRSplit = 1
 let g:miniBufExplSplitToEdge = 0
@@ -366,16 +358,15 @@ autocmd Filetype json :IndentLinesDisable
 
 cmap w!! w suda://%
 "map <C-p> :Clap command_history<CR>
-map <leader>b :Clap buffers<CR>
-map <space>b :MBEToggle<CR>:MBEFocus<CR>
-map <space>g :Clap grep<CR>
+" map <leader>b :Clap buffers<CR>
+map <space>b :LeaderfBuffer<CR>
+" map <space>g :Clap grep<CR>
 map <space>f :Leaderf self<CR>
-map <space>x :BufferClose<CR>
+map <silent> <space>x :BufferClose<CR>:wincmd w<CR>:wincmd W<CR>
 "map z <Plug>(easymotion-prefix)
 "nnoremap gj :call EasyMotion#JK(0,0)<CR>
 "nnoremap gk :call EasyMotion#JK(0,1)<CR>
 "nnoremap <space>b :set nomore<Bar>:ls<Bar>:set more<CR>:b<Space>
-map <leader>t :call <SID>toggle_background()<CR>
 tnoremap <silent> <leader>x <C-\><C-n>:call <SID>close_floaterm()<CR>
 nnoremap <silent> <leader>x :call <SID>close_floaterm()<CR>
 function! s:close_floaterm()
@@ -393,14 +384,7 @@ let g:floaterm_keymap_next = '<C-l>'
 let g:floaterm_keymap_first = '<C-j>'
 let g:floaterm_keymap_last = '<C-k>'
 let g:floaterm_keymap_prev = '<C-h>'
-function! WMToggle_Wrapper()
-    let s:id=win_getid()
-    exec 'MBEClose'
-    exec 'WMToggle'
-    call win_gotoid(s:id)
-endfunction
-nnoremap <silent> <space>d :call WMToggle_Wrapper()<CR>
-" map <space>v :Defx<CR>
+nnoremap <silent> <space>d :WMToggle<CR>
 map <space>r :FloatermNew ranger<CR>
 "tnoremap <ESC> <c-\><c-n>
 
@@ -969,9 +953,10 @@ autocmd VimEnter * hi illuminatedWord guibg=#3e4556
 " inoremap <silent> <leader>k <C-R>=codelf#start()<CR>
 " nnoremap <silent> <leader>k :call codelf#start()<CR>
 let g:Defx_title="[Defx]"
-let g:MBE_title="[MBE]"
-let g:winManagerWindowLayout="Defx|MBE"
-" let g:bufExplorerMaxHeight=20
+" let g:Buffergator_title="[Buffergator]"
+let g:winManagerWindowLayout="Defx|BufExplorer"
+let g:bufExplorerMaxHeight=15
+let g:BufExplorerMinHeight = 10
 let g:winManagerWidth=30
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerSplitHorzSize=10     " New split window is n rows high.
@@ -985,15 +970,15 @@ function! Defx_IsValid()
     return 1
 endfunction
 
-function! MBE_Start()
-    exec 'set nornu'
-    exec 'set nonu'
-    exec 'MBEOpen'
-    exec 'set nu'
-    exec 'set rnu'
-endfunction
+" function! Buffergator_Start()
+"     exec 'BuffergatorToggle'
+" endfunction
 
-function! MBE_IsValid()
-    return 1
-endfunction
-let g:bufExplorerDefaultHelp=0     " Do not show default help.
+" function! Buffergator_IsValid()
+"     return 1
+" endfunction
+" let g:bufExplorerDefaultHelp=0     " Do not show default help.
+" let g:buffergator_autoupdate=1
+" let g:buffergator_autodismiss_on_select=0
+" let g:buffergator_viewport_split_policy="N"
+" let g:buffergator_show_full_directory_path=0
