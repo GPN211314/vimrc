@@ -307,7 +307,7 @@ syntax on
 
 
 
-set guifont=FiraCode\ Nerd\ Font\ Mono:h14
+" set guifont=FiraCode\ Nerd\ Font\ Mono:h14
 set relativenumber
 set noshowmode
 "set nohlsearch
@@ -986,7 +986,7 @@ let g:VM_mouse_mappings = 1
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsCenterLine = 0
 let g:UltiSnipsExpandTrigger="<C-Tab>"
-colorscheme doom-one
+colorscheme onedark
 hi NonText guifg=cyan
 hi EndOfBuffer guifg=bg
 "hi LineNr guifg=gray
