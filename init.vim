@@ -6,9 +6,14 @@ if (has("termguicolors"))
 endif
 
 call plug#begin('~/.config/nvim/site')
+Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
+Plug 'pbogut/fzf-mru.vim'
+" Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
+" Plug 'liuchengxu/vista.vim'
 " Plug 'jeetsukumaran/vim-buffergator'
 Plug 'paroxayte/vwm.vim'
-Plug 'jlanzarotta/bufexplorer'
+Plug 'GPN211314/bufexplorer'
+" Plug 'jlanzarotta/bufexplorer'
 " Plug 'vim-scripts/bufexplorer.zip'
 Plug 'vim-scripts/winmanager--Fox'
 Plug 'tpope/vim-eunuch'
@@ -81,6 +86,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'voldikss/fzf-floaterm'
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-tmux-navigator'
 "Plug 'luochen1990/rainbow'
@@ -91,8 +97,8 @@ Plug 'tpope/vim-repeat'
 "Plug 'kjwon15/vim-transparent'
 "Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 "Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'voldikss/LeaderF-floaterm'
+" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+" Plug 'voldikss/LeaderF-floaterm'
 call plug#end()
 
 autocmd BufEnter * lua require'completion'.on_attach()
@@ -147,6 +153,7 @@ EOF
 " }
 
 let g:auto_save = 1
+let g:auto_save_silent = 1  " do not display the auto-save notification
 let g:neoterm_default_mod='botright'
 let g:neoterm_size = '12'
 let g:neoterm_autojump=1
@@ -322,6 +329,7 @@ set linebreak
 set breakindent
 set breakindentopt=sbr,shift:4
 set showbreak=↪
+" set showbreak=╰─▸
 
 
 set timeout timeoutlen=1000 ttimeoutlen=100
@@ -380,10 +388,10 @@ let g:floaterm_keymap_new = '<C-x>'
 "let g:floaterm_keymap_kill = '<leader>x'
 let g:floaterm_keymap_toggle = '<C-p>'
 let g:floaterm_keymap_next = '<C-l>'
-let g:floaterm_keymap_first = '<C-j>'
-let g:floaterm_keymap_last = '<C-k>'
+" let g:floaterm_keymap_first = '<C-j>'
+" let g:floaterm_keymap_last = '<C-k>'
 let g:floaterm_keymap_prev = '<C-h>'
-nnoremap <silent> <space>d :WMToggle<CR>
+nnoremap <silent> <space>d :let g:vista_bufnr=bufnr()<CR>:WMToggle<CR>
 map <space>r :FloatermNew ranger<CR>
 "tnoremap <ESC> <c-\><c-n>
 
@@ -768,13 +776,13 @@ endfunction
 ""FZF
 
 "" 让输入上方，搜索列表在下方
-"let $FZF_DEFAULT_OPTS = '--layout=reverse'
+" let $FZF_DEFAULT_OPTS = '--layout=reverse'
+let $FZF_DEFAULT_OPTS = '--info=inline'
 
 "" 打开 fzf 的方式选择 floating window
 ""let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
-"" Terminal buffer options for fzf
-"autocmd! FileType fzf
-"autocmd  FileType fzf set noshowmode noruler nonu
+"" Terminal buffer options for fzf;
+" autocmd  FileType fzf set noshowmode noruler nornu nonu
 
 "if has('nvim') && exists('&winblend') && &termguicolors
   "set winblend=20
@@ -802,22 +810,35 @@ endfunction
 
     "call setwinvar(win,'&winhl','Normal:Pmenu')
 
-    "setlocal
-        "\ buftype=nofile
-        "\ nobuflisted
-        "\ bufhidden=hide
-        "\ nonumber
-        "\ norelativenumber
-        "\ signcolumn=no
+    " setlocal
+    "     \ buftype=nofile
+    "     \ nobuflisted
+    "     \ bufhidden=hide
+    "     \ nonumber
+    "     \ norelativenumber
+    "     \ signcolumn=no
 
-  "endfunction
+  " endfunction
 
   "let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 "endif
 
+autocmd! FileType fzf set laststatus=0 showmode noruler nornu nonu
+  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+function! s:fzf_statusline()
+  " Override statusline as you like
+  highlight fzf1 ctermfg=161 ctermbg=251
+  highlight fzf2 ctermfg=23 ctermbg=251
+  highlight fzf3 ctermfg=237 ctermbg=251
+  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
+endfunction
+
+let g:fzf_mru_no_sort = 0
+" autocmd! User FzfStatusLine call <SID>fzf_statusline()
 "nmap <F5> <Plug>VimspectorContinue
 "let g:vimspector_enable_mappings = 'HUMAN'
 "packadd! vimspector
+let g:fzf_preview_window = []
 let g:fzf_layout = { 'down': '25%' }
 let g:clap_insert_mode_only=v:true
 "hi FloatermBorder guifg=orange
@@ -861,21 +882,34 @@ let g:Lf_CursorBlink=1
 " let g:Lf_TabpagePosition=2
 
 
-let g:Lf_ShortcutF='<space>ff'
-let g:Lf_ShortcutB='<space>fb'
-let g:Lf_DisableStl=1
+" let g:Lf_ShortcutF='<space>f'
+" let g:Lf_ShortcutB='<space>b'
+" let g:Lf_DisableStl=1
 autocmd BufEnter * if  &buftype ==# "terminal"| set nornu | set nonu | set nobuflisted |endif
-autocmd Filetype leaderf set nornu | set nonu |endif
+" autocmd Filetype leaderf set nornu | set nonu |endif
 " noremap <space>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <space>f :LeaderfSelf<CR>
-noremap <space>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-noremap <space>s :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-noremap <space>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-noremap <leader>f :<C-U><C-R>=printf("Leaderf floaterm %s", "")<CR><CR>
-noremap <space>o :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
-noremap <space>a :<C-U><C-R>=printf("Leaderf quickfix %s", "")<CR><CR>
-noremap <space>e <cmd>lua vim.lsp.diagnostic.set_loclist({open_loclist=false,severity_limit="Warning"})<CR>:<C-U><C-R>=printf("Leaderf loclist %s", "")<CR><CR>
-noremap <space>rg :LeaderfRgInteractive<CR>
+" noremap <leader>f :LeaderfSelf<CR>
+" noremap <space>m :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+" noremap <space>s :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+" noremap <space>l :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+" noremap <leader>f :<C-U><C-R>=printf("Leaderf floaterm %s", "")<CR><CR>
+" noremap <space>o :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
+" noremap <space>a :<C-U><C-R>=printf("Leaderf quickfix %s", "")<CR><CR>
+" noremap <space>e <cmd>lua vim.lsp.diagnostic.set_loclist({open_loclist=false,severity_limit="Warning"})<CR>:<C-U><C-R>=printf("Leaderf loclist %s", "")<CR><CR>
+" noremap <space>rg :LeaderfRgInteractive<CR>
+noremap <space>f :FZF<CR>
+noremap <space>m :FZFMru<CR>
+noremap <space>o :BTags<CR>
+noremap <space>l :BLines<CR>
+noremap <space>b :Buffers<CR>
+noremap <leader>f :Floaterms<CR>
+" noremap <leader>f :<C-U><C-R>=printf("Leaderf floaterm %s", "")<CR><CR>
+
+nnoremap <Leader>q :Quickfix<CR>
+nnoremap <Leader>l :Quickfix!<CR>
+noremap <space>a :Quickfix<CR>
+noremap <space>e <cmd>lua vim.lsp.diagnostic.set_loclist({open_loclist=false,severity_limit="Warning"})<CR>:Quickfix!<CR>
+noremap <space>rg :Rg<CR>
 
 autocmd ColorScheme * hi! LspDiagnosticsDefaultWarning guifg=orange
         \    |hi! LspDiagnosticsDefaultError guifg=red
@@ -961,8 +995,9 @@ autocmd VimEnter * hi illuminatedWord guibg=#3e4556
 " inoremap <silent> <leader>k <C-R>=codelf#start()<CR>
 " nnoremap <silent> <leader>k :call codelf#start()<CR>
 let g:Defx_title="[Defx]"
+let g:Vista_title="[Vista]"
 " let g:Buffergator_title="[Buffergator]"
-let g:winManagerWindowLayout="Defx|BufExplorer"
+let g:winManagerWindowLayout="Defx,Vista|BufExplorer"
 let g:bufExplorerMaxHeight=15
 let g:BufExplorerMinHeight = 10
 let g:winManagerWidth=30
@@ -979,6 +1014,13 @@ function! Defx_IsValid()
     return 1
 endfunction
 
+function! Vista_Start()
+    exec g:vista_bufnr . 'bufdo Vista'
+endfunction
+
+function! Vista_IsValid()
+    return 1
+endfunction
 " function! Buffergator_Start()
 "     exec 'BuffergatorToggle'
 " endfunction
@@ -990,3 +1032,10 @@ endfunction
 " let g:buffergator_autodismiss_on_select=0
 " let g:buffergator_viewport_split_policy="N"
 " let g:buffergator_show_full_directory_path=0
+let g:vista_default_executive = 'nvim_lsp'
+let g:vista_sidebar_keepalt=1
+let g:vista#renderer#enable_icon = 1
+" let g:vista_sidebar_position='browse e'
+" let g:vista_echo_cursor_strategy='floating_win'
+" hi BufferInactive guifg=#73797e guibg=#1c1f24
+hi link TabLineFill TabLine
