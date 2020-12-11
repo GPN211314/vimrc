@@ -296,18 +296,18 @@ let g:tagbar_left = 0              "让tagbar在页面左侧显示，默认右�
 let g:tagbar_width = 30            "设置tagbar的宽度为30列，默认40
 let g:tagbar_autofocus = 1         "这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
 let g:tagbar_sort = 0
-let g:clipboard = {
-      \   'name': 'ssh-sync',
-      \   'copy': {
-      \      '+': ['ssh', 'macbook', 'pbcopy'],
-      \      '*': ['ssh', 'macbook', 'pbcopy'],
-      \    },
-      \   'paste': {
-      \      '+': ['ssh', 'macbook', 'pbpaste'],
-      \      '*': ['ssh', 'macbook', 'pbpaste'],
-      \    },
-      \   'cache_enabled': 1,
-      \ }
+" let g:clipboard = {
+"       \   'name': 'ssh-sync',
+"       \   'copy': {
+"       \      '+': ['ssh', 'macbook', 'pbcopy'],
+"       \      '*': ['ssh', 'macbook', 'pbcopy'],
+"       \    },
+"       \   'paste': {
+"       \      '+': ['ssh', 'macbook', 'pbpaste'],
+"       \      '*': ['ssh', 'macbook', 'pbpaste'],
+"       \    },
+"       \   'cache_enabled': 1,
+"       \ }
 
 
 let g:airline_theme='onedark'
@@ -337,9 +337,9 @@ syntax on
 
 
 
-" set guifont=FiraCode\ Nerd\ Font\ Mono:h14
 set scrolloff=10
 " set undofile
+set guifont=FiraCode\ Nerd\ Font\ Mono:h14
 set relativenumber
 set noshowmode
 "set nohlsearch
