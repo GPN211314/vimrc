@@ -1,8 +1,8 @@
 call plug#begin('~/.config/nvim/site')
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/gina.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'gfanto/fzf-lsp.nvim'
 Plug 'lambdalisue/glyph-palette.vim'
@@ -64,6 +64,7 @@ Plug 'tpope/vim-repeat'
 call plug#end()
 
 autocmd BufEnter * lua require'completion'.on_attach()
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set termguicolors
