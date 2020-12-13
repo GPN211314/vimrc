@@ -6,30 +6,37 @@ if (has("termguicolors"))
 endif
 
 call plug#begin('~/.config/nvim/site')
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2'
+Plug 'skywind3000/asynctasks.vim'
+Plug 'skywind3000/asyncrun.vim'
+" Plug 'voldikss/vim-hello-word'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/gina.vim'
+Plug 'terryma/vim-expand-region'
 Plug 'gfanto/fzf-lsp.nvim'
 " Plug 'nvim-telescope/telescope.nvim'
 " Plug 'nvim-telescope/telescope-fzf-writer.nvim'
-" Plug 'lambdalisue/glyph-palette.vim'
-Plug 'lambdalisue/fern-renderer-devicons.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+" Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'lambdalisue/fern-git-status.vim'
-" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 Plug 'LumaKernel/fern-mapping-fzf.vim'
 Plug 'lambdalisue/fern.vim'
 " Plug 'ojroques/nvim-lspfuzzy'
 Plug 'lukas-reineke/indent-blankline.nvim'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete-lsp'
 " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-" Plug 'aca/completion-tabnine', { 'do': './install.sh' }
-" Plug 'zxqfl/tabnine-vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
 Plug 'pbogut/fzf-mru.vim'
 " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
 " Plug 'liuchengxu/vista.vim'
 " Plug 'jeetsukumaran/vim-buffergator'
-Plug 'paroxayte/vwm.vim'
+" Plug 'paroxayte/vwm.vim'
 " Plug 'GPN211314/bufexplorer'
 " Plug 'jlanzarotta/bufexplorer'
 " Plug 'vim-scripts/bufexplorer.zip'
@@ -42,18 +49,19 @@ Plug 'vim-scripts/BufOnly.vim'
 " Plug 'voldikss/vim-codelf'
 Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
-Plug 'p00f/nvim-ts-rainbow'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'p00f/nvim-ts-rainbow'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 Plug 'Jorengarenar/vim-MvVis'
 Plug 'gruvbox-community/gruvbox'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/completion-treesitter'
+Plug 'aca/completion-tabnine', { 'do': './install.sh' }
 Plug 'jiangmiao/auto-pairs'
-Plug 'sainnhe/edge'
-Plug 'sainnhe/sonokai'
-Plug 'equalsraf/neovim-gui-shim'
-Plug 'mhartington/oceanic-next'
+" Plug 'sainnhe/edge'
+" Plug 'sainnhe/sonokai'
+" Plug 'equalsraf/neovim-gui-shim'
+" Plug 'mhartington/oceanic-next'
 Plug 'Shougo/echodoc.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'wellle/targets.vim'
@@ -71,18 +79,15 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
 Plug 'yuttie/comfortable-motion.vim'
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 "Plug 'arcticicestudio/nord-vim'
-"Plug 'vim-scripts/confirm-quit'
 " Plug 'fholgado/minibufexpl.vim'
 " Plug 'weynhamz/vim-plugin-minibufexpl'
 Plug 'airblade/vim-gitgutter'
-"Plug 'epheien/termdbg'
 "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-"Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/suda.vim'
 Plug 'voldikss/vim-floaterm'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -95,8 +100,6 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'kristijanhusak/defx-icons'
 Plug 'rbgrouleff/bclose.vim'
 "Plug 'francoiscabrol/ranger.vim'
-"Plug 'skywind3000/vim-terminal-help'
-"Plug 'tamlok/detorte'
 Plug 'mhinz/vim-startify'
 "Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
@@ -107,16 +110,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'voldikss/fzf-floaterm'
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-tmux-navigator'
-"Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow'
 "Plug 'mileszs/ack.vim'
 Plug 'easymotion/vim-easymotion'
 "Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-repeat'
 "Plug 'kjwon15/vim-transparent'
-"Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-"Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() } }
-" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-" Plug 'voldikss/LeaderF-floaterm'
 call plug#end()
 autocmd BufEnter * lua require'completion'.on_attach()
 " require('lspfuzzy').setup {
@@ -134,25 +133,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = false,
   }
 )
+local custom_lsp_attach = function(client)
+    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+end
 require'lspconfig'.clangd.setup{
     flags = {
         allow_incremental_sync = true
-    }
+    },
+    on_attach = custom_lsp_attach
 }
 require'lspconfig'.pyls.setup{}
 require'lspconfig'.hls.setup{}
 
 require'nvim-treesitter.configs'.setup {
-  -- Modules and its options go here
-  rainbow = {
-    enable = true,
-    disable = {'bash'} -- please disable bash until I figure #1 out
-  },
   highlight = { enable = true },
   incremental_selection = { enable = true },
   textobjects = {
     move = {
-      enable = false,
+      enable = true,
       goto_next_start = {
         ["]m"] = "@function.outer",
         ["]]"] = "@class.outer",
@@ -229,7 +227,6 @@ let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|start
 let g:airline#extensions#nvimlsp#enabled = 1
 let airline#extensions#nvimlsp#error_symbol = 'E:'
 let airline#extensions#nvimlsp#warning_symbol = 'W:'
-" let g:bufferline.closable = v:false
 let g:rainbow_active = 1
 let g:rainbow_conf = {
     \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
@@ -296,18 +293,18 @@ let g:tagbar_left = 0              "让tagbar在页面左侧显示，默认右�
 let g:tagbar_width = 30            "设置tagbar的宽度为30列，默认40
 let g:tagbar_autofocus = 1         "这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
 let g:tagbar_sort = 0
-" let g:clipboard = {
-"       \   'name': 'ssh-sync',
-"       \   'copy': {
-"       \      '+': ['ssh', 'macbook', 'pbcopy'],
-"       \      '*': ['ssh', 'macbook', 'pbcopy'],
-"       \    },
-"       \   'paste': {
-"       \      '+': ['ssh', 'macbook', 'pbpaste'],
-"       \      '*': ['ssh', 'macbook', 'pbpaste'],
-"       \    },
-"       \   'cache_enabled': 1,
-"       \ }
+let g:clipboard = {
+      \   'name': 'ssh-sync',
+      \   'copy': {
+      \      '+': ['ssh', 'macbook', 'pbcopy'],
+      \      '*': ['ssh', 'macbook', 'pbcopy'],
+      \    },
+      \   'paste': {
+      \      '+': ['ssh', 'macbook', 'pbpaste'],
+      \      '*': ['ssh', 'macbook', 'pbpaste'],
+      \    },
+      \   'cache_enabled': 1,
+      \ }
 
 
 let g:airline_theme='onedark'
@@ -880,7 +877,6 @@ let g:fzf_layout = { 'down': '25%' }
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
-set autochdir
 " nnoremap <silent> <Tab> :BufferNext<CR>
 nnoremap <silent> <Tab> <C-^>
 " nnoremap <silent> <S-Tab> :BufferPrevious<CR>
@@ -975,22 +971,22 @@ sign define LspDiagnosticsSignInformation  text= texthl=LspDiagnosticsSignInf
 sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" let g:completion_confirm_key = ""
-" imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-"                  \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+let g:completion_confirm_key = ""
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
 
 " Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
 let g:completion_trigger_keyword_length = 3 " default = 1
-let g:completion_trigger_on_delete = 1
+let g:completion_trigger_on_delete = 0
 " augroup CompletionTriggerCharacter
 "     autocmd!
 "     autocmd BufEnter * let g:completion_trigger_character = ['.']
 "     autocmd BufEnter *.c,*.cpp,*.cc,*.h,*hpp let g:completion_trigger_character = ['::']
 " augroup end
-let g:completion_timer_cycle=500
+" let g:completion_timer_cycle=200
 " let g:completion_trigger_character = []
 let g:completion_matching_ignore_case = 0
 " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
@@ -1002,18 +998,18 @@ set pw=15
 set ph=10
 set pb=15
 " let g:completion_enable_snippet = 'UltiSnips'
-let g:completion_auto_change_source = 0
+let g:completion_auto_change_source = 1
 let g:completion_chain_complete_list = {
         \'default' : {
         \	'default' : [
-        \		{'complete_items' : ['lsp']},
+        \		{'complete_items' : ['lsp', 'tabnine', 'ts']},
         \		{'mode' : 'file'}
         \	],
         \	'comment' : [],
         \	'string' : []
         \	},
         \'vim' : [
-        \	{'complete_items': ['snippet']},
+        \	{'complete_items': ['tabnine']},
         \	{'mode' : 'cmd'}
         \	]
         \}
@@ -1116,6 +1112,11 @@ function! s:init_fern() abort
 endfunction
 
 autocmd FileType fern call s:init_fern()
-let g:fern#renderer#default#leading = "\t"
-let g:fern#renderer = "devicons"
+let g:fern#renderer = "nerdfont"
 " let g:fern#smart_cursor = "hide"
+" set noautochdir
+let g:startify_change_to_dir = 0
+let g:asyncrun_open = 10
+noremap <silent><leader>r :AsyncTask file-run<CR>
+noremap <silent><leader>b :AsyncTask file-build<CR>
+noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
