@@ -1,4 +1,12 @@
 call plug#begin('~/.config/nvim/site')
+Plug 'dense-analysis/ale'
+Plug 'nathunsmitty/nvim-ale-diagnostic'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'subnut/visualstar.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-lsp'
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-fugitive'
@@ -6,10 +14,8 @@ Plug 'lambdalisue/nerdfont.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'gfanto/fzf-lsp.nvim'
 Plug 'lambdalisue/glyph-palette.vim'
-Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-hijack.vim'
-Plug 'LumaKernel/fern-mapping-fzf.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
@@ -24,9 +30,6 @@ Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
 Plug 'Jorengarenar/vim-MvVis'
 Plug 'gruvbox-community/gruvbox'
-Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-treesitter/completion-treesitter'
-Plug 'aca/completion-tabnine', { 'do': './install.sh' }
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/echodoc.vim'
 Plug 'neovim/nvim-lspconfig'
@@ -34,6 +37,7 @@ Plug 'wellle/targets.vim'
 Plug '907th/vim-auto-save'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'kyazdani42/nvim-tree.lua'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
@@ -46,8 +50,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'joshdick/onedark.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-surround'
@@ -63,7 +65,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 call plug#end()
 
-autocmd BufEnter * lua require'completion'.on_attach()
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -94,9 +95,7 @@ let g:airline_right_alt_sep=' '
 let g:airline#extensions#tabline#left_sep=''
 let g:airline#extensions#tabline#left_alt_sep='  '
 let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
-let g:airline#extensions#nvimlsp#enabled = 1
-let airline#extensions#nvimlsp#error_symbol = 'E:'
-let airline#extensions#nvimlsp#warning_symbol = 'W:'
+let g:airline#extensions#nvimlsp#enabled = 0
 let g:rainbow_active = 1
 let g:rainbow_conf = {
     \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
@@ -138,6 +137,7 @@ let g:clipboard = {
 let g:airline_theme='onedark'
 
 syntax on
+set incsearch
 set scrolloff=10
 " set undofile
 set guifont=FiraCode\ Nerd\ Font\ Mono:h14
@@ -158,6 +158,8 @@ set linebreak
 set breakindent
 set breakindentopt=sbr,shift:4
 set showbreak=↪
+" set wrapmargin=2
+" set textwidth=80
 set timeout timeoutlen=1000 ttimeoutlen=100
 set matchtime=2
 "set updatecount=400
@@ -178,15 +180,18 @@ set hidden
 set encoding=utf-8
 set shortmess+=c
 set cursorline
+set noshowmode
 autocmd InsertEnter * set nocursorline
 autocmd InsertLeave * set cursorline
 autocmd TermEnter * :IlluminationDisable
+autocmd TermEnter * :IndentLinesDisable
 autocmd TermLeave * :IlluminationEnable
+autocmd TermLeave * :IndentLinesEnable
 
 autocmd Filetype json :IndentLinesDisable
 
 cmap w!! w suda://%
-map <silent> <space>x :Bclose<CR>:wincmd w<CR>:wincmd W<CR>
+nnoremap <silent> <space>x :Bclose!<CR>
 tnoremap <silent> <leader>x <C-\><C-n>:call <SID>close_floaterm()<CR>
 nnoremap <silent> <leader>x :call <SID>close_floaterm()<CR>
 function! s:close_floaterm()
@@ -212,8 +217,6 @@ let $FZF_DEFAULT_OPTS = '--layout=reverse-list --info=inline --color=dark
             \ --color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
             \ --color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef'
 
-autocmd! FileType fzf set laststatus=0 showmode noruler nornu nonu
-  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 function! s:fzf_statusline()
   " Override statusline as you like
   highlight fzf1 ctermfg=161 ctermbg=251
@@ -237,18 +240,46 @@ nnoremap <silent> gr    :References<CR>
 nnoremap <silent> <space>s :DocumentSymbols<CR>
 nnoremap <silent> gs :WorkspaceSymbols<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> [g    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> ]g    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> [g    <cmd>lua vim.lsp.diagnostic.goto_prev({enable_popup=false})<CR>
+nnoremap <silent> ]g    <cmd>lua vim.lsp.diagnostic.goto_next({enable_popup=false})<CR>
 nnoremap <silent> <space>rn    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <space>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 nnoremap <silent> <space>a :CodeActions<CR>
 vnoremap <silent> <space>a :RangeCodeActions<CR>
 
+colorscheme onedark
+sign define LspDiagnosticsSignHint texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
+sign define LspDiagnosticsSignInformation texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
+sign define LspDiagnosticsSignWarning texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
+sign define LspDiagnosticsSignError texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
+
+hi! LspDiagnosticsDefaultWarning guifg=orange
+hi! LspDiagnosticsDefaultError guifg=red
+hi! LspDiagnosticsDefaultInformation guifg=darkcyan
+hi! LspDiagnosticsDefaultHint guifg=green
+
+hi! LspDiagnosticsUnderlineWarning cterm=underline gui=underline
+hi! LspDiagnosticsUnderlineError cterm=undercurl gui=undercurl
+hi! LspDiagnosticsUnderlineInformation cterm=underline gui=underline
+hi! LspDiagnosticsUnderlineHint cterm=underline gui=underline
+
+hi! LspDiagnosticsFloatingWarning guifg=orange
+hi! LspDiagnosticsFloatingError guifg=red
+hi! LspDiagnosticsFloatingInformation guifg=darkcyan
+hi! LspDiagnosticsFloatingHint guifg=green
+
 let gitgutter_sign_added            = "\u00a0│"
 let gitgutter_sign_removed          = "\u00a0│"
 let gitgutter_sign_modified         = "\u00a0│"
 let gitgutter_sign_modified_removed = "\u00a0│"
-autocmd BufEnter * if  &buftype ==# "terminal"| set nornu | set nonu | set nobuflisted |endif
+hi link GitGutterAddLineNr          GitGutterAdd
+hi link GitGutterChangeLineNr       GitGutterChange
+hi link GitGutterDeleteLineNr       GitGutterDelete
+hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete
+let g:gitgutter_highlight_linenrs = 0
+autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted
+    \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler
+autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2|endif
 autocmd Filetype fern set nornu nonu
 noremap <space>f :FZF<CR>
 noremap <space>m :FZFMru<CR>
@@ -260,62 +291,13 @@ nnoremap <Leader>q :Quickfix<CR>
 nnoremap <Leader>l :Quickfix!<CR>
 noremap <space>e :Diagnostics<CR>
 noremap <space>rg :Rg<CR>
-
-autocmd ColorScheme * hi! LspDiagnosticsDefaultWarning guifg=orange
-        \    |hi! LspDiagnosticsDefaultError guifg=red
-        \    |hi! LspDiagnosticsDefaultInformation guifg=darkcyan
-        \    |hi! LspDiagnosticsDefaultHint guifg=green
-        \
-        \    |hi! LspDiagnosticsUnderlineWarning cterm=underline gui=underline
-        \    |hi! LspDiagnosticsUnderlineError cterm=underline gui=underline
-        \    |hi! LspDiagnosticsUnderlineInformation cterm=underline gui=underline
-        \    |hi! LspDiagnosticsUnderlineHint cterm=underline gui=underline
-        \
-        \    |hi! LspDiagnosticsFloatingWarning guifg=orange
-        \    |hi! LspDiagnosticsFloatingError guifg=red
-        \    |hi! LspDiagnosticsFloatingInformation guifg=darkcyan
-        \    |hi! LspDiagnosticsFloatingHint guifg=green
-
-sign define LspDiagnosticsSignError text=✘ texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
-sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
-sign define LspDiagnosticsSignInformation  text= texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
-sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
+nnoremap <space>t :Ttoggle<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-let g:completion_confirm_key = ""
-imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
 
 set completeopt=menuone,noinsert,noselect
-let g:completion_trigger_keyword_length = 3 " default = 1
-let g:completion_trigger_on_delete = 0
-" let g:completion_timer_cycle=200
-let g:completion_matching_ignore_case = 0
-" let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-let g:completion_enable_auto_popup=1
-let g:completion_enable_auto_signature = 0
-let g:completion_enable_auto_hover = 0
-let g:completion_enable_auto_paren = 1
-set pw=15
-set ph=10
-set pb=15
-let g:completion_auto_change_source = 1
-let g:completion_chain_complete_list = {
-        \'default' : {
-        \	'default' : [
-        \		{'complete_items' : ['lsp', 'tabnine', 'ts']},
-        \		{'mode' : 'file'}
-        \	],
-        \	'comment' : [],
-        \	'string' : []
-        \	},
-        \'vim' : [
-        \	{'complete_items': ['tabnine']},
-        \	{'mode' : 'cmd'}
-        \	]
-        \}
 
 let g:VM_theme = 'nord'
 let g:VM_maps = {}
@@ -329,10 +311,10 @@ let g:VM_mouse_mappings = 1
 
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsCenterLine = 0
-let g:UltiSnipsExpandTrigger="<C-Tab>"
-colorscheme onedark
+let g:deoplete#enable_at_startup = 1
 hi NonText guifg=cyan
 hi EndOfBuffer guifg=bg
+" hi CursorLineNr guifg=#61AFEF
 autocmd VimEnter * hi illuminatedWord guibg=#3e4556
 nnoremap <silent> U :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
@@ -352,52 +334,12 @@ let g:asyncrun_open = 10
 noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
 noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
-
-lua <<EOF
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-  }
-)
-local custom_lsp_attach = function(client)
-    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-end
-require'lspconfig'.clangd.setup{
-    flags = {
-        allow_incremental_sync = true
-    },
-    on_attach = custom_lsp_attach
-}
-require'lspconfig'.pyls.setup{}
-require'lspconfig'.hls.setup{}
-
-require'nvim-treesitter.configs'.setup {
-  highlight = { enable = true },
-  incremental_selection = { enable = true },
-  textobjects = {
-    move = {
-      enable = true,
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
-  },
-}
-EOF
-
+" autocmd FileType * set formatoptions+=wat
+let g:visualstar_extra_mappings_disabled=1
+let g:ale_disable_lsp=1
+let g:ale_linters_explicit=1
+let g:ale_virtualtext_cursor=1
+let g:ale_set_signs=0
+let g:lua_tree_indent_markers = 1
+let g:lua_tree_hide_dotfiles = 1
+lua require('lsp')
