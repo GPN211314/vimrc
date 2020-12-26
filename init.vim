@@ -1,9 +1,15 @@
 call plug#begin('~/.config/nvim/site')
+" Plug 'tpope/vim-vinegar'
+" Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'CoatiSoftware/vim-sourcetrail'
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'brooth/far.vim'
+" Plug 'equalsraf/neovim-gui-shim'
 Plug 'dense-analysis/ale'
 Plug 'nathunsmitty/nvim-ale-diagnostic'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'subnut/visualstar.vim'
+" Plug 'subnut/visualstar.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-lsp'
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
@@ -17,19 +23,18 @@ Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 Plug 'lambdalisue/fern.vim'
-Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
 Plug 'pbogut/fzf-mru.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-lua/popup.nvim'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
-Plug 'Jorengarenar/vim-MvVis'
-Plug 'gruvbox-community/gruvbox'
+" Plug 'Jorengarenar/vim-MvVis'
+" Plug 'gruvbox-community/gruvbox'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/echodoc.vim'
 Plug 'neovim/nvim-lspconfig'
@@ -41,14 +46,14 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
-Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
+" Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
-Plug 'voldikss/vim-floaterm'
+" Plug 'voldikss/vim-floaterm'
 Plug 'joshdick/onedark.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'mhinz/vim-startify'
@@ -57,12 +62,12 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'voldikss/fzf-floaterm'
+" Plug 'voldikss/fzf-floaterm'
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'luochen1990/rainbow'
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-repeat'
 call plug#end()
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
@@ -134,9 +139,11 @@ let g:clipboard = {
       \ }
 
 
+let g:airline_stl_path_style = 'short'
 let g:airline_theme='onedark'
 
 syntax on
+" set stl=%!airline#check_mode(winnr())
 set incsearch
 set scrolloff=10
 " set undofile
@@ -183,12 +190,7 @@ set cursorline
 set noshowmode
 autocmd InsertEnter * set nocursorline
 autocmd InsertLeave * set cursorline
-autocmd TermEnter * :IlluminationDisable
-autocmd TermEnter * :IndentLinesDisable
-autocmd TermLeave * :IlluminationEnable
-autocmd TermLeave * :IndentLinesEnable
 
-autocmd Filetype json :IndentLinesDisable
 
 cmap w!! w suda://%
 nnoremap <silent> <space>x :Bclose!<CR>
@@ -277,9 +279,9 @@ hi link GitGutterChangeLineNr       GitGutterChange
 hi link GitGutterDeleteLineNr       GitGutterDelete
 hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete
 let g:gitgutter_highlight_linenrs = 0
-autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted
-    \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler
-autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2|endif
+autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted | FernDo q
+            \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler | FernDo q | call feedkeys("\<C-\>\<C-N>\<Esc>")
+autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2 |endif
 autocmd Filetype fern set nornu nonu
 noremap <space>f :FZF<CR>
 noremap <space>m :FZFMru<CR>
@@ -308,6 +310,7 @@ let g:VM_maps["Align"]             = '<leader>A'
 let g:VM_maps["Add Cursor Down"]   = '<S-Down>'
 let g:VM_maps["Add Cursor Up"]     = '<S-Up>'
 let g:VM_mouse_mappings = 1
+let g:VM_silent_exit = 1
 
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsCenterLine = 0
@@ -327,6 +330,16 @@ function! s:init_fern() abort
 endfunction
 
 autocmd FileType fern call s:init_fern()
+" let g:airline_section_error = '%{LspStatus()}'
+autocmd User LspProgressUpdate :AirlineRefresh
+" Statusline
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval('require("lsp-status").status()')
+  endif
+
+  return ''
+endfunction
 let g:fern#renderer = "nerdfont"
 " let g:fern#smart_cursor = "hide"
 let g:startify_change_to_dir = 0
@@ -335,11 +348,26 @@ noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
 noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
 " autocmd FileType * set formatoptions+=wat
-let g:visualstar_extra_mappings_disabled=1
 let g:ale_disable_lsp=1
 let g:ale_linters_explicit=1
 let g:ale_virtualtext_cursor=1
 let g:ale_set_signs=0
-let g:lua_tree_indent_markers = 1
-let g:lua_tree_hide_dotfiles = 1
+" let g:lua_tree_indent_markers = 1
+" let g:lua_tree_hide_dotfiles = 1
+let g:far#source='rg'
+let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
+" let g:indent_blankline_enabled = v:false
+" let g:indentLine_fileType = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
+" let g:indent_blankline_char_list = ['¦']
+" let g:indentLine_char_list = ['¦']
+" let g:netrw_banner = 0
+" let g:netrw_liststyle = 3
+" let g:netrw_hide = 1
+" let g:netrw_winsize = 20
+" let ghregex='\(^\|\s\s\)\zs\.\S\+'
+" let g:netrw_list_hide=ghregex
+" let g:netrw_fastbrowse=2
+" autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable|IndentBlanklineEnable
+" nnoremap <leader><leader>r :SourcetrailRefresh<CR>
+" nnoremap <leader><leader>a :SourcetrailActivateToken<CR>
 lua require('lsp')

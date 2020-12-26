@@ -2,6 +2,9 @@ require("lsp-ale-diagnostic")
 require'lspconfig'.clangd.setup{
     flags = {
         allow_incremental_sync = true
+    },
+    init_options = {
+        clangdFileStatus = true
     }
 }
 require'lspconfig'.pyls.setup{}
