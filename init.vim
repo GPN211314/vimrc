@@ -248,7 +248,7 @@ hi EndOfBuffer guifg=bg
 " hi CursorLineNr guifg=#61AFEF
 " autocmd VimEnter * 
 hi illuminatedWord guibg=#3e4556
-nnoremap <silent> U :UndotreeToggle<CR>
+nnoremap <silent> <space>u :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
 let g:startify_change_to_dir = 0
 let g:asyncrun_open = 10
