@@ -1,8 +1,8 @@
 call plug#begin('~/.config/nvim/site')
-" Plug 'tpope/vim-vinegar'
-" Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'CoatiSoftware/vim-sourcetrail'
-Plug 'nvim-lua/lsp-status.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+" Plug 'CoatiSoftware/vim-sourcetrail'
+" Plug 'nvim-lua/lsp-status.nvim'
 Plug 'brooth/far.vim'
 " Plug 'equalsraf/neovim-gui-shim'
 Plug 'dense-analysis/ale'
@@ -21,6 +21,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'gfanto/fzf-lsp.nvim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" Plug 'LumaKernel/fern-mapping-fzf.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
@@ -28,13 +29,11 @@ Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
 Plug 'pbogut/fzf-mru.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
-" Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
-" Plug 'Jorengarenar/vim-MvVis'
-" Plug 'gruvbox-community/gruvbox'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/echodoc.vim'
 Plug 'neovim/nvim-lspconfig'
@@ -42,11 +41,10 @@ Plug 'wellle/targets.vim'
 Plug '907th/vim-auto-save'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'kyazdani42/nvim-tree.lua'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
-" Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
+Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
@@ -64,7 +62,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'voldikss/fzf-floaterm'
 Plug 'mbbill/undotree'
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 Plug 'luochen1990/rainbow'
 Plug 'easymotion/vim-easymotion'
 " Plug 'tpope/vim-repeat'
@@ -80,7 +78,7 @@ let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = "virtual"
 
 hi Comment cterm=italic
-let g:indentLine_enabled = 1
+let g:indentLine_enabled = 0
 let g:floaterm_height=0.9
 let g:floaterm_width=0.9
 let g:floaterm_winblend=0
@@ -210,7 +208,7 @@ let g:floaterm_keymap_next = '<C-l>'
 " let g:floaterm_keymap_first = '<C-j>'
 " let g:floaterm_keymap_last = '<C-k>'
 let g:floaterm_keymap_prev = '<C-h>'
-nnoremap <silent> <space>d :Fern . -drawer -toggle<CR>
+nnoremap <silent> - :Fern . -drawer -toggle<CR>
 
 ""FZF
 "" 让输入上方，搜索列表在下方
@@ -279,8 +277,8 @@ hi link GitGutterChangeLineNr       GitGutterChange
 hi link GitGutterDeleteLineNr       GitGutterDelete
 hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete
 let g:gitgutter_highlight_linenrs = 0
-autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted | FernDo q
-            \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler | FernDo q | call feedkeys("\<C-\>\<C-N>\<Esc>")
+autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted
+            \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler | call feedkeys("\<C-\>\<C-N>\<Esc>")
 autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2 |endif
 autocmd Filetype fern set nornu nonu
 noremap <space>f :FZF<CR>
@@ -318,13 +316,16 @@ let g:deoplete#enable_at_startup = 1
 hi NonText guifg=cyan
 hi EndOfBuffer guifg=bg
 " hi CursorLineNr guifg=#61AFEF
-autocmd VimEnter * hi illuminatedWord guibg=#3e4556
+" autocmd VimEnter * 
+hi illuminatedWord guibg=#3e4556
+hi LspReferenceText guibg=#3e4556
 nnoremap <silent> U :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
 function! s:init_fern() abort
   " Use 'select' instead of 'edit' for default 'open' action
   silent! nunmap <buffer> <C-L>
   silent! nunmap <buffer> <C-H>
+  silent! nunmap <buffer> -
   nmap <buffer> <BS> <Plug>(fern-action-leave)
   nmap <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-enter)
 endfunction
@@ -356,18 +357,20 @@ let g:ale_set_signs=0
 " let g:lua_tree_hide_dotfiles = 1
 let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
-" let g:indent_blankline_enabled = v:false
-" let g:indentLine_fileType = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
-" let g:indent_blankline_char_list = ['¦']
-" let g:indentLine_char_list = ['¦']
-" let g:netrw_banner = 0
-" let g:netrw_liststyle = 3
-" let g:netrw_hide = 1
-" let g:netrw_winsize = 20
-" let ghregex='\(^\|\s\s\)\zs\.\S\+'
-" let g:netrw_list_hide=ghregex
-" let g:netrw_fastbrowse=2
-" autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable|IndentBlanklineEnable
+let g:indent_blankline_enabled = v:true
+let g:indentLine_fileType = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
+let g:indent_blankline_char_list = ['¦']
+let g:indentLine_char_list = ['¦']
+let g:netrw_banner = 0
+let g:netrw_altv=&sb
+let g:netrw_liststyle = 3
+let g:netrw_hide = 1
+let g:netrw_winsize = 20
+let ghregex='\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_list_hide=ghregex
+let g:netrw_browse_split=4
+let g:netrw_altfile = 0
+autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
 " nnoremap <leader><leader>r :SourcetrailRefresh<CR>
 " nnoremap <leader><leader>a :SourcetrailActivateToken<CR>
 lua require('lsp')
