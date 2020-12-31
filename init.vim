@@ -1,5 +1,10 @@
 call plug#begin('~/.config/nvim/site')
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 't9md/vim-choosewin'
+" Plug 'preservim/nerdtree'
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'kristijanhusak/defx-git'
+Plug 'kristijanhusak/defx-icons'
 " Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 " Plug 'CoatiSoftware/vim-sourcetrail'
 Plug 'brooth/far.vim'
@@ -18,10 +23,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'lambdalisue/glyph-palette.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-" Plug 'LumaKernel/fern-mapping-fzf.vim'
-Plug 'lambdalisue/fern-hijack.vim'
-Plug 'lambdalisue/fern.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
 Plug 'pbogut/fzf-mru.vim'
@@ -132,7 +133,6 @@ let g:clipboard = {
 
 let g:airline_stl_path_style = 'short'
 let g:airline_theme='onedark'
-
 syntax on
 " set stl=%!airline#check_mode(winnr())
 set incsearch
@@ -185,23 +185,8 @@ autocmd InsertLeave * set cursorline
 
 cmap w!! w suda://%
 nnoremap <silent> <space>x :Bclose!<CR>
-tnoremap <silent> <leader>x <C-\><C-n>:call <SID>close_floaterm()<CR>
-nnoremap <silent> <leader>x :call <SID>close_floaterm()<CR>
-function! s:close_floaterm()
-    if(len(floaterm#buflist#gather())==1)
-        FloatermKill
-    else
-        FloatermKill
-        FloatermToggle
-    endif
-endfunction
-let g:floaterm_keymap_new = '<C-x>'
-let g:floaterm_keymap_toggle = '<C-p>'
-let g:floaterm_keymap_next = '<C-l>'
-" let g:floaterm_keymap_first = '<C-j>'
-" let g:floaterm_keymap_last = '<C-k>'
-let g:floaterm_keymap_prev = '<C-h>'
-nnoremap <silent> - :Fern . -drawer -toggle<CR>
+nnoremap <silent> - :Defx<CR>
+nnoremap <silent> <space>w :ChooseWin<CR>
 
 ""FZF
 "" 让输入上方，搜索列表在下方
@@ -239,7 +224,6 @@ let g:gitgutter_highlight_linenrs = 0
 autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted
             \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler | call feedkeys("\<C-\>\<C-N>\<Esc>")
 autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2 |endif
-autocmd Filetype fern set nornu nonu
 noremap <space>f :FZF<CR>
 noremap <space>m :FZFMru<CR>
 noremap <space>o :BTags<CR>
@@ -276,18 +260,6 @@ hi EndOfBuffer guifg=bg
 hi illuminatedWord guibg=#3e4556
 nnoremap <silent> U :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
-function! s:init_fern() abort
-  " Use 'select' instead of 'edit' for default 'open' action
-  silent! nunmap <buffer> <C-L>
-  silent! nunmap <buffer> <C-H>
-  silent! nunmap <buffer> -
-  nmap <buffer> <BS> <Plug>(fern-action-leave)
-  nmap <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-enter)
-endfunction
-
-autocmd FileType fern call s:init_fern()
-let g:fern#renderer = "nerdfont"
-" let g:fern#smart_cursor = "hide"
 let g:startify_change_to_dir = 0
 let g:asyncrun_open = 10
 noremap <silent><leader>r :AsyncTask file-run<CR>
@@ -296,27 +268,131 @@ noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
 " autocmd FileType * set formatoptions+=wat
 let g:ale_virtualtext_cursor=0
 let g:ale_set_signs=0
-" let g:lua_tree_indent_markers = 1
-" let g:lua_tree_hide_dotfiles = 1
 let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
 let g:indent_blankline_enabled = v:true
 let g:indentLine_fileType = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
 let g:indent_blankline_char_list = ['¦']
 let g:indentLine_char_list = ['¦']
-let g:netrw_banner = 0
-let g:netrw_altv=&sb
-let g:netrw_liststyle = 3
-let g:netrw_hide = 1
-let g:netrw_winsize = 20
-let ghregex='\(^\|\s\s\)\zs\.\S\+'
-let g:netrw_list_hide=ghregex
-let g:netrw_browse_split=4
-let g:netrw_altfile = 0
+let g:loaded_netrwPlugin = 1
 
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
 let g:python3_host_prog = '/home/carl/.pyenv/shims/python3'
 let g:ale_c_build_dir_names=['.', 'build', 'bin']
 hi ALEError gui=undercurl guifg=#E06C75
+let g:choosewin_blink_on_land = 0
+let g:choosewin_color_label = { 'gui': ['#98c379', '#282c34'] }
+let g:choosewin_color_label_current = { 'gui': ['#98c379', '#282c34'] }
+let g:choosewin_color_other = { 'gui': ['#3e4452', '#abb2bf'] }
+
+call defx#custom#option('_', {
+      \ 'columns': 'mark:indent:icons:filename:type',
+      \ 'split': 'vertical',
+      \ 'winwidth': 30,
+      \ 'direction': 'leftabove',
+      \ 'show_ignored_files': 0,
+      \ 'floating_preview': 1,
+      \ 'buffer_name': '[Defx]',
+      \ 'toggle': 1,
+      \ 'resume': 1
+      \ })
+
+call defx#custom#column('mark', {
+      \ 'readonly_icon': '',
+      \ 'selected_icon': '',
+      \ })
+
+function! s:open_defx_if_directory()
+  " This throws an error if the buffer name contains unusual characters like
+  " [[buffergator]]. Desired behavior in those scenarios is to consider the
+  " buffer not to be a directory.
+  try
+    let l:full_path = expand(expand('%:p'))
+  catch
+    return
+  endtry
+
+  " If the path is a directory, delete the (useless) buffer and open defx for
+  " that directory instead.
+  if isdirectory(l:full_path)
+    execute "Defx `expand('%:p')` | bd " . expand('%:r')
+  endif
+endfunction
+
+function! s:defx_my_settings() abort
+    setlocal nornu
+    setlocal nonu
+    " Define mappings
+    nnoremap <silent><buffer><expr> <CR>
+    \ defx#is_directory() ?
+    \ defx#do_action('open_directory') :
+    \ defx#do_action('open', ['choose'])
+    nnoremap <silent><buffer><expr> <2-LeftMouse>
+    \ defx#is_directory() ?
+    \ defx#do_action('open_directory') :
+    \ defx#do_action('open', ['choose'])
+    nnoremap <silent><buffer><expr> c
+    \ defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m
+    \ defx#do_action('move')
+    nnoremap <silent><buffer><expr> p
+    \ defx#do_action('paste')
+    nnoremap <silent><buffer><expr> e
+    \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> E
+    \ defx#do_action('open', 'vsplit')
+    nnoremap <silent><buffer><expr> P
+    \ defx#do_action('preview')
+    nnoremap <silent><buffer><expr> o
+    \ defx#do_action('open_tree', 'toggle')
+    nnoremap <silent><buffer><expr> <RightMouse>
+    \ defx#do_action('open_tree', 'toggle')
+    nnoremap <silent><buffer><expr> K
+    \ defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N
+    \ defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> S
+    \ defx#do_action('toggle_sort', 'time')
+    nnoremap <silent><buffer><expr> d
+    \ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r
+    \ defx#do_action('rename')
+    nnoremap <silent><buffer><expr> !
+    \ defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> x
+    \ defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> yy
+    \ defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> .
+    \ defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> ;
+    \ defx#do_action('repeat')
+    nnoremap <silent><buffer><expr> <BS>
+    \ defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> ~
+    \ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> q
+    \ defx#do_action('quit')
+    nnoremap <silent><buffer><expr> <Space>
+    \ defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> *
+    \ defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> <C-l>
+    \ defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> <C-g>
+    \ defx#do_action('print')
+    nnoremap <silent><buffer><expr> cd
+    \ defx#do_action('change_vim_cwd')
+endfunction
+
+augroup defx_config
+  autocmd!
+  autocmd FileType defx call s:defx_my_settings()
+
+  " It seems like BufReadPost should work for this, but for some reason, I can't
+  " get it to fire. BufEnter seems to be more reliable.
+  autocmd BufEnter * call s:open_defx_if_directory()
+augroup END
+
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
