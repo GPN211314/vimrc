@@ -373,4 +373,7 @@ let g:netrw_altfile = 0
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
 " nnoremap <leader><leader>r :SourcetrailRefresh<CR>
 " nnoremap <leader><leader>a :SourcetrailActivateToken<CR>
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+let g:python3_host_prog = '/home/carl/.pyenv/shims/python3'
 lua require('lsp')
