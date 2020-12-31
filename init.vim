@@ -2,23 +2,21 @@ call plug#begin('~/.config/nvim/site')
 Plug 'lukas-reineke/indent-blankline.nvim'
 " Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 " Plug 'CoatiSoftware/vim-sourcetrail'
-" Plug 'nvim-lua/lsp-status.nvim'
 Plug 'brooth/far.vim'
 " Plug 'equalsraf/neovim-gui-shim'
 Plug 'dense-analysis/ale'
-Plug 'nathunsmitty/nvim-ale-diagnostic'
+Plug 'KeitaNakamura/neodark.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'sheerun/vim-polyglot'
 " Plug 'subnut/visualstar.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete-lsp'
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'terryma/vim-expand-region'
-Plug 'gfanto/fzf-lsp.nvim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 " Plug 'LumaKernel/fern-mapping-fzf.vim'
@@ -36,7 +34,6 @@ Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/echodoc.vim'
-Plug 'neovim/nvim-lspconfig'
 Plug 'wellle/targets.vim'
 Plug '907th/vim-auto-save'
 Plug 'ryanoasis/vim-devicons'
@@ -46,9 +43,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
 Plug 'yuttie/comfortable-motion.vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'romgrk/nvim-treesitter-context'
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
 " Plug 'voldikss/vim-floaterm'
@@ -98,7 +92,6 @@ let g:airline_right_alt_sep=' '
 let g:airline#extensions#tabline#left_sep=''
 let g:airline#extensions#tabline#left_alt_sep='  '
 let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
-let g:airline#extensions#nvimlsp#enabled = 0
 let g:rainbow_active = 1
 let g:rainbow_conf = {
     \	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
@@ -232,42 +225,8 @@ let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
 nnoremap <silent> <Tab> <C-^>
-nnoremap <silent> gd    :Definitions<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> gt    <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    :References<CR>
-nnoremap <silent> <space>s :DocumentSymbols<CR>
-nnoremap <silent> gs :WorkspaceSymbols<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> [g    <cmd>lua vim.lsp.diagnostic.goto_prev({enable_popup=false})<CR>
-nnoremap <silent> ]g    <cmd>lua vim.lsp.diagnostic.goto_next({enable_popup=false})<CR>
-nnoremap <silent> <space>rn    <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <space>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-nnoremap <silent> <space>a :CodeActions<CR>
-vnoremap <silent> <space>a :RangeCodeActions<CR>
 
 colorscheme onedark
-sign define LspDiagnosticsSignHint texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
-sign define LspDiagnosticsSignInformation texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
-sign define LspDiagnosticsSignWarning texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
-sign define LspDiagnosticsSignError texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
-
-hi! LspDiagnosticsDefaultWarning guifg=orange
-hi! LspDiagnosticsDefaultError guifg=red
-hi! LspDiagnosticsDefaultInformation guifg=darkcyan
-hi! LspDiagnosticsDefaultHint guifg=green
-
-hi! LspDiagnosticsUnderlineWarning cterm=underline gui=underline
-hi! LspDiagnosticsUnderlineError cterm=undercurl gui=undercurl
-hi! LspDiagnosticsUnderlineInformation cterm=underline gui=underline
-hi! LspDiagnosticsUnderlineHint cterm=underline gui=underline
-
-hi! LspDiagnosticsFloatingWarning guifg=orange
-hi! LspDiagnosticsFloatingError guifg=red
-hi! LspDiagnosticsFloatingInformation guifg=darkcyan
-hi! LspDiagnosticsFloatingHint guifg=green
-
 let gitgutter_sign_added            = "\u00a0│"
 let gitgutter_sign_removed          = "\u00a0│"
 let gitgutter_sign_modified         = "\u00a0│"
@@ -286,10 +245,8 @@ noremap <space>m :FZFMru<CR>
 noremap <space>o :BTags<CR>
 noremap <space>l :BLines<CR>
 noremap <space>b :Buffers<CR>
-noremap <leader>f :Floaterms<CR>
 nnoremap <Leader>q :Quickfix<CR>
 nnoremap <Leader>l :Quickfix!<CR>
-noremap <space>e :Diagnostics<CR>
 noremap <space>rg :Rg<CR>
 nnoremap <space>t :Ttoggle<CR>
 
@@ -312,13 +269,11 @@ let g:VM_silent_exit = 1
 
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsCenterLine = 0
-let g:deoplete#enable_at_startup = 1
 hi NonText guifg=cyan
 hi EndOfBuffer guifg=bg
 " hi CursorLineNr guifg=#61AFEF
 " autocmd VimEnter * 
 hi illuminatedWord guibg=#3e4556
-hi LspReferenceText guibg=#3e4556
 nnoremap <silent> U :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
 function! s:init_fern() abort
@@ -331,16 +286,6 @@ function! s:init_fern() abort
 endfunction
 
 autocmd FileType fern call s:init_fern()
-" let g:airline_section_error = '%{LspStatus()}'
-autocmd User LspProgressUpdate :AirlineRefresh
-" Statusline
-function! LspStatus() abort
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval('require("lsp-status").status()')
-  endif
-
-  return ''
-endfunction
 let g:fern#renderer = "nerdfont"
 " let g:fern#smart_cursor = "hide"
 let g:startify_change_to_dir = 0
@@ -349,8 +294,6 @@ noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
 noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
 " autocmd FileType * set formatoptions+=wat
-let g:ale_disable_lsp=1
-let g:ale_linters_explicit=1
 let g:ale_virtualtext_cursor=1
 let g:ale_set_signs=0
 " let g:lua_tree_indent_markers = 1
@@ -370,7 +313,8 @@ let ghregex='\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_list_hide=ghregex
 let g:netrw_browse_split=4
 let g:netrw_altfile = 0
+
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+let g:python3_host_prog = '/home/carl/.pyenv/shims/python3'
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
-" nnoremap <leader><leader>r :SourcetrailRefresh<CR>
-" nnoremap <leader><leader>a :SourcetrailActivateToken<CR>
-lua require('lsp')
