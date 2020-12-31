@@ -294,7 +294,7 @@ noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
 noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
 " autocmd FileType * set formatoptions+=wat
-let g:ale_virtualtext_cursor=1
+let g:ale_virtualtext_cursor=0
 let g:ale_set_signs=0
 " let g:lua_tree_indent_markers = 1
 " let g:lua_tree_hide_dotfiles = 1
@@ -317,4 +317,6 @@ let g:netrw_altfile = 0
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
 let g:python3_host_prog = '/home/carl/.pyenv/shims/python3'
+let g:ale_c_build_dir_names=['.', 'build', 'bin']
+hi ALEError gui=undercurl guifg=#E06C75
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
