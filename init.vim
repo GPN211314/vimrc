@@ -1,6 +1,7 @@
 call plug#begin('~/.config/nvim/site')
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 't9md/vim-choosewin'
+Plug 'AndrewRadev/splitjoin.vim'
 " Plug 'preservim/nerdtree'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kristijanhusak/defx-git'
@@ -148,6 +149,7 @@ set scrolloff=10
 set guifont=FiraCode\ Nerd\ Font\ Mono:h14
 set relativenumber
 set noshowmode
+set nohls
 set number
 set tabstop=4
 "set softtabstop=4
