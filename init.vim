@@ -120,19 +120,6 @@ let g:rainbow_conf = {
     \	}
     \}
 
-let g:clipboard = {
-      \   'name': 'ssh-sync',
-      \   'copy': {
-      \      '+': ['ssh', 'macbook', 'pbcopy'],
-      \      '*': ['ssh', 'macbook', 'pbcopy'],
-      \    },
-      \   'paste': {
-      \      '+': ['ssh', 'macbook', 'pbpaste'],
-      \      '*': ['ssh', 'macbook', 'pbpaste'],
-      \    },
-      \   'cache_enabled': 1,
-      \ }
-
 
 let g:airline_stl_path_style = 'short'
 let g:airline_theme='onedark'
@@ -281,7 +268,6 @@ let g:loaded_netrwPlugin = 1
 
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
-let g:python3_host_prog = '/home/carl/.pyenv/shims/python3'
 let g:ale_c_build_dir_names=['.', 'build', 'bin']
 hi ALEError gui=undercurl guifg=#E06C75
 let g:choosewin_blink_on_land = 0
