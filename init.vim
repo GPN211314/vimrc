@@ -305,7 +305,7 @@ hi EndOfBuffer guifg=bg
 " autocmd VimEnter * 
 hi illuminatedWord guibg=#3e4556
 hi LspReferenceText guibg=#3e4556
-nnoremap <silent> U :UndotreeToggle<CR>
+nnoremap <silent> <space>u :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
 autocmd User LspProgressUpdate :AirlineRefresh
 " Statusline
