@@ -346,7 +346,7 @@ function! s:defx_my_settings() abort
     \ defx#do_action('open', 'vsplit')
     nnoremap <silent><buffer><expr> P
     \ defx#do_action('preview')
-    nnoremap <silent><buffer><expr> o
+    nnoremap <silent><buffer><expr> <Tab>
     \ defx#do_action('open_directory')
     nnoremap <silent><buffer><expr> <3-LeftMouse>
     \ defx#do_action('open_directory')
@@ -372,7 +372,9 @@ function! s:defx_my_settings() abort
     \ defx#do_action('repeat')
     nnoremap <silent><buffer><expr> <BS>
     \ defx#do_action('cd', ['..'])
-    nnoremap <silent><buffer><expr> ~
+    nnoremap <silent><buffer><expr> R
+    \ defx#do_action('cd', ['/'])
+    nnoremap <silent><buffer><expr> H
     \ defx#do_action('cd')
     nnoremap <silent><buffer><expr> q
     \ defx#do_action('quit')
