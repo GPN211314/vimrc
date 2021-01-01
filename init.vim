@@ -10,7 +10,7 @@ Plug 'kristijanhusak/defx-icons'
 " Plug 'CoatiSoftware/vim-sourcetrail'
 Plug 'brooth/far.vim'
 " Plug 'equalsraf/neovim-gui-shim'
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
@@ -246,7 +246,7 @@ let g:AutoPairsCenterLine = 0
 hi NonText guifg=cyan
 hi EndOfBuffer guifg=bg
 " hi CursorLineNr guifg=#61AFEF
-" autocmd VimEnter * 
+" autocmd VimEnter *
 hi illuminatedWord guibg=#3e4556
 nnoremap <silent> <space>u :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
@@ -258,6 +258,19 @@ noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
 " autocmd FileType * set formatoptions+=wat
 let g:ale_virtualtext_cursor=0
 let g:ale_set_signs=0
+let g:ale_c_parse_compile_commands=0
+let g:ale_linters_explicit=1
+let g:ale_linters = {
+  \   'csh': ['shell'],
+  \   'zsh': ['shell'],
+  \   'python': ['pylint'],
+  \   'c': ['cppcheck'],
+  \   'cpp': ['clangcheck'],
+  \   'text': [],
+  \}
+let g:ale_c_build_dir_names=[]
+hi ALEError gui=undercurl guifg=#E06C75
+
 let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
 let g:indent_blankline_enabled = v:true
@@ -315,11 +328,11 @@ function! s:defx_my_settings() abort
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
     \ defx#is_directory() ?
-    \ defx#do_action('open_directory') :
+    \ defx#do_action('open_tree', 'toggle') :
     \ defx#do_action('open', ['choose'])
     nnoremap <silent><buffer><expr> <2-LeftMouse>
     \ defx#is_directory() ?
-    \ defx#do_action('open_directory') :
+    \ defx#do_action('open_tree', 'toggle') :
     \ defx#do_action('open', ['choose'])
     nnoremap <silent><buffer><expr> c
     \ defx#do_action('copy')
@@ -334,9 +347,9 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer><expr> P
     \ defx#do_action('preview')
     nnoremap <silent><buffer><expr> o
-    \ defx#do_action('open_tree', 'toggle')
-    nnoremap <silent><buffer><expr> <RightMouse>
-    \ defx#do_action('open_tree', 'toggle')
+    \ defx#do_action('open_directory')
+    nnoremap <silent><buffer><expr> <3-LeftMouse>
+    \ defx#do_action('open_directory')
     nnoremap <silent><buffer><expr> K
     \ defx#do_action('new_directory')
     nnoremap <silent><buffer><expr> N
@@ -383,5 +396,8 @@ augroup defx_config
   " get it to fire. BufEnter seems to be more reliable.
   autocmd BufEnter * call s:open_defx_if_directory()
 augroup END
+
+nnoremap <silent> [g :ALEPreviousWrap<CR>
+nnoremap <silent> ]g :ALENextWrap<CR>
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
