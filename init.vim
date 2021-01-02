@@ -28,7 +28,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
-Plug 'pbogut/fzf-mru.vim'
+" Plug 'pbogut/fzf-mru.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
 Plug 'nvim-lua/plenary.nvim'
@@ -194,7 +194,7 @@ nnoremap <silent> <space>w :ChooseWin<CR>
 ""FZF
 "" 让输入上方，搜索列表在下方
 " let $FZF_DEFAULT_OPTS = '--layout=reverse'
-let $FZF_DEFAULT_OPTS = '--layout=reverse-list --info=inline --color=dark
+let $FZF_DEFAULT_OPTS = '--layout=reverse --color=dark
             \ --color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
             \ --color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef'
 
@@ -206,9 +206,10 @@ function! s:fzf_statusline()
   setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
 endfunction
 
-let g:fzf_mru_no_sort = 0
+" let g:fzf_mru_no_sort = 0
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-let g:fzf_layout = { 'down': '25%' }
+" let g:fzf_layout = { 'down': '25%' }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
@@ -224,18 +225,20 @@ hi link GitGutterChangeLineNr       GitGutterChange
 hi link GitGutterDeleteLineNr       GitGutterDelete
 hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete
 let g:gitgutter_highlight_linenrs = 0
-autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler buflisted
+autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler
             \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler | call feedkeys("\<C-\>\<C-N>\<Esc>")
 autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2 |endif
+autocmd Filetype fzf setlocal laststatus=2
+autocmd Filetype \(^fzf\)\@<! if &buftype ==# 'terminal' | setlocal buflisted | endif
 noremap <space>f :FZF<CR>
-noremap <space>m :FZFMru<CR>
+noremap <space>m :History<CR>
 noremap <space>o :BTags<CR>
+noremap <space>t :Tags<CR>
 noremap <space>l :BLines<CR>
 noremap <space>b :Buffers<CR>
 nnoremap <Leader>q :Quickfix<CR>
 nnoremap <Leader>l :Quickfix!<CR>
-noremap <space>rg :Rg<CR>
-nnoremap <space>t :Ttoggle<CR>
+noremap <space>r :Rg<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
