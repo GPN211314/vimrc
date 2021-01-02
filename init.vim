@@ -2,6 +2,7 @@ call plug#begin('~/.config/nvim/site')
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 't9md/vim-choosewin'
+Plug 'wellle/context.vim'
 " Plug 'preservim/nerdtree'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kristijanhusak/defx-git'
@@ -416,5 +417,6 @@ augroup END
 
 nnoremap <silent> [g :ALEPreviousWrap<CR>
 nnoremap <silent> ]g :ALENextWrap<CR>
+let g:context_nvim_no_redraw = 1
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
