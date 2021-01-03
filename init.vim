@@ -412,9 +412,6 @@ augroup END
 
 nnoremap <silent> [g :ALEPreviousWrap<CR>
 nnoremap <silent> ]g :ALENextWrap<CR>
-<<<<<<< HEAD
 let g:context_nvim_no_redraw = 1
-=======
->>>>>>> b969bcc59212c9f2377d2f3bc1bab59a450f48de
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
