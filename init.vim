@@ -1,4 +1,5 @@
 call plug#begin('~/.config/nvim/site')
+" Plug   'eugen0329/vim-esearch'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 't9md/vim-choosewin'
@@ -262,6 +263,25 @@ noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
 " autocmd FileType * set formatoptions+=wat
 let g:ale_virtualtext_cursor=0
 let g:ale_set_signs=0
+let g:ale_echo_cursor=0
+let g:ale_floating_preview = 1
+let g:ale_hover_to_preview = 1
+let g:ale_hover_to_floating_preview = 1
+let g:ale_detail_to_floating_preview = 1
+let g:ale_close_preview_on_insert = 0
+let g:ale_cursor_detail = 1
+let g:ale_c_parse_compile_commands=0
+let g:ale_linters_explicit=1
+let g:ale_linters = {
+  \   'csh': ['shell'],
+  \   'zsh': ['shell'],
+  \   'python': ['pylint'],
+  \   'c': ['cppcheck'],
+  \   'cpp': ['clangcheck'],
+  \   'text': [],
+  \}
+let g:ale_c_build_dir_names=[]
+hi ALEError gui=undercurl guifg=#E06C75
 let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
 let g:indent_blankline_enabled = v:true
