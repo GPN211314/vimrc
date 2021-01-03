@@ -12,7 +12,7 @@ Plug 'kristijanhusak/defx-icons'
 " Plug 'CoatiSoftware/vim-sourcetrail'
 Plug 'brooth/far.vim'
 " Plug 'equalsraf/neovim-gui-shim'
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
@@ -251,7 +251,7 @@ let g:AutoPairsCenterLine = 0
 hi NonText guifg=cyan
 hi EndOfBuffer guifg=bg
 " hi CursorLineNr guifg=#61AFEF
-" autocmd VimEnter * 
+" autocmd VimEnter *
 hi illuminatedWord guibg=#3e4556
 nnoremap <silent> <space>u :UndotreeToggle<CR>
 hi Visual guibg=#C678DD guifg=bg
@@ -339,11 +339,11 @@ function! s:defx_my_settings() abort
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>
     \ defx#is_directory() ?
-    \ defx#do_action('open_directory') :
+    \ defx#do_action('open_tree', 'toggle') :
     \ defx#do_action('open', ['choose'])
     nnoremap <silent><buffer><expr> <2-LeftMouse>
     \ defx#is_directory() ?
-    \ defx#do_action('open_directory') :
+    \ defx#do_action('open_tree', 'toggle') :
     \ defx#do_action('open', ['choose'])
     nnoremap <silent><buffer><expr> c
     \ defx#do_action('copy')
@@ -412,6 +412,9 @@ augroup END
 
 nnoremap <silent> [g :ALEPreviousWrap<CR>
 nnoremap <silent> ]g :ALENextWrap<CR>
+<<<<<<< HEAD
 let g:context_nvim_no_redraw = 1
+=======
+>>>>>>> b969bcc59212c9f2377d2f3bc1bab59a450f48de
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
