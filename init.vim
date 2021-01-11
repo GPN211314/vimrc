@@ -1,5 +1,6 @@
 call plug#begin('~/.config/nvim/site')
 " Plug   'eugen0329/vim-esearch'
+Plug 'derekwyatt/vim-fswitch'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 't9md/vim-choosewin'
@@ -259,7 +260,7 @@ let g:startify_change_to_dir = 0
 let g:asyncrun_open = 10
 noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
-noremap <silent><space>h :ClangdSwitchSourceHeader<CR>
+noremap <silent><space>h :FSHere<CR>
 " autocmd FileType * set formatoptions+=wat
 let g:ale_virtualtext_cursor=0
 let g:ale_set_signs=0
@@ -413,5 +414,10 @@ augroup END
 nnoremap <silent> [g :ALEPreviousWrap<CR>
 nnoremap <silent> ]g :ALENextWrap<CR>
 let g:context_nvim_no_redraw = 1
+augroup mycppfiles
+    au!
+    au BufEnter *.h let b:fswitchdst  = 'cpp,cc,c'
+    au BufEnter *.cc let b:fswitchdst  = 'h'
+augroup END
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
