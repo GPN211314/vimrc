@@ -55,6 +55,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
 " Plug 'voldikss/vim-floaterm'
 Plug 'joshdick/onedark.vim'
+Plug 'sainnhe/edge'
+" Plug 'christianchiarulli/nvcode-color-schemes.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-surround'
@@ -219,7 +221,7 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
-nnoremap <silent> <Tab> <C-^>
+" nnoremap <silent> <Tab> <C-^>
 nnoremap <silent> gd    :Definitions<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -235,26 +237,38 @@ nnoremap <silent> <space>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<C
 nnoremap <silent> <space>a :CodeActions<CR>
 vnoremap <silent> <space>a :RangeCodeActions<CR>
 
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+tnoremap <C-j> <Down>
+tnoremap <C-k> <Up>
+tnoremap <C-h> <Left>
+tnoremap <C-l> <Right>
+
 colorscheme onedark
 sign define LspDiagnosticsSignHint texthl=LspDiagnosticsSignHint linehl= numhl=LspDiagnosticsSignHint
 sign define LspDiagnosticsSignInformation texthl=LspDiagnosticsSignInformation linehl= numhl=LspDiagnosticsSignInformation
 sign define LspDiagnosticsSignWarning texthl=LspDiagnosticsSignWarning linehl= numhl=LspDiagnosticsSignWarning
 sign define LspDiagnosticsSignError texthl=LspDiagnosticsSignError linehl= numhl=LspDiagnosticsSignError
 
-hi! LspDiagnosticsDefaultWarning guifg=orange
-hi! LspDiagnosticsDefaultError guifg=red
-hi! LspDiagnosticsDefaultInformation guifg=darkcyan
-hi! LspDiagnosticsDefaultHint guifg=green
+" hi! LspDiagnosticsDefaultWarning guifg=fg
+" hi! LspDiagnosticsDefaultError guifg=fg
+" hi! LspDiagnosticsDefaultInformation guifg=fg
+" hi! LspDiagnosticsDefaultHint guifg=fg
 
 hi! LspDiagnosticsUnderlineWarning cterm=underline gui=underline
 hi! LspDiagnosticsUnderlineError cterm=undercurl gui=undercurl
 hi! LspDiagnosticsUnderlineInformation cterm=underline gui=underline
 hi! LspDiagnosticsUnderlineHint cterm=underline gui=underline
 
-hi! LspDiagnosticsFloatingWarning guifg=orange
-hi! LspDiagnosticsFloatingError guifg=red
-hi! LspDiagnosticsFloatingInformation guifg=darkcyan
-hi! LspDiagnosticsFloatingHint guifg=green
+" hi! LspDiagnosticsFloatingWarning guifg=orange
+" hi! LspDiagnosticsFloatingError guifg=red
+" hi! LspDiagnosticsFloatingInformation guifg=darkcyan
+" hi! LspDiagnosticsFloatingHint guifg=green
 
 let gitgutter_sign_added            = "\u00a0│"
 let gitgutter_sign_removed          = "\u00a0│"
@@ -300,6 +314,7 @@ let g:VM_mouse_mappings = 1
 let g:VM_silent_exit = 1
 
 let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsMapCh = 0
 let g:AutoPairsCenterLine = 0
 let g:deoplete#enable_at_startup = 1
 hi NonText guifg=cyan
@@ -332,8 +347,8 @@ let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
 let g:indent_blankline_enabled = v:true
 let g:indentLine_fileType = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
-let g:indent_blankline_char_list = ['¦']
-let g:indentLine_char_list = ['¦']
+let g:indent_blankline_char_list = ['│']
+let g:indentLine_char_list = ['│']
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
 " nnoremap <leader><leader>r :SourcetrailRefresh<CR>
 " nnoremap <leader><leader>a :SourcetrailActivateToken<CR>
@@ -367,7 +382,7 @@ call defx#custom#column('mark', {
       \ })
 
 call defx#custom#column('filename', {
-            \ 'min_width': 23,
+            \ 'min_width': 25,
             \ 'max_width': -80,
             \ })
 
@@ -466,4 +481,17 @@ augroup defx_config
 augroup END
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
+function! GetJumps()
+  redir => cout
+  silent jumps
+  redir END
+  return reverse(split(cout, "\n")[1:])
+endfunction
+function! GoToJump(jump)
+    let jumpnumber = split(a:jump, '\s\+')[0]
+    execute "normal " . jumpnumber . "\<c-o>"
+endfunction
+command! Jumps call fzf#run(fzf#wrap({
+        \ 'source': GetJumps(),
+        \ 'sink': function('GoToJump')}))
 lua require('lsp')
