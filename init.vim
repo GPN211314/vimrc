@@ -3,7 +3,7 @@ Plug 'derekwyatt/vim-fswitch'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 't9md/vim-choosewin'
-Plug 'wellle/context.vim'
+" Plug 'wellle/context.vim'
 " Plug 'preservim/nerdtree'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kristijanhusak/defx-git'
@@ -48,7 +48,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
-Plug 'yuttie/comfortable-motion.vim'
+" Plug 'yuttie/comfortable-motion.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
 " Plug 'voldikss/vim-floaterm'
@@ -157,6 +157,7 @@ set inccommand=nosplit
 set mouse=a
 set clipboard=unnamedplus
 set wrap
+set nohls
 set linebreak
 set breakindent
 set breakindentopt=sbr,shift:4
