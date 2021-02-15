@@ -1,4 +1,5 @@
 call plug#begin('~/.config/nvim/site')
+Plug 'gruvbox-community/gruvbox'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'AndrewRadev/splitjoin.vim'
@@ -287,7 +288,7 @@ let g:ale_linters = {
   \   'cpp': ['clangcheck'],
   \   'text': [],
   \}
-let g:ale_c_build_dir_names=[]
+" let g:ale_c_build_dir_names=[]
 hi ALEError gui=undercurl guifg=#E06C75
 
 let g:far#source='rg'
