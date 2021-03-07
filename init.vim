@@ -217,8 +217,6 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
 
-nnoremap <silent> <Tab> <C-^>
-
 colorscheme onedark
 let gitgutter_sign_added            = "\u00a0│"
 let gitgutter_sign_removed          = "\u00a0│"
