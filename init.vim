@@ -40,7 +40,7 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
 Plug 'jiangmiao/auto-pairs'
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 Plug 'wellle/targets.vim'
 Plug '907th/vim-auto-save'
 Plug 'ryanoasis/vim-devicons'
@@ -63,10 +63,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'voldikss/fzf-floaterm'
 Plug 'mbbill/undotree'
-" Plug 'christoomey/vim-tmux-navigator'
 Plug 'luochen1990/rainbow'
 Plug 'easymotion/vim-easymotion'
-" Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
+Plug 'svermeulen/vim-easyclip'
 call plug#end()
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
@@ -75,7 +75,7 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set termguicolors
 let g:auto_save = 1
 let g:auto_save_silent = 1  " do not display the auto-save notification
-let g:echodoc#enable_at_startup = 1
+" let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = "virtual"
 
 hi Comment cterm=italic
@@ -272,7 +272,7 @@ let g:startify_change_to_dir = 0
 let g:asyncrun_open = 10
 noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
-noremap <silent><space>h :FSHere<CR>
+noremap <silent><space>h :FSHere<CR>:setlocal buflisted<CR>
 " autocmd FileType * set formatoptions+=wat
 let g:ale_virtualtext_cursor=0
 let g:ale_set_signs=0
