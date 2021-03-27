@@ -1,4 +1,6 @@
 call plug#begin('~/.config/nvim/site')
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-EnhancedJumps'
 Plug 'gruvbox-community/gruvbox'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -66,7 +68,6 @@ Plug 'mbbill/undotree'
 Plug 'luochen1990/rainbow'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
-Plug 'svermeulen/vim-easyclip'
 call plug#end()
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
@@ -88,7 +89,7 @@ let g:onedark_terminal_italics=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#fzf#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
