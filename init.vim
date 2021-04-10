@@ -3,8 +3,8 @@ Plug 'ptzz/lf.vim'
 Plug 'voldikss/vim-floaterm'
 " Plug 'rafaqz/ranger.vim'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'inkarkat/vim-ingo-library'
-Plug 'inkarkat/vim-EnhancedJumps'
+" Plug 'inkarkat/vim-ingo-library'
+" Plug 'inkarkat/vim-EnhancedJumps'
 Plug 'gruvbox-community/gruvbox'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -199,6 +199,7 @@ cmap w!! w suda://%
 nnoremap <silent> <space>x :Bclose!<CR>
 nnoremap <silent> - :Lfcd<CR>
 nnoremap <silent> <space>w :ChooseWin<CR>
+nnoremap <silent> <space>d :!sdcv <cword><CR>
 
 ""FZF
 "" 让输入上方，搜索列表在下方
