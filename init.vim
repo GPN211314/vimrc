@@ -1,4 +1,6 @@
 call plug#begin('~/.config/nvim/site')
+" Plug 'scrooloose/vim-slumlord'
+Plug 'vim-scripts/DrawIt'
 Plug 'ptzz/lf.vim'
 Plug 'voldikss/vim-floaterm'
 " Plug 'rafaqz/ranger.vim'
@@ -10,7 +12,7 @@ Plug 'derekwyatt/vim-fswitch'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 't9md/vim-choosewin'
-" Plug 'wellle/context.vim'
+Plug 'wellle/context.vim'
 " Plug 'preservim/nerdtree'
 " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'kristijanhusak/defx-git'
@@ -19,7 +21,7 @@ Plug 't9md/vim-choosewin'
 " Plug 'CoatiSoftware/vim-sourcetrail'
 Plug 'brooth/far.vim'
 " Plug 'equalsraf/neovim-gui-shim'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
@@ -200,6 +202,7 @@ nnoremap <silent> <space>x :Bclose!<CR>
 nnoremap <silent> - :Lfcd<CR>
 nnoremap <silent> <space>w :ChooseWin<CR>
 nnoremap <silent> <space>d :!sdcv <cword><CR>
+nnoremap <silent> <space>p :w !plantuml -p -tutxt<CR>
 
 ""FZF
 "" 让输入上方，搜索列表在下方
@@ -280,20 +283,20 @@ noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
 noremap <silent><space>h :FSHere<CR>:setlocal buflisted<CR>
 " autocmd FileType * set formatoptions+=wat
-let g:ale_virtualtext_cursor=0
-let g:ale_set_signs=0
-let g:ale_c_parse_compile_commands=0
-let g:ale_linters_explicit=1
-let g:ale_linters = {
-  \   'csh': ['shell'],
-  \   'zsh': ['shell'],
-  \   'python': ['pylint'],
-  \   'c': ['cppcheck'],
-  \   'cpp': ['clangcheck'],
-  \   'text': [],
-  \}
-" let g:ale_c_build_dir_names=[]
-hi ALEError gui=undercurl guifg=#E06C75
+" let g:ale_virtualtext_cursor=0
+" let g:ale_set_signs=0
+" let g:ale_c_parse_compile_commands=0
+" let g:ale_linters_explicit=1
+" let g:ale_linters = {
+"   \   'csh': ['shell'],
+"   \   'zsh': ['shell'],
+"   \   'python': ['pylint'],
+"   \   'c': ['cppcheck'],
+"   \   'cpp': ['clangcheck'],
+"   \   'text': [],
+"   \}
+" " let g:ale_c_build_dir_names=[]
+" hi ALEError gui=undercurl guifg=#E06C75
 
 let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
@@ -422,8 +425,8 @@ let g:choosewin_color_other = { 'gui': ['#3e4452', '#abb2bf'] }
 "   autocmd BufEnter * call s:open_defx_if_directory()
 " augroup END
 
-nnoremap <silent> [g :ALEPreviousWrap<CR>
-nnoremap <silent> ]g :ALENextWrap<CR>
+" nnoremap <silent> [g :ALEPreviousWrap<CR>
+" nnoremap <silent> ]g :ALENextWrap<CR>
 let g:context_nvim_no_redraw = 1
 augroup mycppfiles
     au!
