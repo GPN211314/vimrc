@@ -495,3 +495,4 @@ command! Jumps call fzf#run(fzf#wrap({
         \ 'source': GetJumps(),
         \ 'sink': function('GoToJump')}))
 lua require('lsp')
+lua require('treesitter')
