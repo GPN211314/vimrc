@@ -1,10 +1,11 @@
 call plug#begin('~/.config/nvim/site')
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['plantuml', 'markdown', 'vim-plug']}
 " Plug 'scrooloose/vim-slumlord'
 Plug 'vim-scripts/DrawIt'
-Plug 'ptzz/lf.vim'
+" Plug 'ptzz/lf.vim'
 Plug 'voldikss/vim-floaterm'
 " Plug 'rafaqz/ranger.vim'
-Plug 'NLKNguyen/papercolor-theme'
+" Plug 'NLKNguyen/papercolor-theme'
 " Plug 'inkarkat/vim-ingo-library'
 " Plug 'inkarkat/vim-EnhancedJumps'
 Plug 'gruvbox-community/gruvbox'
@@ -198,11 +199,13 @@ autocmd InsertLeave * set cursorline
 
 
 cmap w!! w suda://%
+cabbrev ls !ls
+cabbrev tree !tree
 nnoremap <silent> <space>x :Bclose!<CR>
-nnoremap <silent> - :Lfcd<CR>
+" nnoremap <silent> - :Lfcd<CR>
 nnoremap <silent> <space>w :ChooseWin<CR>
 nnoremap <silent> <space>d :!sdcv <cword><CR>
-nnoremap <silent> <space>p :w !plantuml -p -tutxt<CR>
+nnoremap <silent> <space>p <Plug>MarkdownPreviewToggle
 
 ""FZF
 "" 让输入上方，搜索列表在下方
@@ -282,21 +285,6 @@ let g:asyncrun_open = 10
 noremap <silent><leader>r :AsyncTask file-run<CR>
 noremap <silent><leader>b :AsyncTask file-build<CR>
 noremap <silent><space>h :FSHere<CR>:setlocal buflisted<CR>
-" autocmd FileType * set formatoptions+=wat
-" let g:ale_virtualtext_cursor=0
-" let g:ale_set_signs=0
-" let g:ale_c_parse_compile_commands=0
-" let g:ale_linters_explicit=1
-" let g:ale_linters = {
-"   \   'csh': ['shell'],
-"   \   'zsh': ['shell'],
-"   \   'python': ['pylint'],
-"   \   'c': ['cppcheck'],
-"   \   'cpp': ['clangcheck'],
-"   \   'text': [],
-"   \}
-" " let g:ale_c_build_dir_names=[]
-" hi ALEError gui=undercurl guifg=#E06C75
 
 let g:far#source='rg'
 let g:Illuminate_ftwhitelist = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
@@ -314,119 +302,6 @@ let g:choosewin_color_label = { 'gui': ['#98c379', '#282c34'] }
 let g:choosewin_color_label_current = { 'gui': ['#98c379', '#282c34'] }
 let g:choosewin_color_other = { 'gui': ['#3e4452', '#abb2bf'] }
 
-" call defx#custom#option('_', {
-"       \ 'columns': 'mark:indent:icons:filename:type',
-"       \ 'split': 'vertical',
-"       \ 'winwidth': 30,
-"       \ 'direction': 'leftabove',
-"       \ 'show_ignored_files': 0,
-"       \ 'floating_preview': 1,
-"       \ 'buffer_name': '[Defx]',
-"       \ 'toggle': 1,
-"       \ 'resume': 1
-"       \ })
-
-" call defx#custom#column('mark', {
-"       \ 'readonly_icon': '',
-"       \ 'selected_icon': '',
-"       \ })
-
-" function! s:open_defx_if_directory()
-"   " This throws an error if the buffer name contains unusual characters like
-"   " [[buffergator]]. Desired behavior in those scenarios is to consider the
-"   " buffer not to be a directory.
-"   try
-"     let l:full_path = expand(expand('%:p'))
-"   catch
-"     return
-"   endtry
-
-"   " If the path is a directory, delete the (useless) buffer and open defx for
-"   " that directory instead.
-"   if isdirectory(l:full_path)
-"     execute "Defx `expand('%:p')` | bd " . expand('%:r')
-"   endif
-" endfunction
-
-" function! s:defx_my_settings() abort
-"     setlocal nornu
-"     setlocal nonu
-"     " Define mappings
-"     nnoremap <silent><buffer><expr> <CR>
-"     \ defx#is_directory() ?
-"     \ defx#do_action('open_tree', 'toggle') :
-"     \ defx#do_action('open', ['choose'])
-"     nnoremap <silent><buffer><expr> <2-LeftMouse>
-"     \ defx#is_directory() ?
-"     \ defx#do_action('open_tree', 'toggle') :
-"     \ defx#do_action('open', ['choose'])
-"     nnoremap <silent><buffer><expr> c
-"     \ defx#do_action('copy')
-"     nnoremap <silent><buffer><expr> m
-"     \ defx#do_action('move')
-"     nnoremap <silent><buffer><expr> p
-"     \ defx#do_action('paste')
-"     nnoremap <silent><buffer><expr> e
-"     \ defx#do_action('open')
-"     nnoremap <silent><buffer><expr> E
-"     \ defx#do_action('open', 'vsplit')
-"     nnoremap <silent><buffer><expr> P
-"     \ defx#do_action('preview')
-"     nnoremap <silent><buffer><expr> <Tab>
-"     \ defx#do_action('open_directory')
-"     nnoremap <silent><buffer><expr> <3-LeftMouse>
-"     \ defx#do_action('open_directory')
-"     nnoremap <silent><buffer><expr> K
-"     \ defx#do_action('new_directory')
-"     nnoremap <silent><buffer><expr> N
-"     \ defx#do_action('new_file')
-"     nnoremap <silent><buffer><expr> S
-"     \ defx#do_action('toggle_sort', 'time')
-"     nnoremap <silent><buffer><expr> d
-"     \ defx#do_action('remove')
-"     nnoremap <silent><buffer><expr> r
-"     \ defx#do_action('rename')
-"     nnoremap <silent><buffer><expr> !
-"     \ defx#do_action('execute_command')
-"     nnoremap <silent><buffer><expr> x
-"     \ defx#do_action('execute_system')
-"     nnoremap <silent><buffer><expr> yy
-"     \ defx#do_action('yank_path')
-"     nnoremap <silent><buffer><expr> .
-"     \ defx#do_action('toggle_ignored_files')
-"     nnoremap <silent><buffer><expr> ;
-"     \ defx#do_action('repeat')
-"     nnoremap <silent><buffer><expr> <BS>
-"     \ defx#do_action('cd', ['..'])
-"     nnoremap <silent><buffer><expr> R
-"     \ defx#do_action('cd', ['/'])
-"     nnoremap <silent><buffer><expr> H
-"     \ defx#do_action('cd')
-"     nnoremap <silent><buffer><expr> q
-"     \ defx#do_action('quit')
-"     nnoremap <silent><buffer><expr> <Space>
-"     \ defx#do_action('toggle_select') . 'j'
-"     nnoremap <silent><buffer><expr> *
-"     \ defx#do_action('toggle_select_all')
-"     nnoremap <silent><buffer><expr> <C-l>
-"     \ defx#do_action('redraw')
-"     nnoremap <silent><buffer><expr> <C-g>
-"     \ defx#do_action('print')
-"     nnoremap <silent><buffer><expr> cd
-"     \ defx#do_action('change_vim_cwd')
-" endfunction
-
-" augroup defx_config
-"   autocmd!
-"   autocmd FileType defx call s:defx_my_settings()
-
-"   " It seems like BufReadPost should work for this, but for some reason, I can't
-"   " get it to fire. BufEnter seems to be more reliable.
-"   autocmd BufEnter * call s:open_defx_if_directory()
-" augroup END
-
-" nnoremap <silent> [g :ALEPreviousWrap<CR>
-" nnoremap <silent> ]g :ALENextWrap<CR>
 let g:context_nvim_no_redraw = 1
 augroup mycppfiles
     au!
@@ -435,3 +310,13 @@ augroup mycppfiles
 augroup END
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
+
+let g:mkdp_command_for_global = 1
+let g:mkdp_refresh_slow = 1
+let g:mkdp_auto_close = 0
+let g:mkdp_open_to_the_world = 1
+let g:mkdp_open_ip = '192.168.56.2'
+function! g:Open_browser(url)
+    silent exe '!ssh macbook open 'a:url
+endfunction
+let g:mkdp_browserfunc = 'g:Open_browser'
