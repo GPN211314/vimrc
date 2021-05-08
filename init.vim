@@ -320,3 +320,4 @@ function! g:Open_browser(url)
     silent exe '!ssh macbook open 'a:url
 endfunction
 let g:mkdp_browserfunc = 'g:Open_browser'
+lua require('treesitter')
