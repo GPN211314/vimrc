@@ -1,89 +1,68 @@
 call plug#begin('~/.config/nvim/site')
-Plug 'folke/tokyonight.nvim'
-" Plug 'ludovicchabant/vim-gutentags'
-" Plug 'skywind3000/gutentags_plus', {'branch': 'master'}
-" Plug 'skywind3000/vim-preview'
 " Plug 'mh21/errormarker.vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['plantuml', 'markdown', 'vim-plug']}
-Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
-" Plug 'romgrk/doom-one.vim'
-" Plug 'scrooloose/vim-slumlord'
-Plug 'vim-scripts/DrawIt'
-" Plug 'ptzz/lf.vim'
-Plug 'voldikss/vim-floaterm'
-" Plug 'rafaqz/ranger.vim'
-" Plug 'NLKNguyen/papercolor-theme'
-" Plug 'inkarkat/vim-ingo-library'
-" Plug 'inkarkat/vim-EnhancedJumps'
-Plug 'gruvbox-community/gruvbox'
-Plug 'derekwyatt/vim-fswitch'
-Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 't9md/vim-choosewin'
-Plug 'wellle/context.vim'
-" Plug 'preservim/nerdtree'
-" Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'kristijanhusak/defx-git'
-" Plug 'kristijanhusak/defx-icons'
-" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
-" Plug 'CoatiSoftware/vim-sourcetrail'
-Plug 'brooth/far.vim'
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['plantuml', 'markdown', 'vim-plug']}
+" Plug 'google/vim-maktaba'
+" Plug 'google/vim-codefmt'
+" Plug 'vim-scripts/DrawIt'
 " Plug 'equalsraf/neovim-gui-shim'
 " Plug 'dense-analysis/ale'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sheerun/vim-polyglot'
-" Plug 'subnut/visualstar.vim'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-Plug 'codota/tabnine-vim'
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
+" Plug 'codota/tabnine-vim'
+" Plug 'skywind3000/asynctasks.vim'
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'romgrk/nvim-treesitter-context'
 " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'tpope/vim-fugitive'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'terryma/vim-expand-region'
-Plug 'lambdalisue/glyph-palette.vim'
-Plug 'antoinemadec/FixCursorHold.nvim'
+" Plug 'lambdalisue/nerdfont.vim'
+" Plug 'terryma/vim-expand-region'
+" Plug 'lambdalisue/glyph-palette.vim'
+" Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
 " Plug 'pbogut/fzf-mru.vim'
-Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-eunuch'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'vim-scripts/BufOnly.vim'
+" Plug 'tpope/vim-obsession'
+" Plug 'Shougo/echodoc.vim'
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'yuttie/comfortable-motion.vim'
+" Plug 'voldikss/vim-floaterm'
+" Plug 'junegunn/vim-easy-align'
+" Plug 'tpope/vim-abolish'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" Plug 'voldikss/fzf-floaterm'
+" Plug 'mbbill/undotree'
+" Plug 'tpope/vim-repeat'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 't9md/vim-choosewin'
+Plug 'wellle/context.vim'
+Plug 'brooth/far.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-unimpaired'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/popup.nvim'
-Plug 'vim-scripts/BufOnly.vim'
-Plug 'tpope/vim-obsession'
 Plug 'RRethy/vim-illuminate'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'Shougo/echodoc.vim'
 Plug 'wellle/targets.vim'
 Plug '907th/vim-auto-save'
-Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-commentary'
 Plug 'Yggdroot/indentLine', { 'rtp': 'after' }
-" Plug 'yuttie/comfortable-motion.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
-" Plug 'voldikss/vim-floaterm'
 Plug 'joshdick/onedark.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-surround'
-Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-abolish'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-" Plug 'voldikss/fzf-floaterm'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-Plug 'mbbill/undotree'
 Plug 'luochen1990/rainbow'
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-repeat'
 call plug#end()
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
@@ -107,7 +86,6 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#obsession#enabled = 1
-" let g:airline#extensions#fzf#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
 let g:airline_left_sep=''
 let g:airline_left_alt_sep=' '
@@ -213,35 +191,11 @@ cmap w!! w suda://%
 cabbrev ls !ls
 cabbrev tree !tree
 nnoremap <silent> <space>x :Bclose!<CR>
-" nnoremap <silent> - :Lfcd<CR>
 nnoremap <silent> <space>w :ChooseWin<CR>
 nnoremap <silent> <space>d :!sdcv <cword><CR>
 nnoremap <silent> <space>p <Plug>MarkdownPreviewToggle
 
-""FZF
-"" 让输入上方，搜索列表在下方
-" let $FZF_DEFAULT_OPTS = '--layout=reverse'
-" let $FZF_DEFAULT_OPTS = '--layout=reverse --color=dark
-"             \ --color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
-"             \ --color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef'
-
-" function! s:fzf_statusline()
-"   " Override statusline as you like
-"   highlight fzf1 ctermfg=161 ctermbg=251
-"   highlight fzf2 ctermfg=23 ctermbg=251
-"   highlight fzf3 ctermfg=237 ctermbg=251
-"   setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
-" endfunction
-
-" " let g:fzf_mru_no_sort = 0
-" let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-" " let g:fzf_layout = { 'down': '25%' }
-" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-" let g:oceanic_next_terminal_bold = 1
-" let g:oceanic_next_terminal_italic = 1
-
 colorscheme onedark
-" let g:doom_one_terminal_colors = v:true
 
 let gitgutter_sign_added            = "\u00a0│"
 let gitgutter_sign_removed          = "\u00a0│"
@@ -255,8 +209,6 @@ let g:gitgutter_highlight_linenrs = 0
 " autocmd  TermOpen * setlocal nornu nonu signcolumn=no laststatus=0 noruler
 "             \| autocmd BufEnter <buffer> setlocal nornu nonu signcolumn=no laststatus=0 noruler | call feedkeys("\<C-\>\<C-N>\<Esc>")
 " autocmd BufLeave * if &buftype==#'terminal' | set laststatus=2 |endif
-" autocmd Filetype fzf setlocal laststatus=2
-" autocmd Filetype \(^fzf\)\@<! if &buftype ==# 'terminal' | setlocal buflisted | endif
 
 noremap <space>f :Leaderf file<CR>
 noremap <space>m :Leaderf mru<CR>
@@ -267,15 +219,6 @@ noremap <space>b :Leaderf buffer<CR>
 nnoremap <Leader>q :Leaderf quickfix<CR>
 nnoremap <Leader>l :Leaderf loclist<CR>
 noremap <space>r :Leaderf rg<CR>
-" nnoremap <space>f :FZF<CR>
-" nnoremap <space>m :History<CR>
-" nnoremap <space>o :BTags<CR>
-" nnoremap <space>t :Tags<CR>
-" nnoremap <space>l :BLines<CR>
-" nnoremap <space>b :Buffers<CR>
-" nnoremap <Leader>q :Quickfix<CR>
-" nnoremap <Leader>l :Quickfix!<CR>
-" nnoremap <space>r :Rg<CR>
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -316,11 +259,10 @@ let g:indent_blankline_enabled = v:true
 let g:indentLine_fileType = ['python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim']
 let g:indent_blankline_char_list = ['¦']
 let g:indentLine_char_list = ['¦']
-" let g:loaded_netrwPlugin = 1
+let g:loaded_netrwPlugin = 1
 
-" let g:deoplete#enable_at_startup = 0
-" autocmd InsertEnter * call deoplete#enable()
-" let g:python3_host_prog = '/home/carl/.pyenv/shims/python3'
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
 let g:choosewin_blink_on_land = 0
 let g:choosewin_color_label = { 'gui': ['#98c379', '#282c34'] }
 let g:choosewin_color_label_current = { 'gui': ['#98c379', '#282c34'] }
@@ -335,48 +277,22 @@ augroup END
 
 autocmd Filetype python,sh,cpp,c,bash,zsh,vim IndentLinesEnable
 
-let g:mkdp_command_for_global = 1
-let g:mkdp_refresh_slow = 1
-let g:mkdp_auto_close = 0
-let g:mkdp_open_to_the_world = 1
-let g:mkdp_open_ip = '192.168.56.2'
-function! g:Open_browser(url)
-    silent exe '!ssh macbook open 'a:url
-endfunction
-let g:mkdp_browserfunc = 'g:Open_browser'
-" lua require('treesitter')
+" let g:mkdp_command_for_global = 1
+" let g:mkdp_refresh_slow = 1
+" let g:mkdp_auto_close = 0
+" let g:mkdp_open_to_the_world = 1
+" let g:mkdp_open_ip = '192.168.56.2'
+" function! g:Open_browser(url)
+"     silent exe '!ssh macbook open 'a:url
+" endfunction
+" let g:mkdp_browserfunc = 'g:Open_browser'
 "
-let $GTAGSLABEL = 'native-pygments'
-let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
 let g:Lf_WindowHeight = 10
 let g:Lf_StlSeparator = { 'left': "", 'right': "" }
 let g:Lf_StlColorscheme = 'one'
 let g:Lf_GtagsAutoGenerate = 1
 let g:Lf_Gtagslabel = 'native-pygments'
-let g:Lf_PreviewResult = {
-        \ 'File': 0,
-        \ 'Buffer': 0,
-        \ 'Mru': 0,
-        \ 'Tag': 0,
-        \ 'BufTag': 0,
-        \ 'Function': 0,
-        \ 'Line': 0,
-        \ 'Colorscheme': 0,
-        \ 'Rg': 0,
-        \ 'Gtags': 0
-        \}
-let g:Lf_GtagsSource = 2
-let g:Lf_GtagsfilesCmd = {
-        \ '.git': 'git ls-files --recurse-submodules',
-        \ '.hg': 'hg files',
-        \ 'default': 'rg --no-messages --files'
-        \}
-let g:Lf_PreviewInPopup = 0
-let g:Lf_PopupColorscheme = 'one'
 noremap <silent> gd :Leaderf gtags --by-context --auto-jump<CR>
-
-" let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
-" let g:gutentags_modules = ['gtags_cscope']
-" let g:gutentags_cache_dir = expand('~/.cache/tags')
-" " let g:gutentags_auto_add_gtags_cscope = 0
-" let g:gutentags_exclude_filetypes = ['vim', 'zsh', 'haskell', 'txt']
+noremap <silent> gr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+nnoremap <silent> k :<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'k'<CR>
+nnoremap <silent> j :<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'j'<CR>
