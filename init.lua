@@ -3,7 +3,7 @@ local use = packer.use
 
 packer.startup(
     function()
-        use "wbthomason/packer.nvim"
+        use {"wbthomason/packer.nvim"}
         -- use {
         --   "nvim-treesitter/nvim-treesitter",
         --   config = function()
@@ -22,13 +22,13 @@ packer.startup(
         --     }
         --   end
         -- }
-        use "nvim-lua/plenary.nvim"
-        use "nvim-lua/popup.nvim"
-        use "tweekmonster/startuptime.vim"
+        use {"nvim-lua/plenary.nvim"}
+        use {"nvim-lua/popup.nvim"}
+        use {"tweekmonster/startuptime.vim"}
 
         use {
             "lukas-reineke/indent-blankline.nvim",
-            branch = "lua",
+            branch = 'lua',
             config = function()
                 vim.api.nvim_set_var('indent_blankline_filetype_exclude', {"help", "terminal"})
                 vim.api.nvim_set_var('indent_blankline_buftype_exclude', {"terminal"})
@@ -36,6 +36,8 @@ packer.startup(
                 vim.api.nvim_set_var('indent_blankline_show_first_indent_level', false)
                 vim.api.nvim_set_var('indent_blankline_strict_tabs', true)
                 vim.api.nvim_set_var('indent_blankline_enabled', true)
+                vim.api.nvim_set_var('indent_blankline_enabled', true)
+                vim.api.nvim_command('set colorcolumn=99999')
             end
         }
         use {
@@ -83,7 +85,7 @@ packer.startup(
                 vim.api.nvim_set_var('far#source', 'rg')
             end
         }
-        use 'vim-airline/vim-airline-themes'
+        use {'vim-airline/vim-airline-themes'}
         use {
             'vim-airline/vim-airline',
             config = function()
@@ -105,7 +107,7 @@ packer.startup(
             end,
             requires = {'vim-airline/vim-airline-themes'}
         }
-        use 'sheerun/vim-polyglot'
+        use {'sheerun/vim-polyglot'}
         use {
             'Shougo/deoplete.nvim',
             run = ':UpdateRemotePlugins',
@@ -117,8 +119,8 @@ packer.startup(
             end
         }
         use {'tbodt/deoplete-tabnine', run = './install.sh'}
-        use 'tpope/vim-fugitive'
-        use 'tpope/vim-unimpaired'
+        use {'tpope/vim-fugitive'}
+        use {'tpope/vim-unimpaired'}
         use {
             'RRethy/vim-illuminate',
             config = function()
@@ -133,7 +135,7 @@ packer.startup(
                 require("nvim-autopairs").setup()
             end
         }
-        use 'wellle/targets.vim'
+        use {'wellle/targets.vim'}
         use {
             '907th/vim-auto-save',
             config = function()
@@ -157,7 +159,7 @@ packer.startup(
                 vim.api.nvim_set_var('VM_silent_exit', 1)
             end
         }
-        use 'tpope/vim-commentary'
+        use {'tpope/vim-commentary'}
         use {
             'airblade/vim-gitgutter',
             config = function()
@@ -251,7 +253,7 @@ packer.startup(
                 })
             end
         }
-        use 'easymotion/vim-easymotion'
+        use {'easymotion/vim-easymotion'}
 
     end,
     {
