@@ -65,8 +65,6 @@ packer.startup(
             't9md/vim-choosewin',
             config = function()
                 vim.api.nvim_set_var('choosewin_blink_on_land', 0)
-                vim.api.nvim_set_var('choosewin_blink_on_land', 0)
-                vim.api.nvim_set_var('choosewin_blink_on_land', 0)
                 vim.api.nvim_set_var('choosewin_color_label', { ['gui'] = { '#98c379', '#282c34' } })
                 vim.api.nvim_set_var('choosewin_color_label_label', { ['gui'] = { '#98c379', '#282c34' } })
                 vim.api.nvim_set_var('choosewin_color_other', { ['gui'] = { '#3e4452', '#abb2bf' } })
