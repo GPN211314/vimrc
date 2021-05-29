@@ -149,9 +149,11 @@ packer.startup(
                 vim.api.nvim_set_var('airline#extensions#tabline#left_alt_sep', '  ')
                 vim.api.nvim_set_var('airline#extensions#tabline#ignore_bufadd_pat', 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler')
                 vim.api.nvim_set_var('airline_stl_path_style', 'short')
-                vim.api.nvim_set_var('airline_theme', 'onedark')
             end,
             requires = {'vim-airline/vim-airline-themes'}
+        }
+        use {
+            'ayu-theme/ayu-vim'
         }
         use {
             'sheerun/vim-polyglot',
@@ -233,6 +235,9 @@ packer.startup(
         }
         use {
             'joshdick/onedark.vim',
+            cond = function()
+                return false
+            end,
             config = function()
                 vim.api.nvim_set_var('onedark_hide_endofbuffer', 1)
                 vim.api.nvim_set_var('onedark_terminal_italics', 1)
@@ -277,6 +282,9 @@ packer.startup(
         }
         use {
             'luochen1990/rainbow',
+            cond = function()
+                return false
+            end,
             config = function()
                 vim.api.nvim_set_var('rainbow_active', 1)
                 vim.api.nvim_set_var('rainbow_conf', {
@@ -372,11 +380,12 @@ vim.api.nvim_set_var('clipboard', {
     ['cache_enabled'] = 1,
 })
 
-vim.api.nvim_command('colorscheme onedark')
+vim.api.nvim_set_var('airline_theme', 'ayu')
+vim.api.nvim_command('colorscheme ayu')
 vim.api.nvim_command('cabbrev ls !ls')
 vim.api.nvim_command('cabbrev tree !tree')
 vim.api.nvim_command('hi EndOfBuffer guifg=bg')
-vim.api.nvim_command('hi Visual guibg=#C678DD guifg=bg')
+vim.api.nvim_command('hi Visual guifg=#F07178')
 
 -- vim.api.nvim_set_keymap('n', '<space>p', '<Plug>MarkdownPreviewToggle', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<space>u', ':UndotreeToggle<CR>', { noremap = true, silent = true })
