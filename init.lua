@@ -59,15 +59,15 @@ packer.startup(
                 vim.api.nvim_set_var('fzf_preview_window', {'right:40%:hidden', 'ctrl-/'})
                 vim.api.nvim_set_var('fzf_layout', { ['down'] = '25%' })
                 vim.api.nvim_exec([[
-                    nnoremap <slient> <space>f  :FZF<CR>
-                    nnoremap <slient> <space>m  :History<CR>
-                    nnoremap <slient> <space>o  :BTags<CR>
-                    nnoremap <slient> <space>t  :Tags<CR>
-                    nnoremap <slient> <space>l  :BLines<CR>
-                    nnoremap <slient> <space>b  :Buffers<CR>
-                    nnoremap <slient> <leader>q :Quickfix<CR>
-                    nnoremap <slient> <leader>l :Quickfix!<CR>
-                    nnoremap <slient> <space>r  :Rg<CR>
+                    nnoremap <silent> <space>f  :FZF<CR>
+                    nnoremap <silent> <space>m  :History<CR>
+                    nnoremap <silent> <space>o  :BTags<CR>
+                    nnoremap <silent> <space>t  :Tags<CR>
+                    nnoremap <silent> <space>l  :BLines<CR>
+                    nnoremap <silent> <space>b  :Buffers<CR>
+                    nnoremap <silent> <leader>q :Quickfix<CR>
+                    nnoremap <silent> <leader>l :Quickfix!<CR>
+                    nnoremap <silent> <space>r  :Rg<CR>
                 ]], false)
             end
         }
