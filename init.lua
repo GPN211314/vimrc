@@ -6,7 +6,10 @@ packer.startup(
     function()
         use { 'godlygeek/tabular' }
         use { 'kassio/neoterm' }
-        use { 'nanotee/zoxide.vim' }
+        use {
+            'nanotee/zoxide.vim',
+            vim.api.nvim_set_keymap('n', '<space>z', ':Zi<CR>', { noremap = true, silent = true })
+        }
         use {
             'sindrets/diffview.nvim',
             config = function()
@@ -49,7 +52,25 @@ packer.startup(
                 }
             end
         }
-        use {'junegunn/fzf.vim'}
+        use {
+            'junegunn/fzf.vim',
+            config = function()
+                vim.env.FZF_DEFAULT_OPTS = '--layout=reverse-list'
+                vim.api.nvim_set_var('fzf_preview_window', {'right:40%:hidden', 'ctrl-/'})
+                vim.api.nvim_set_var('fzf_layout', { ['down'] = '25%' })
+                vim.api.nvim_exec([[
+                    nnoremap <space>f  :FZF<CR>
+                    nnoremap <space>m  :History<CR>
+                    nnoremap <space>o  :BTags<CR>
+                    nnoremap <space>t  :Tags<CR>
+                    nnoremap <space>l  :BLines<CR>
+                    nnoremap <space>b  :Buffers<CR>
+                    nnoremap <leader>q :Quickfix<CR>
+                    nnoremap <leader>l :Quickfix!<CR>
+                    nnoremap <space>r  :Rg<CR>
+                ]], false)
+            end
+        }
         use {
             'vim-scripts/gtags.vim',
             lock = true,
@@ -211,6 +232,7 @@ packer.startup(
                 vim.api.nvim_set_var('airline#extensions#tabline#formatter', 'unique_tail')
                 vim.api.nvim_set_var('airline#extensions#whitespace#enabled', 0)
                 vim.api.nvim_set_var('airline#extensions#obsession#enabled', 1)
+                vim.api.nvim_set_var('airline#extensions#fzf#enabled', 1)
                 vim.api.nvim_set_var('airline#extensions#obsession#indicator_text', '$')
                 vim.api.nvim_set_var('airline_left_sep', '')
                 vim.api.nvim_set_var('airline_left_alt_sep', ' ')
@@ -235,6 +257,7 @@ packer.startup(
         use {
             'Shougo/deoplete.nvim',
             run = ':UpdateRemotePlugins',
+            event = 'VimEnter *',
             config = function()
                 vim.api.nvim_set_var('deoplete#enable_at_startup', 1)
                 -- vim.api.nvim_command('autocmd InsertEnter * call deoplete#enable()')
@@ -318,15 +341,15 @@ packer.startup(
         use {
             'airblade/vim-gitgutter',
             config = function()
-                vim.api.nvim_set_var('gitgutter_sign_added', "│")
-                vim.api.nvim_set_var('gitgutter_sign_removed', "│")
-                vim.api.nvim_set_var('gitgutter_sign_modified', "│")
-                vim.api.nvim_set_var('gitgutter_sign_modified_removed', "│")
                 vim.api.nvim_set_var('gitgutter_highlight_linenrs', 0)
-                vim.api.nvim_command('hi link GitGutterAddLineNr          GitGutterAdd')
-                vim.api.nvim_command('hi link GitGutterChangeLineNr       GitGutterChange')
-                vim.api.nvim_command('hi link GitGutterDeleteLineNr       GitGutterDelete')
-                vim.api.nvim_command('hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete')
+                -- vim.api.nvim_set_var('gitgutter_sign_added', "│")
+                -- vim.api.nvim_set_var('gitgutter_sign_removed', "│")
+                -- vim.api.nvim_set_var('gitgutter_sign_modified', "│")
+                -- vim.api.nvim_set_var('gitgutter_sign_modified_removed', "│")
+                -- vim.api.nvim_command('hi link GitGutterAddLineNr          GitGutterAdd')
+                -- vim.api.nvim_command('hi link GitGutterChangeLineNr       GitGutterChange')
+                -- vim.api.nvim_command('hi link GitGutterDeleteLineNr       GitGutterDelete')
+                -- vim.api.nvim_command('hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete')
             end
         }
         use {
@@ -361,31 +384,31 @@ packer.startup(
                 vim.api.nvim_set_var('startify_change_to_dir', 0)
             end
         }
-        use 'tpope/vim-surround'
-        use {
-            'Yggdroot/LeaderF',
-            run = ':LeaderfInstallCExtension',
-            config = function()
-                vim.api.nvim_set_var('Lf_WindowHeight', 10)
-                vim.api.nvim_set_var('Lf_StlSeparator', { ['left'] = "", ['right'] = "" })
-                vim.api.nvim_set_var('Lf_StlColorscheme', 'one')
-                vim.api.nvim_set_var('Lf_GtagsAutoGenerate', 1)
-                vim.api.nvim_set_var('Lf_Gtagsconf', '/usr/local/share/gtags/gtags.conf')
-                vim.api.nvim_set_var('Lf_Gtagslabel', 'native-pygments')
+        use { 'tpope/vim-surround' }
+        -- use {
+        --     'Yggdroot/LeaderF',
+        --     run = ':LeaderfInstallCExtension',
+        --     config = function()
+        --         vim.api.nvim_set_var('Lf_WindowHeight', 10)
+        --         vim.api.nvim_set_var('Lf_StlSeparator', { ['left'] = "", ['right'] = "" })
+        --         vim.api.nvim_set_var('Lf_StlColorscheme', 'one')
+        --         vim.api.nvim_set_var('Lf_GtagsAutoGenerate', 1)
+        --         vim.api.nvim_set_var('Lf_Gtagsconf', '/usr/local/share/gtags/gtags.conf')
+        --         vim.api.nvim_set_var('Lf_Gtagslabel', 'native-pygments')
 
-                vim.api.nvim_set_keymap('n', '<space>f', ':Leaderf file<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>m', ':Leaderf mru<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>o', ':Leaderf gtags --current-buffer<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>t', ':Leaderf gtags --all<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>l', ':Leaderf line<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>b', ':Leaderf buffer<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<leader>q', ':Leaderf quickfix<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<leader>l', ':Leaderf loclist<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>r', ':Leaderf rg<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', 'gd', ':Leaderf gtags --by-context --auto-jump<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', 'gr', ':<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>', { noremap = true, silent = true })
-            end
-        }
+        --         vim.api.nvim_set_keymap('n', '<space>f', ':Leaderf file<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<space>m', ':Leaderf mru<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<space>o', ':Leaderf gtags --current-buffer<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<space>t', ':Leaderf gtags --all<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<space>l', ':Leaderf line<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<space>b', ':Leaderf buffer<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<leader>q', ':Leaderf quickfix<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<leader>l', ':Leaderf loclist<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', '<space>r', ':Leaderf rg<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', 'gd', ':Leaderf gtags --by-context --auto-jump<CR>', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('n', 'gr', ':<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>', { noremap = true, silent = true })
+        --     end
+        -- }
         use {
             'luochen1990/rainbow',
             cond = function()
@@ -486,12 +509,13 @@ vim.api.nvim_command('set breakindent')
 vim.api.nvim_command('set breakindentopt=sbr,shift:4')
 vim.api.nvim_command('set clipboard=unnamedplus')
 vim.api.nvim_command('set cscopeprg=gtags-cscope')
+vim.api.nvim_command('set cscopetag')
 vim.api.nvim_command('set cscopequickfix=s-,c-,d-,i-,t-,e-,g-,f-,a-')
 vim.api.nvim_command('set guifont=FiraCode\\ Nerd\\ Font\\ Mono:h14')
 vim.api.nvim_command('set showbreak=↪')
-vim.api.nvim_command('set cursorline')
+-- vim.api.nvim_command('set cursorline')
 vim.api.nvim_command('set completeopt=menuone,noinsert,noselect')
-vim.api.nvim_command('set relativenumber')
+-- vim.api.nvim_command('set relativenumber')
 vim.api.nvim_command('set number')
 
 -- vim.api.nvim_set_var('loaded_netrwPlugin', 1)
@@ -510,8 +534,8 @@ vim.api.nvim_command('set number')
 
 vim.api.nvim_set_var('airline_theme', 'gruvbox')
 vim.api.nvim_command('colorscheme gruvbox')
-vim.api.nvim_command('hi EndOfBuffer guifg=bg')
-vim.api.nvim_command('hi SignColumn guibg=bg')
+-- vim.api.nvim_command('hi EndOfBuffer guifg=bg')
+-- vim.api.nvim_command('hi SignColumn guibg=bg')
 -- vim.api.nvim_command('cabbrev ls !ls')
 -- vim.api.nvim_command('cabbrev tree !tree')
 -- vim.api.nvim_command('hi Visual guifg=#F07178')
@@ -526,9 +550,9 @@ vim.api.nvim_set_keymap('n', 'k', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" 
 vim.api.nvim_set_keymap('n', 'j', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'j'<CR>]], { noremap = true, silent = true })
 
 vim.api.nvim_exec([[
-    autocmd BufEnter term://* setlocal nonumber
-    autocmd InsertEnter * set nocursorline
-    autocmd InsertLeave * set cursorline
+    " autocmd InsertEnter * set nocursorline
+    " autocmd InsertLeave * set cursorline
+    autocmd TermOpen * setlocal nornu nonu signcolumn=no noruler
 
     set grepprg=rg\ --vimgrep\ --no-heading
     set grepformat=%f:%l:%c:%m,%f:%l:%m
