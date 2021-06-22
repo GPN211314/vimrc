@@ -59,15 +59,15 @@ packer.startup(
                 vim.api.nvim_set_var('fzf_preview_window', {'right:40%:hidden', 'ctrl-/'})
                 vim.api.nvim_set_var('fzf_layout', { ['down'] = '25%' })
                 vim.api.nvim_exec([[
-                    nnoremap <space>f  :FZF<CR>
-                    nnoremap <space>m  :History<CR>
-                    nnoremap <space>o  :BTags<CR>
-                    nnoremap <space>t  :Tags<CR>
-                    nnoremap <space>l  :BLines<CR>
-                    nnoremap <space>b  :Buffers<CR>
-                    nnoremap <leader>q :Quickfix<CR>
-                    nnoremap <leader>l :Quickfix!<CR>
-                    nnoremap <space>r  :Rg<CR>
+                    nnoremap <slient> <space>f  :FZF<CR>
+                    nnoremap <slient> <space>m  :History<CR>
+                    nnoremap <slient> <space>o  :BTags<CR>
+                    nnoremap <slient> <space>t  :Tags<CR>
+                    nnoremap <slient> <space>l  :BLines<CR>
+                    nnoremap <slient> <space>b  :Buffers<CR>
+                    nnoremap <slient> <leader>q :Quickfix<CR>
+                    nnoremap <slient> <leader>l :Quickfix!<CR>
+                    nnoremap <slient> <space>r  :Rg<CR>
                 ]], false)
             end
         }
@@ -497,7 +497,7 @@ vim.api.nvim_command('set shiftwidth=4')
 vim.api.nvim_command('set expandtab')
 vim.api.nvim_command('set autoindent')
 vim.api.nvim_command('set smartcase')
-vim.api.nvim_command('set signcolumn=yes')
+vim.api.nvim_command('set signcolumn=auto')
 vim.api.nvim_command('set inccommand=nosplit')
 vim.api.nvim_command('set nohlsearch')
 vim.api.nvim_command('set mouse=a')
