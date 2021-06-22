@@ -1,9 +1,73 @@
 local packer = require("packer")
 local use = packer.use
+vim.api.nvim_command('set rtp+=/usr/local/opt/fzf')
 
 packer.startup(
     function()
+        use { 'godlygeek/tabular' }
+        use { 'kassio/neoterm' }
+        use { 'nanotee/zoxide.vim' }
+        use {
+            'sindrets/diffview.nvim',
+            config = function()
+                local cb = require'diffview.config'.diffview_callback
+
+                require'diffview'.setup {
+                  diff_binaries = false,    -- Show diffs for binaries
+                  file_panel = {
+                    width = 35,
+                    use_icons = true        -- Requires nvim-web-devicons
+                  },
+                  key_bindings = {
+                    disable_defaults = false,                   -- Disable the default key bindings
+                    -- The `view` bindings are active in the diff buffers, only when the current
+                    -- tabpage is a Diffview.
+                    view = {
+                      ["<tab>"]     = cb("select_next_entry"),  -- Open the diff for the next file 
+                      ["<s-tab>"]   = cb("select_prev_entry"),  -- Open the diff for the previous file
+                      ["<leader>e"] = cb("focus_files"),        -- Bring focus to the files panel
+                      ["<leader>b"] = cb("toggle_files"),       -- Toggle the files panel.
+                    },
+                    file_panel = {
+                      ["j"]             = cb("next_entry"),         -- Bring the cursor to the next file entry
+                      ["<down>"]        = cb("next_entry"),
+                      ["k"]             = cb("prev_entry"),         -- Bring the cursor to the previous file entry.
+                      ["<up>"]          = cb("prev_entry"),
+                      ["<cr>"]          = cb("select_entry"),       -- Open the diff for the selected entry.
+                      ["o"]             = cb("select_entry"),
+                      ["<2-LeftMouse>"] = cb("select_entry"),
+                      ["-"]             = cb("toggle_stage_entry"), -- Stage / unstage the selected entry.
+                      ["S"]             = cb("stage_all"),          -- Stage all entries.
+                      ["U"]             = cb("unstage_all"),        -- Unstage all entries.
+                      ["R"]             = cb("refresh_files"),      -- Update stats and entries in the file list.
+                      ["<tab>"]         = cb("select_next_entry"),
+                      ["<s-tab>"]       = cb("select_prev_entry"),
+                      ["<leader>e"]     = cb("focus_files"),
+                      ["<leader>b"]     = cb("toggle_files"),
+                    }
+                  }
+                }
+            end
+        }
+        use {'junegunn/fzf.vim'}
+        use {
+            'vim-scripts/gtags.vim',
+            lock = true,
+            config = function()
+                vim.api.nvim_set_var('Gtags_Close_When_Single', 1)
+                vim.api.nvim_set_var('Gtags_No_Auto_Jump', 1)
+                vim.api.nvim_set_var('Gtags_Auto_Update', 1)
+            end
+        }
         use {"wbthomason/packer.nvim"}
+        use {
+            'romgrk/nvim-treesitter-context',
+            config = function()
+                require'treesitter-context.config'.setup{
+                    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+                }
+            end
+        }
         use {
           "nvim-treesitter/nvim-treesitter",
           config = function()
@@ -68,6 +132,13 @@ packer.startup(
             end,
             requires = {"nvim-treesitter/nvim-treesitter"}
         }
+        -- use {
+        --     'Shougo/echodoc.vim',
+        --     config = function()
+        --         vim.api.nvim_set_var('echodoc_enable_at_startup', 1)
+        --         -- vim.api.nvim_set_var('echodoc#type', 'virtual')
+        --     end
+        -- }
         use {"nvim-lua/plenary.nvim"}
         use {"nvim-lua/popup.nvim"}
         use {"tweekmonster/startuptime.vim"}
@@ -112,19 +183,19 @@ packer.startup(
         use {
             't9md/vim-choosewin',
             config = function()
-                vim.api.nvim_set_var('choosewin_blink_on_land', 0)
-                vim.api.nvim_set_var('choosewin_color_label', { ['gui'] = { '#98c379', '#282c34' } })
-                vim.api.nvim_set_var('choosewin_color_label_label', { ['gui'] = { '#98c379', '#282c34' } })
-                vim.api.nvim_set_var('choosewin_color_other', { ['gui'] = { '#3e4452', '#abb2bf' } })
+                -- vim.api.nvim_set_var('choosewin_blink_on_land', 0)
+                -- vim.api.nvim_set_var('choosewin_color_label', { ['gui'] = { '#98c379', '#282c34' } })
+                -- vim.api.nvim_set_var('choosewin_color_label_label', { ['gui'] = { '#98c379', '#282c34' } })
+                -- vim.api.nvim_set_var('choosewin_color_other', { ['gui'] = { '#3e4452', '#abb2bf' } })
                 vim.api.nvim_set_keymap('n', '<space>w', ':ChooseWin<CR>', { noremap = true, silent = true })
             end
         }
-        use {
-            'wellle/context.vim',
-            config = function()
-                vim.api.nvim_set_var('context_nvim_no_redraw', 1)
-            end
-        }
+        -- use {
+        --     'wellle/context.vim',
+        --     config = function()
+        --         vim.api.nvim_set_var('context_nvim_no_redraw', 1)
+        --     end
+        -- }
         use {
             'brooth/far.vim',
             config = function()
@@ -165,14 +236,29 @@ packer.startup(
             'Shougo/deoplete.nvim',
             run = ':UpdateRemotePlugins',
             config = function()
-                vim.api.nvim_set_var('deoplete#enable_at_startup', 0)
-                vim.api.nvim_command('autocmd InsertEnter * call deoplete#enable()')
+                vim.api.nvim_set_var('deoplete#enable_at_startup', 1)
+                -- vim.api.nvim_command('autocmd InsertEnter * call deoplete#enable()')
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
             end
         }
         use {'tbodt/deoplete-tabnine', run = './install.sh'}
         use {'tpope/vim-fugitive'}
+        use {
+            'TimUntersberger/neogit',
+            config = function()
+                local neogit = require('neogit')
+                neogit.setup {
+                    integrations = {
+                        -- Neogit only provides inline diffs. If you want a more traditional way to look at diffs you can use `sindrets/diffview.nvim`.
+                        -- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
+                        diffview = true
+                    }
+                }
+                vim.api.nvim_set_keymap('n', '<space>g', ':Neogit<CR>', { noremap = true, silent = true })
+            end,
+            requires = { 'nvim-lua/plenary.nvim', 'sindrets/diffview.nvim' }
+        }
         use {'tpope/vim-unimpaired'}
         use {
             'RRethy/vim-illuminate',
@@ -181,11 +267,27 @@ packer.startup(
                 vim.api.nvim_command('hi illuminatedWord guibg=#3e4556')
             end
         }
-        -- use 'jiangmiao/auto-pairs'
+        -- use {'jiangmiao/auto-pairs'}
+        use {'vim-scripts/DrawIt'}
         use {
-            "windwp/nvim-autopairs",
+            'windwp/nvim-autopairs',
             config = function()
-                require("nvim-autopairs").setup()
+                require('nvim-autopairs').setup()
+
+                local remap = vim.api.nvim_set_keymap
+                local npairs = require('nvim-autopairs')
+
+                -- skip it, if you use another global object
+                _G.MUtils= {}
+
+                MUtils.completion_confirm=function()
+                  if vim.fn.pumvisible() ~= 0  then
+                      return npairs.esc("<cr>")
+                  else
+                    return npairs.autopairs_cr()
+                  end
+                end
+                remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
             end
         }
         use {'wellle/targets.vim'}
@@ -244,8 +346,12 @@ packer.startup(
             end
         }
         use {
+            'morhetz/gruvbox'
+        }
+        use {
             'rbgrouleff/bclose.vim',
             config = function()
+                vim.api.nvim_set_var('bclose_no_plugin_maps', true)
                 vim.api.nvim_set_keymap('n', '<space>x', ':Bclose!<CR>', { noremap = true, silent = true })
             end
         }
@@ -316,10 +422,32 @@ packer.startup(
         use {'easymotion/vim-easymotion'}
         use {
             'kevinhwang91/nvim-bqf',
-            cond = function()
-                return false
+            config = function()
+                require('bqf').setup({
+                    auto_resize_height = false,
+                })
             end
         }
+        -- use {
+        --     'mhinz/vim-grepper',
+        --     config = function()
+        --         vim.api.nvim_exec([[
+        --             aug Grepper
+        --                 au!
+        --                 au User Grepper call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': histget('/')}}}) | botright copen
+        --             aug END
+        --         ]], false)
+        --         vim.api.nvim_set_var('grepper', {
+        --             ['open'] = 0,
+        --             ['quickfix'] = 1,
+        --             ['searchreg'] = 1,
+        --             ['highlight'] = 0,
+        --             ['tools'] = {'rg', 'git', 'grep'},
+        --          })
+        --         vim.api.nvim_set_keymap('n', 'gs', ':set opfunc=GrepperOperator<cr>g@', { noremap = true, silent = true })
+        --         vim.api.nvim_set_keymap('x', 'gs', ':<c-u>call GrepperOperator(visualmode())<cr>', { noremap = true, silent = true })
+        --     end
+        -- }
 
     end,
     {
@@ -337,6 +465,7 @@ end
 
 vim.api.nvim_command('set termguicolors')
 vim.api.nvim_command('syntax on')
+vim.api.nvim_command('set updatetime=100')
 vim.api.nvim_command('set incsearch')
 vim.api.nvim_command('set scrolloff=10')
 vim.api.nvim_command('set noshowmode')
@@ -349,7 +478,6 @@ vim.api.nvim_command('set signcolumn=yes')
 vim.api.nvim_command('set inccommand=nosplit')
 vim.api.nvim_command('set nohlsearch')
 vim.api.nvim_command('set mouse=a')
-vim.api.nvim_command('set linebreak')
 vim.api.nvim_command('set linebreak')
 vim.api.nvim_command('set ignorecase')
 vim.api.nvim_command('set smartcase')
@@ -366,26 +494,27 @@ vim.api.nvim_command('set completeopt=menuone,noinsert,noselect')
 vim.api.nvim_command('set relativenumber')
 vim.api.nvim_command('set number')
 
-vim.api.nvim_set_var('loaded_netrwPlugin', 1)
-vim.api.nvim_set_var('clipboard', {
-    ['name'] = 'ssh-sync',
-    ['copy'] = {
-        ['+'] = { 'ssh', 'macbook', 'pbcopy' },
-        ['*'] = { 'ssh', 'macbook', 'pbcopy' },
-    },
-    ['paste'] = {
-        ['+'] = { 'ssh', 'macbook', 'pbpaste' },
-        ['*'] = { 'ssh', 'macbook', 'pbpaste' },
-    },
-    ['cache_enabled'] = 1,
-})
+-- vim.api.nvim_set_var('loaded_netrwPlugin', 1)
+-- vim.api.nvim_set_var('clipboard', {
+--     ['name'] = 'ssh-sync',
+--     ['copy'] = {
+--         ['+'] = { 'ssh', 'bjhl@host.docker.internal', 'pbcopy' },
+--         ['*'] = { 'ssh', 'bjhl@host.docker.internal', 'pbcopy' },
+--     },
+--     ['paste'] = {
+--         ['+'] = { 'ssh', 'bjhl@host.docker.internal', 'pbpaste' },
+--         ['*'] = { 'ssh', 'bjhl@host.docker.internal', 'pbpaste' },
+--     },
+--     ['cache_enabled'] = 1,
+-- })
 
-vim.api.nvim_set_var('airline_theme', 'ayu')
-vim.api.nvim_command('colorscheme ayu')
-vim.api.nvim_command('cabbrev ls !ls')
-vim.api.nvim_command('cabbrev tree !tree')
+vim.api.nvim_set_var('airline_theme', 'gruvbox')
+vim.api.nvim_command('colorscheme gruvbox')
 vim.api.nvim_command('hi EndOfBuffer guifg=bg')
-vim.api.nvim_command('hi Visual guifg=#F07178')
+vim.api.nvim_command('hi SignColumn guibg=bg')
+-- vim.api.nvim_command('cabbrev ls !ls')
+-- vim.api.nvim_command('cabbrev tree !tree')
+-- vim.api.nvim_command('hi Visual guifg=#F07178')
 
 -- vim.api.nvim_set_keymap('n', '<space>p', '<Plug>MarkdownPreviewToggle', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<space>u', ':UndotreeToggle<CR>', { noremap = true, silent = true })
@@ -400,4 +529,7 @@ vim.api.nvim_exec([[
     autocmd BufEnter term://* setlocal nonumber
     autocmd InsertEnter * set nocursorline
     autocmd InsertLeave * set cursorline
+
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 ]], false)
