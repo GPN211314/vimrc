@@ -5,70 +5,27 @@ vim.api.nvim_command('set rtp+=/usr/local/opt/fzf')
 packer.startup(
     function()
         use { 'godlygeek/tabular' }
-        use { 'kassio/neoterm' }
         use {
             'nanotee/zoxide.vim',
             vim.api.nvim_set_keymap('n', '<space>z', ':Zi<CR>', { noremap = true, silent = true })
         }
-        -- use {
-        --     'sindrets/diffview.nvim',
-        --     config = function()
-        --         local cb = require'diffview.config'.diffview_callback
-
-        --         require'diffview'.setup {
-        --           diff_binaries = false,    -- Show diffs for binaries
-        --           file_panel = {
-        --             width = 35,
-        --             use_icons = true        -- Requires nvim-web-devicons
-        --           },
-        --           key_bindings = {
-        --             disable_defaults = false,                   -- Disable the default key bindings
-        --             -- The `view` bindings are active in the diff buffers, only when the current
-        --             -- tabpage is a Diffview.
-        --             view = {
-        --               ["<tab>"]     = cb("select_next_entry"),  -- Open the diff for the next file 
-        --               ["<s-tab>"]   = cb("select_prev_entry"),  -- Open the diff for the previous file
-        --               ["<leader>e"] = cb("focus_files"),        -- Bring focus to the files panel
-        --               ["<leader>b"] = cb("toggle_files"),       -- Toggle the files panel.
-        --             },
-        --             file_panel = {
-        --               ["j"]             = cb("next_entry"),         -- Bring the cursor to the next file entry
-        --               ["<down>"]        = cb("next_entry"),
-        --               ["k"]             = cb("prev_entry"),         -- Bring the cursor to the previous file entry.
-        --               ["<up>"]          = cb("prev_entry"),
-        --               ["<cr>"]          = cb("select_entry"),       -- Open the diff for the selected entry.
-        --               ["o"]             = cb("select_entry"),
-        --               ["<2-LeftMouse>"] = cb("select_entry"),
-        --               ["-"]             = cb("toggle_stage_entry"), -- Stage / unstage the selected entry.
-        --               ["S"]             = cb("stage_all"),          -- Stage all entries.
-        --               ["U"]             = cb("unstage_all"),        -- Unstage all entries.
-        --               ["R"]             = cb("refresh_files"),      -- Update stats and entries in the file list.
-        --               ["<tab>"]         = cb("select_next_entry"),
-        --               ["<s-tab>"]       = cb("select_prev_entry"),
-        --               ["<leader>e"]     = cb("focus_files"),
-        --               ["<leader>b"]     = cb("toggle_files"),
-        --             }
-        --           }
-        --         }
-        --     end
-        -- }
         use {
             'junegunn/fzf.vim',
             config = function()
                 vim.env.FZF_DEFAULT_OPTS = '--layout=reverse-list'
                 vim.api.nvim_set_var('fzf_preview_window', {'right:40%:hidden', 'ctrl-/'})
                 vim.api.nvim_set_var('fzf_layout', { ['down'] = '25%' })
-                vim.api.nvim_exec([[
-                    nnoremap <silent> <space>f  :FZF<CR>
-                    nnoremap <silent> <space>m  :History<CR>
-                    nnoremap <silent> <space>o  :BTags<CR>
-                    nnoremap <silent> <space>t  :Tags<CR>
-                    nnoremap <silent> <space>l  :BLines<CR>
-                    nnoremap <silent> <space>b  :Buffers<CR>
-                    nnoremap <silent> <leader>q :Quickfix<CR>
-                    nnoremap <silent> <leader>l :Quickfix!<CR>
-                    nnoremap <silent> <space>r  :Rg<CR>
-                ]], false)
+                vim.api.nvim_set_var('fzf_tags_command', 'ctags -R')
+
+                vim.api.nvim_set_keymap('n', '<space>f', ':FZF<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>m', ':History<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>o', ':BTags<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>t', ':Tags<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>l', ':BLines<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>b', ':Buffers<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>r', ':Rg<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<leader>q', ':Quickfix<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<leader>l', ':Quickfix!<CR>', { noremap = true, silent = true })
             end
         }
         use {
@@ -153,13 +110,6 @@ packer.startup(
             end,
             requires = {"nvim-treesitter/nvim-treesitter"}
         }
-        -- use {
-        --     'Shougo/echodoc.vim',
-        --     config = function()
-        --         vim.api.nvim_set_var('echodoc_enable_at_startup', 1)
-        --         -- vim.api.nvim_set_var('echodoc#type', 'virtual')
-        --     end
-        -- }
         use {"nvim-lua/plenary.nvim"}
         use {"nvim-lua/popup.nvim"}
         use {"tweekmonster/startuptime.vim"}
@@ -204,19 +154,9 @@ packer.startup(
         use {
             't9md/vim-choosewin',
             config = function()
-                -- vim.api.nvim_set_var('choosewin_blink_on_land', 0)
-                -- vim.api.nvim_set_var('choosewin_color_label', { ['gui'] = { '#98c379', '#282c34' } })
-                -- vim.api.nvim_set_var('choosewin_color_label_label', { ['gui'] = { '#98c379', '#282c34' } })
-                -- vim.api.nvim_set_var('choosewin_color_other', { ['gui'] = { '#3e4452', '#abb2bf' } })
                 vim.api.nvim_set_keymap('n', '<space>w', ':ChooseWin<CR>', { noremap = true, silent = true })
             end
         }
-        -- use {
-        --     'wellle/context.vim',
-        --     config = function()
-        --         vim.api.nvim_set_var('context_nvim_no_redraw', 1)
-        --     end
-        -- }
         use {
             'brooth/far.vim',
             config = function()
@@ -259,29 +199,14 @@ packer.startup(
             run = ':UpdateRemotePlugins',
             event = 'VimEnter *',
             config = function()
-                vim.api.nvim_set_var('deoplete#enable_at_startup', 1)
-                -- vim.api.nvim_command('autocmd InsertEnter * call deoplete#enable()')
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
+                vim.fn['deoplete#enable']()
+
             end
         }
         use {'tbodt/deoplete-tabnine', run = './install.sh'}
         use {'tpope/vim-fugitive'}
-        -- use {
-        --     'TimUntersberger/neogit',
-        --     config = function()
-        --         local neogit = require('neogit')
-        --         neogit.setup {
-        --             integrations = {
-        --                 -- Neogit only provides inline diffs. If you want a more traditional way to look at diffs you can use `sindrets/diffview.nvim`.
-        --                 -- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
-        --                 diffview = true
-        --             }
-        --         }
-        --         vim.api.nvim_set_keymap('n', '<space>g', ':Neogit<CR>', { noremap = true, silent = true })
-        --     end,
-        --     requires = { 'nvim-lua/plenary.nvim', 'sindrets/diffview.nvim' }
-        -- }
         use {'tpope/vim-unimpaired'}
         use {
             'RRethy/vim-illuminate',
@@ -290,7 +215,6 @@ packer.startup(
                 vim.api.nvim_command('hi illuminatedWord guibg=#3e4556')
             end
         }
-        -- use {'jiangmiao/auto-pairs'}
         use {'vim-scripts/DrawIt'}
         use {
             'windwp/nvim-autopairs',
@@ -329,6 +253,8 @@ packer.startup(
                 vim.api.nvim_set_var('VM_maps', {
                     ["Select All"] = '<leader>a',
                     ["Visual All"] = '<leader>a',
+                    ["Find Under"] = '<BS>',
+                    ["Find Subword Under"] = '<BS>',
                     ["Align"] = '<leader>A',
                     ["Add Cursor Up"] = '<S-Up>',
                     ["Add Cursor Down"] = '<S-Down>'
@@ -342,14 +268,6 @@ packer.startup(
             'airblade/vim-gitgutter',
             config = function()
                 vim.api.nvim_set_var('gitgutter_highlight_linenrs', 0)
-                -- vim.api.nvim_set_var('gitgutter_sign_added', "│")
-                -- vim.api.nvim_set_var('gitgutter_sign_removed', "│")
-                -- vim.api.nvim_set_var('gitgutter_sign_modified', "│")
-                -- vim.api.nvim_set_var('gitgutter_sign_modified_removed', "│")
-                -- vim.api.nvim_command('hi link GitGutterAddLineNr          GitGutterAdd')
-                -- vim.api.nvim_command('hi link GitGutterChangeLineNr       GitGutterChange')
-                -- vim.api.nvim_command('hi link GitGutterDeleteLineNr       GitGutterDelete')
-                -- vim.api.nvim_command('hi link GitGutterChangeDeleteLineNr GitGutterChangeDelete')
             end
         }
         use {
@@ -442,7 +360,23 @@ packer.startup(
                 })
             end
         }
-        use {'easymotion/vim-easymotion'}
+        use {
+            'easymotion/vim-easymotion',
+            config = function()
+                vim.api.nvim_set_var('EasyMotion_move_highlight', 0)
+                vim.api.nvim_set_var('EasyMotion_enter_jump_first', 1)
+                vim.api.nvim_exec([[
+                    nmap <C-n> <Plug>(easymotion-next)
+                    nmap <C-p> <Plug>(easymotion-prev)
+                    nmap <space>e <Plug>(easymotion-repeat)
+                ]], false)
+
+                -- vim.api.nvim_set_keymap('n', '<C-;>', string.format('%c%c%c(easymotion-next)', 0x80, 253, 83), { noremap = true, silent = true })
+                -- vim.api.nvim_set_keymap('n', '<C-,>', string.format('%c%c%c(easymotion-prev)', 0x80, 253, 83), { noremap = true, silent = true })
+                -- vim.api.nvim_set_keymap('n', '<C-.>', string.format('%c%c%c(easymotion-repeat)', 0x80, 253, 83), { noremap = true, silent = true })
+            end
+        }
+        use { 'tpope/vim-repeat' }
         use {
             'kevinhwang91/nvim-bqf',
             config = function()
@@ -451,26 +385,26 @@ packer.startup(
                 })
             end
         }
-        -- use {
-        --     'mhinz/vim-grepper',
-        --     config = function()
-        --         vim.api.nvim_exec([[
-        --             aug Grepper
-        --                 au!
-        --                 au User Grepper call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': histget('/')}}}) | botright copen
-        --             aug END
-        --         ]], false)
-        --         vim.api.nvim_set_var('grepper', {
-        --             ['open'] = 0,
-        --             ['quickfix'] = 1,
-        --             ['searchreg'] = 1,
-        --             ['highlight'] = 0,
-        --             ['tools'] = {'rg', 'git', 'grep'},
-        --          })
-        --         vim.api.nvim_set_keymap('n', 'gs', ':set opfunc=GrepperOperator<cr>g@', { noremap = true, silent = true })
-        --         vim.api.nvim_set_keymap('x', 'gs', ':<c-u>call GrepperOperator(visualmode())<cr>', { noremap = true, silent = true })
-        --     end
-        -- }
+        use {
+            'mhinz/vim-grepper',
+            config = function()
+                vim.api.nvim_exec([[
+                    aug Grepper
+                        au!
+                        au User Grepper call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': histget('/')}}}) | botright copen
+                    aug END
+                ]], false)
+                vim.api.nvim_set_var('grepper', {
+                    ['open'] = 0,
+                    ['quickfix'] = 1,
+                    ['searchreg'] = 1,
+                    ['highlight'] = 0,
+                    ['tools'] = {'rg', 'git', 'grep'},
+                 })
+                vim.api.nvim_set_keymap('n', 'gs', ':set opfunc=GrepperOperator<cr>g@', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('x', 'gs', ':<c-u>call GrepperOperator(visualmode())<cr>', { noremap = true, silent = true })
+            end
+        }
 
     end,
     {
@@ -540,7 +474,7 @@ vim.api.nvim_command('colorscheme gruvbox')
 -- vim.api.nvim_command('cabbrev tree !tree')
 -- vim.api.nvim_command('hi Visual guifg=#F07178')
 
--- vim.api.nvim_set_keymap('n', '<space>p', '<Plug>MarkdownPreviewToggle', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<space>p', '<Plug>MarkdownPreviewToggle', { noremap = true, silent = true }) -- escape <Plug>
 -- vim.api.nvim_set_keymap('n', '<space>u', ':UndotreeToggle<CR>', { noremap = true, silent = true })
 
 -- vim.api.nvim_set_keymap('n', '<leader>r', ':AsyncTask file-run<CR>', { noremap = true, silent = true })
