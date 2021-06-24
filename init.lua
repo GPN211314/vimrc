@@ -129,6 +129,12 @@ packer.startup(
             end
         }
         use {
+            'skywind3000/asynctasks.vim',
+            config = function()
+                vim.api.nvim_set_keymap('n', '<leader>b', ':AsyncTask file-build<CR>', { noremap = true, silent = true })
+            end
+        }
+        use {
             'skywind3000/asyncrun.vim',
             config = function()
                 vim.api.nvim_set_var('asyncrun_open', 10)
@@ -253,8 +259,8 @@ packer.startup(
                 vim.api.nvim_set_var('VM_maps', {
                     ["Select All"] = '<leader>a',
                     ["Visual All"] = '<leader>a',
-                    ["Find Under"] = '<BS>',
-                    ["Find Subword Under"] = '<BS>',
+                    ["Find Under"] = '<C-_>',
+                    ["Find Subword Under"] = '<C-_>',
                     ["Align"] = '<leader>A',
                     ["Add Cursor Up"] = '<S-Up>',
                     ["Add Cursor Down"] = '<S-Down>'
@@ -478,10 +484,10 @@ vim.api.nvim_command('colorscheme gruvbox')
 -- vim.api.nvim_set_keymap('n', '<space>u', ':UndotreeToggle<CR>', { noremap = true, silent = true })
 
 -- vim.api.nvim_set_keymap('n', '<leader>r', ':AsyncTask file-run<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>b', ':AsyncTask file-build<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<space>d', ':!sdcv <cword><CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'k'<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'j', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'j'<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_option('makeprg', [[docker exec -t $(docker ps|tail -n 1|awk '{print $1}') zsh -c "cd ~/shared/source/build_system && source env.linux.sh && cd $(print -P \%~) && eval ${1:-b} |sed 's|/home/carl|~|g'"]])
 
 vim.api.nvim_exec([[
     " autocmd InsertEnter * set nocursorline
