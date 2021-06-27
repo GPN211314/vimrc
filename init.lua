@@ -4,6 +4,12 @@ vim.api.nvim_command('set rtp+=/usr/local/opt/fzf')
 
 packer.startup(
     function()
+        use {
+            'kassio/neoterm',
+            config = function()
+                vim.api.nvim_set_var('g:neoterm_auto_repl_cmd', 0)
+            end
+        }
         use { 'godlygeek/tabular' }
         use {
             'nanotee/zoxide.vim',
@@ -47,62 +53,62 @@ packer.startup(
             end
         }
         use {
-          "nvim-treesitter/nvim-treesitter",
-          config = function()
-            require("nvim-treesitter.configs").setup {
-                ensure_installed = {
-                  "bash",
-                  "lua",
-                  "json",
-                  "cpp",
-                  "python"
-                },
-                highlight = {
-                    enable = true,
-                    use_languagetree = true
-                },
-                textobjects = {
-                    select = {
+            "nvim-treesitter/nvim-treesitter",
+            config = function()
+                require("nvim-treesitter.configs").setup {
+                    ensure_installed = {
+                      "bash",
+                      "lua",
+                      "json",
+                      "cpp",
+                      "python"
+                    },
+                    highlight = {
                         enable = true,
-                        move = {
+                        use_languagetree = true
+                    },
+                    textobjects = {
+                        select = {
                             enable = true,
-                            set_jumps = true, -- whether to set jumps in the jumplist
-                            goto_next_start = {
-                                ["]m"] = "@function.outer",
-                                ["]]"] = "@class.outer",
+                            move = {
+                                enable = true,
+                                set_jumps = true, -- whether to set jumps in the jumplist
+                                goto_next_start = {
+                                    ["]m"] = "@function.outer",
+                                    ["]]"] = "@class.outer",
+                                },
+                                goto_next_end = {
+                                    ["]M"] = "@function.outer",
+                                    ["]["] = "@class.outer",
+                                },
+                                goto_previous_start = {
+                                    ["[m"] = "@function.outer",
+                                    ["[["] = "@class.outer",
+                                },
+                                goto_previous_end = {
+                                    ["[M"] = "@function.outer",
+                                    ["[]"] = "@class.outer",
+                                },
                             },
-                            goto_next_end = {
-                                ["]M"] = "@function.outer",
-                                ["]["] = "@class.outer",
-                            },
-                            goto_previous_start = {
-                                ["[m"] = "@function.outer",
-                                ["[["] = "@class.outer",
-                            },
-                            goto_previous_end = {
-                                ["[M"] = "@function.outer",
-                                ["[]"] = "@class.outer",
-                            },
-                        },
-                        keymaps = {
-                            -- You can use the capture groups defined in textobjects.scm
-                            ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
-                            ["ic"] = "@class.inner",
+                            keymaps = {
+                                -- You can use the capture groups defined in textobjects.scm
+                                ["af"] = "@function.outer",
+                                ["if"] = "@function.inner",
+                                ["ac"] = "@class.outer",
+                                ["ic"] = "@class.inner",
 
-                            -- Or you can define your own textobjects like this
-                            ["iF"] = {
-                              python = "(function_definition) @function",
-                              cpp = "(function_definition) @function",
-                              c = "(function_definition) @function",
-                              java = "(method_declaration) @function",
+                                -- Or you can define your own textobjects like this
+                                ["iF"] = {
+                                  python = "(function_definition) @function",
+                                  cpp = "(function_definition) @function",
+                                  c = "(function_definition) @function",
+                                  java = "(method_declaration) @function",
+                                },
                             },
                         },
                     },
-                },
-            }
-          end
+                }
+            end
         }
         use {
             "nvim-treesitter/nvim-treesitter-textobjects",
@@ -201,17 +207,72 @@ packer.startup(
             end
         }
         use {
-            'Shougo/deoplete.nvim',
-            run = ':UpdateRemotePlugins',
-            event = 'VimEnter *',
+            "hrsh7th/nvim-compe",
             config = function()
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-                vim.fn['deoplete#enable']()
+                require'compe'.setup {
+                    enabled = true;
+                    autocomplete = true;
+                    debug = false;
+                    min_length = 1;
+                    preselect = 'enable';
+                    throttle_time = 80;
+                    source_timeout = 200;
+                    resolve_timeout = 800;
+                    incomplete_delay = 400;
+                    max_abbr_width = 100;
+                    max_kind_width = 100;
+                    max_menu_width = 100;
+                    documentation = true;
 
-            end
+                    source = {
+                        tabnine = {
+                            enabled = true;
+                            priority = 5000;
+                            max_line = 1000;
+                            max_num_results = 6;
+                            ignore_pattern = '[(]';
+                        };
+                        calc = true;
+                        spell = false;
+                        path = false;
+                        buffer = false;
+                        tags = false;
+                        omini = false;
+                        emoji = false;
+                        nvim_lsp = false;
+                        nvim_lua = false;
+                        nvim_treesitter = false;
+                    };
+                }
+            end,
         }
-        use {'tbodt/deoplete-tabnine', run = './install.sh'}
+        use {
+            'tzachar/compe-tabnine',
+            run='./install.sh',
+            requires = {'hrsh7th/nvim-compe'}
+        }
+        -- use {
+        --     'Shougo/deoplete.nvim',
+        --     cond = function()
+        --         return false
+        --     end,
+        --     run = ':UpdateRemotePlugins',
+        --     event = 'VimEnter *',
+        --     config = function()
+        --         vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
+        --         vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
+        --         vim.fn['deoplete#enable']()
+        --     end
+        -- }
+        -- use {
+        --     'tbodt/deoplete-tabnine',
+        --     cond = function()
+        --         return false
+        --     end,
+        --     run = './install.sh'
+        -- }
         use {'tpope/vim-fugitive'}
         use {'tpope/vim-unimpaired'}
         use {
@@ -226,21 +287,25 @@ packer.startup(
             'windwp/nvim-autopairs',
             config = function()
                 require('nvim-autopairs').setup()
+                require("nvim-autopairs.completion.compe").setup({
+                    map_cr = true, --  map <CR> on insert mode
+                    map_complete = true -- it will auto insert `(` after select function or method item
+                })
 
-                local remap = vim.api.nvim_set_keymap
-                local npairs = require('nvim-autopairs')
+                -- local remap = vim.api.nvim_set_keymap
+                -- local npairs = require('nvim-autopairs')
 
-                -- skip it, if you use another global object
-                _G.MUtils= {}
+                -- -- skip it, if you use another global object
+                -- _G.MUtils= {}
 
-                MUtils.completion_confirm=function()
-                  if vim.fn.pumvisible() ~= 0  then
-                      return npairs.esc("<cr>")
-                  else
-                    return npairs.autopairs_cr()
-                  end
-                end
-                remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+                -- MUtils.completion_confirm=function()
+                --   if vim.fn.pumvisible() ~= 0  then
+                --       return npairs.esc("<cr>")
+                --   else
+                --     return npairs.autopairs_cr()
+                --   end
+                -- end
+                -- remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
             end
         }
         use {'wellle/targets.vim'}
@@ -427,7 +492,7 @@ end
 
 
 vim.api.nvim_command('set termguicolors')
-vim.api.nvim_command('syntax on')
+-- vim.api.nvim_command('syntax on')
 vim.api.nvim_command('set updatetime=100')
 vim.api.nvim_command('set incsearch')
 vim.api.nvim_command('set scrolloff=10')
@@ -487,7 +552,7 @@ vim.api.nvim_command('colorscheme gruvbox')
 vim.api.nvim_set_keymap('n', '<space>d', ':!sdcv <cword><CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'k'<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'j', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'j'<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_option('makeprg', [[docker exec -t $(docker ps|tail -n 1|awk '{print $1}') zsh -c "cd ~/shared/source/build_system && source env.linux.sh && cd $(print -P \%~) && eval ${1:-b} |sed 's|/home/carl|~|g'"]])
+vim.api.nvim_set_option('makeprg', [[docker run --rm -t -v /Users/bjhl/shared:/home/carl/shared ubuntu zsh -c "cd ~/shared/source/build_system && source env.linux.sh && cd $(print -P \%~) && eval ${1:-b} |sed 's|/home/carl|~|g'"]])
 
 vim.api.nvim_exec([[
     " autocmd InsertEnter * set nocursorline
