@@ -201,55 +201,46 @@ packer.startup(
             'ayu-theme/ayu-vim'
         }
         use {
-            'sheerun/vim-polyglot',
-            cond = function()
-                return false
-            end
-        }
-        use {
             "hrsh7th/nvim-compe",
             config = function()
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-                require'compe'.setup {
-                    enabled = true;
-                    autocomplete = true;
-                    debug = false;
-                    min_length = 1;
-                    preselect = 'enable';
-                    throttle_time = 80;
-                    source_timeout = 200;
-                    resolve_timeout = 800;
-                    incomplete_delay = 400;
-                    max_abbr_width = 100;
-                    max_kind_width = 100;
-                    max_menu_width = 100;
-                    documentation = true;
+                require'compe'.setup({
+                    enabled = true,
+                    autocomplete = true,
+                    debug = false,
+                    min_length = 3,
+                    preselect = 'enable',
+                    throttle_time = 80,
+                    source_timeout = 200,
+                    resolve_timeout = 800,
+                    incomplete_delay = 400,
+                    max_abbr_width = 100,
+                    max_kind_width = 100,
+                    max_menu_width = 100,
+                    documentation = true,
 
                     source = {
                         tabnine = {
-                            enabled = true;
-                            priority = 5000;
-                            max_line = 1000;
-                            max_num_results = 6;
-                            ignore_pattern = '[(]';
-                        };
-                        calc = true;
-                        spell = false;
-                        path = false;
-                        buffer = false;
-                        tags = false;
-                        omini = false;
-                        emoji = false;
-                        nvim_lsp = false;
-                        nvim_lua = false;
-                        nvim_treesitter = false;
-                    };
-                }
+                            ignore_pattern = '[(;]'
+                        },
+                        calc = true,
+                        spell = false,
+                        path = false,
+                        buffer = false,
+                        tags = false,
+                        omini = false,
+                        emoji = false,
+                        nvim_lsp = false,
+                        nvim_lua = false,
+                        nvim_treesitter = false,
+                    }
+                })
             end,
         }
         use {
             'tzachar/compe-tabnine',
+            lock = true,
             run='./install.sh',
             requires = {'hrsh7th/nvim-compe'}
         }
