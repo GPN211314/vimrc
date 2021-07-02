@@ -7,9 +7,8 @@ packer.startup(
         use {
             'ludovicchabant/vim-gutentags',
             config = function()
+                vim.api.nvim_set_var('gutentags_auto_add_gtags_cscope', 0)
                 vim.api.nvim_set_var('gutentags_modules', {'gtags_cscope'})
-                vim.api.nvim_set_keymap('n', 'gd', ':cs find g <cword><CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', 'gr', ':cs find c <cword><CR>', { noremap = true, silent = true })
             end
         }
         use {
@@ -45,15 +44,16 @@ packer.startup(
                 vim.api.nvim_set_keymap('n', '<leader>l', ':Quickfix!<CR>', { noremap = true, silent = true })
             end
         }
-        -- use {
-        --     'vim-scripts/gtags.vim',
-        --     lock = true,
-        --     config = function()
-        --         vim.api.nvim_set_var('Gtags_Close_When_Single', 1)
-        --         vim.api.nvim_set_var('Gtags_No_Auto_Jump', 1)
-        --         vim.api.nvim_set_var('Gtags_Auto_Update', 1)
-        --     end
-        -- }
+        use {
+            'vim-scripts/gtags.vim',
+            lock = true,
+            config = function()
+                vim.api.nvim_set_keymap('n', '<C-]>', ':GtagsCursor<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_var('Gtags_Close_When_Single', 1)
+                vim.api.nvim_set_var('Gtags_No_Auto_Jump', 1)
+                vim.api.nvim_set_var('Gtags_Auto_Update', 0)
+            end
+        }
         use {"wbthomason/packer.nvim"}
         use {
             'romgrk/nvim-treesitter-context',
@@ -237,7 +237,7 @@ packer.startup(
                         spell = false,
                         path = true,
                         buffer = true,
-                        tags = true,
+                        tags = false,
                         omini = true,
                         emoji = false,
                         nvim_lsp = false,
