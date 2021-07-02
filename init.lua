@@ -5,9 +5,20 @@ vim.api.nvim_command('set rtp+=/usr/local/opt/fzf')
 packer.startup(
     function()
         use {
+            'ludovicchabant/vim-gutentags',
+            config = function()
+                vim.api.nvim_set_var('gutentags_modules', {'gtags_cscope'})
+                vim.api.nvim_set_keymap('n', 'gd', ':cs find g <cword><CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', 'gr', ':cs find c <cword><CR>', { noremap = true, silent = true })
+            end
+        }
+        use {
+            'antoinemadec/FixCursorHold.nvim'
+        }
+        use {
             'kassio/neoterm',
             config = function()
-                vim.api.nvim_set_var('g:neoterm_auto_repl_cmd', 0)
+                vim.api.nvim_set_var('neoterm_auto_repl_cmd', 0)
             end
         }
         use { 'godlygeek/tabular' }
@@ -21,7 +32,7 @@ packer.startup(
                 vim.env.FZF_DEFAULT_OPTS = '--layout=reverse-list'
                 vim.api.nvim_set_var('fzf_preview_window', {'right:40%:hidden', 'ctrl-/'})
                 vim.api.nvim_set_var('fzf_layout', { ['down'] = '25%' })
-                vim.api.nvim_set_var('fzf_tags_command', 'ctags -R')
+                vim.api.nvim_set_var('fzf_tags_command', 'gtags')
 
                 vim.api.nvim_set_keymap('n', '<space>f', ':FZF<CR>', { noremap = true, silent = true })
                 vim.api.nvim_set_keymap('n', '<space>m', ':History<CR>', { noremap = true, silent = true })
@@ -34,15 +45,15 @@ packer.startup(
                 vim.api.nvim_set_keymap('n', '<leader>l', ':Quickfix!<CR>', { noremap = true, silent = true })
             end
         }
-        use {
-            'vim-scripts/gtags.vim',
-            lock = true,
-            config = function()
-                vim.api.nvim_set_var('Gtags_Close_When_Single', 1)
-                vim.api.nvim_set_var('Gtags_No_Auto_Jump', 1)
-                vim.api.nvim_set_var('Gtags_Auto_Update', 1)
-            end
-        }
+        -- use {
+        --     'vim-scripts/gtags.vim',
+        --     lock = true,
+        --     config = function()
+        --         vim.api.nvim_set_var('Gtags_Close_When_Single', 1)
+        --         vim.api.nvim_set_var('Gtags_No_Auto_Jump', 1)
+        --         vim.api.nvim_set_var('Gtags_Auto_Update', 1)
+        --     end
+        -- }
         use {"wbthomason/packer.nvim"}
         use {
             'romgrk/nvim-treesitter-context',
@@ -209,7 +220,7 @@ packer.startup(
                     enabled = true,
                     autocomplete = true,
                     debug = false,
-                    min_length = 3,
+                    min_length = 1,
                     preselect = 'enable',
                     throttle_time = 80,
                     source_timeout = 200,
@@ -221,15 +232,13 @@ packer.startup(
                     documentation = true,
 
                     source = {
-                        tabnine = {
-                            ignore_pattern = '[(;]'
-                        },
+                        tabnine = false,
                         calc = true,
                         spell = false,
-                        path = false,
-                        buffer = false,
-                        tags = false,
-                        omini = false,
+                        path = true,
+                        buffer = true,
+                        tags = true,
+                        omini = true,
                         emoji = false,
                         nvim_lsp = false,
                         nvim_lua = false,
@@ -340,12 +349,9 @@ packer.startup(
         }
         use {
             'joshdick/onedark.vim',
-            cond = function()
-                return false
-            end,
             config = function()
-                vim.api.nvim_set_var('onedark_hide_endofbuffer', 1)
-                vim.api.nvim_set_var('onedark_terminal_italics', 1)
+                -- vim.api.nvim_set_var('onedark_hide_endofbuffer', 1)
+                -- vim.api.nvim_set_var('onedark_terminal_italics', 1)
             end
         }
         use {
