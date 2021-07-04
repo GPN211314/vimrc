@@ -10,7 +10,7 @@ local lspconfig = require('lspconfig')
 --    /path/to/my/project
 -- would look for a container named `project`, and `docker exec` a `clangd` instance there, etc.
 lspconfig.clangd.setup{
-    cmd = { 'cclangd', 'builder' },
+    -- cmd = { 'cclangd', 'builder' },
     init_options = {
         clangdFileStatus = true
     },
