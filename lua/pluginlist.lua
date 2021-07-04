@@ -16,13 +16,11 @@ packer.startup(
         use { 'tpope/vim-surround' }
         use { 'wellle/targets.vim' }
         use { 'vim-scripts/DrawIt' }
-        use { 'ludovicchabant/vim-gutentags' }
+        -- use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
         use {
             'neovim/nvim-lspconfig',
-            config = function()
-                require('lsp')
-            end,
+            config = function() require('lsp') end,
             requires = { 'simrat39/symbols-outline.nvim' }
         }
         use {
@@ -48,15 +46,15 @@ packer.startup(
                 vim.cmd [[au Filetype neoterm setlocal nobuflisted]]
             end
         }
-        use {
-            'vim-scripts/gtags.vim',
-            lock = true,
-            config = function()
-                vim.g.Gtags_Close_When_Single = 1
-                vim.g.Gtags_No_Auto_Jump = 1
-                vim.g.Gtags_Auto_Update = 0
-            end
-        }
+        -- use {
+        --     'vim-scripts/gtags.vim',
+        --     lock = true,
+        --     config = function()
+        --         vim.g.Gtags_Close_When_Single = 1
+        --         vim.g.Gtags_No_Auto_Jump = 1
+        --         vim.g.Gtags_Auto_Update = 0
+        --     end
+        -- }
         use {
             "nvim-treesitter/nvim-treesitter",
             config = function() require('treesitter') end,
