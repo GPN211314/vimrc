@@ -37,12 +37,12 @@ vim.opt.makeprg = [[docker run --rm -t -v /Users/bjhl/shared:/home/carl/shared u
 vim.g.clipboard = {
     ['name'] = 'ssh-sync',
     ['copy'] = {
-        ['+'] = { 'ssh', 'bjhl@host.docker.internal', 'pbcopy' },
-        ['*'] = { 'ssh', 'bjhl@host.docker.internal', 'pbcopy' },
+        ['+'] = { 'ssh', 'host.docker.internal', 'pbcopy' },
+        ['*'] = { 'ssh', 'host.docker.internal', 'pbcopy' },
     },
     ['paste'] = {
-        ['+'] = { 'ssh', 'bjhl@host.docker.internal', 'pbpaste' },
-        ['*'] = { 'ssh', 'bjhl@host.docker.internal', 'pbpaste' },
+        ['+'] = { 'ssh', 'host.docker.internal', 'pbpaste' },
+        ['*'] = { 'ssh', 'host.docker.internal', 'pbpaste' },
     },
     ['cache_enabled'] = 1,
 }
