@@ -1,3 +1,5 @@
+vim.g.loaded_matchit = 1
+require'treesitter-context.config'.setup{ enable = true }
 require("nvim-treesitter.configs").setup {
     ensure_installed = {
       "bash",
@@ -6,9 +8,24 @@ require("nvim-treesitter.configs").setup {
       "cpp",
       "python"
     },
+    matchup = {
+        enable = true,              -- mandatory, false will disable the whole extension
+        disable = {},               -- optional, list of language that will be disabled
+    },
     highlight = {
         enable = true,
         use_languagetree = true
+    },
+    refactor = {
+        highlight_definitions = { enable = true },
+        highlight_current_scope = { enable = false },
+        smart_rename = {
+            enable = true,
+            keymaps = {
+                smart_rename = "<leader>r",
+            },
+        },
+        navigation = { enable = false, },
     },
     textobjects = {
         select = {

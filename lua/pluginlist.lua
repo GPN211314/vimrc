@@ -2,16 +2,13 @@ local packer = require("packer")
 local use = packer.use
 packer.startup(
     function()
-        use { 'Shougo/vinarise.vim' }
         use { 'wbthomason/packer.nvim' }
+        use { 'Shougo/vinarise.vim' }
         use { 'jceb/vim-orgmode' }
-        use { 'preservim/nerdtree' }
-        use { 'majutsushi/tagbar' }
         use { 'godlygeek/tabular' }
-        use { 'nvim-lua/plenary.nvim' }
-        use { 'nvim-lua/popup.nvim' }
         use { 'tweekmonster/startuptime.vim' }
         use { 'ayu-theme/ayu-vim' }
+        use { 'morhetz/gruvbox' }
         use { 'tpope/vim-fugitive'}
         use { 'tpope/vim-unimpaired'}
         use { 'tpope/vim-repeat' }
@@ -19,35 +16,36 @@ packer.startup(
         use { 'tpope/vim-surround' }
         use { 'wellle/targets.vim' }
         use { 'vim-scripts/DrawIt' }
-        use { 'morhetz/gruvbox' }
         use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
+        use {
+            'neovim/nvim-lspconfig',
+            config = function()
+                require('lsp')
+            end,
+            requires = { 'simrat39/symbols-outline.nvim' }
+        }
+        use {
+            'nvim-telescope/telescope.nvim',
+            config = function() require('telescope-config') end,
+            requires = {
+                { 'tami5/sql.nvim' },
+                { 'nvim-lua/popup.nvim' },
+                { 'nvim-lua/plenary.nvim' },
+                { 'jvgrootveld/telescope-zoxide' },
+                { 'nvim-telescope/telescope-project.nvim' },
+                { 'nvim-telescope/telescope-frecency.nvim' }
+            }
+        }
         use {
             'kassio/neoterm',
             config = function()
                 vim.g.neoterm_auto_repl_cmd = 0
-            end
-        }
-        use {
-            'nanotee/zoxide.vim',
-            vim.api.nvim_set_keymap('n', '<space>z', ':Zi<CR>', { noremap = true, silent = true })
-        }
-        use {
-            'junegunn/fzf.vim',
-            config = function()
-                vim.env.FZF_DEFAULT_OPTS = '--layout=reverse-list'
-                vim.g.fzf_preview_window = {'right:40%:hidden', 'ctrl-/'}
-                vim.g.fzf_layout = { ['down'] = '25%' }
-
-                vim.api.nvim_set_keymap('n', '<space>f', ':FZF<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>m', ':History<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>t', ':Tags<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>o', ':BTags<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>l', ':BLines<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>b', ':Buffers<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<space>r', ':Rg<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<leader>q', ':Quickfix<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '<leader>l', ':Quickfix!<CR>', { noremap = true, silent = true })
+                vim.g.neoterm_default_mod = 'botright'
+                vim.g.neoterm_autojump = 1
+                vim.g.neoterm_size = '15'
+                vim.api.nvim_set_keymap('n', '<space>t', ':Ttoggle<CR>', { noremap = true, silent = true })
+                vim.cmd [[au Filetype neoterm setlocal nobuflisted]]
             end
         }
         use {
@@ -60,30 +58,23 @@ packer.startup(
             end
         }
         use {
-            'romgrk/nvim-treesitter-context',
-            config = function()
-                require'treesitter-context.config'.setup{
-                    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-                }
-            end
-        }
-        use {
             "nvim-treesitter/nvim-treesitter",
-            config = function()
-                require('treesitter')
-            end
+            config = function() require('treesitter') end,
+            requires = {
+                { 'nvim-treesitter/nvim-treesitter-refactor' },
+                { 'nvim-treesitter/nvim-treesitter-textobjects' },
+                { 'romgrk/nvim-treesitter-context' },
+                { 'andymass/vim-matchup' },
+            }
         }
-        use { "nvim-treesitter/nvim-treesitter-textobjects" }
         use {
             "lukas-reineke/indent-blankline.nvim",
-            branch = 'lua',
             config = function()
                 vim.g.indent_blankline_filetype_exclude               = {"help"       , "terminal"}
                 vim.g.indent_blankline_buftype_exclude                = {"terminal"}
                 vim.g.indent_blankline_show_trailing_blankline_indent = false
                 vim.g.indent_blankline_show_first_indent_level        = false
                 vim.g.indent_blankline_strict_tabs                    = true
-                vim.g.indent_blankline_enabled                        = true
                 vim.g.indent_blankline_enabled                        = true
                 vim.opt.colorcolumn = '99999'
             end
@@ -97,7 +88,7 @@ packer.startup(
         use {
             'skywind3000/asyncrun.vim',
             config = function()
-                vim.g.asyncrun_open = 10
+                vim.g.asyncrun_open = 15
                 vim.g.asyncrun_auto = "make"
                 vim.cmd 'command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>'
             end
@@ -129,31 +120,20 @@ packer.startup(
         }
         use {
             'vim-airline/vim-airline',
-            config = function()
-                require('airline')
-            end,
+            config = function() require('airline') end,
             requires = {'vim-airline/vim-airline-themes'}
         }
         use {
             'Shougo/deoplete.nvim',
             run = ':UpdateRemotePlugins',
-            event = 'InsertEnter *',
+            event = 'VimEnter *',
             config = function()
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
+                vim.cmd [[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]]
                 vim.fn['deoplete#enable']()
-            end
-        }
-        use {
-            'tbodt/deoplete-tabnine',
-            run = './install.sh'
-        }
-        use {
-            'RRethy/vim-illuminate',
-            config = function()
-                vim.g.Illuminate_ftwhitelist = { 'python', 'sh', 'cpp', 'c', 'bash', 'zsh', 'vim' }
-                vim.cmd 'hi illuminatedWord guibg=#3e4556'
-            end
+            end,
+            requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
         }
         use {
             'windwp/nvim-autopairs',
@@ -256,27 +236,6 @@ packer.startup(
                 })
             end
         }
-        use {
-            'mhinz/vim-grepper',
-            config = function()
-                vim.cmd([[
-                    aug Grepper
-                        au!
-                        au User Grepper call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': histget('/')}}}) | botright copen
-                    aug END
-                ]])
-                vim.g.grepper = {
-                    ['open'] = 0,
-                    ['quickfix'] = 1,
-                    ['searchreg'] = 1,
-                    ['highlight'] = 0,
-                    ['tools'] = {'rg', 'git', 'grep'},
-                 }
-                vim.api.nvim_set_keymap('n', 'gs', ':set opfunc=GrepperOperator<cr>g@', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('x', 'gs', ':<c-u>call GrepperOperator(visualmode())<cr>', { noremap = true, silent = true })
-            end
-        }
-
     end,
     {
         display = {

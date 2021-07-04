@@ -3,7 +3,6 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
-vim.opt.runtimepath:append '/usr/local/opt/fzf'
 vim.opt.updatetime = 100
 vim.opt.scrolloff = 10
 vim.opt.tabstop = 4
@@ -35,11 +34,10 @@ vim.opt.grepprg = 'rg --vimgrep --no-heading'
 vim.opt.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 vim.opt.makeprg = [[docker run --rm -t -v /Users/bjhl/shared:/home/carl/shared ubuntu zsh -c "cd ~/shared/source/build_system && source env.linux.sh && cd $(print -P \%~) && eval ${1:-b} |sed 's|/home/carl|~|g'"]]
 
-require('plugin_config')
-vim.g.airline_theme = 'gruvbox'
+require('pluginlist')
+
 vim.cmd 'colorscheme gruvbox'
 vim.cmd 'autocmd TermOpen * setlocal nornu nonu signcolumn=no noruler'
-
 vim.api.nvim_set_keymap('n', '<space>d', ':!sdcv <cword><CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'k'<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'j', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'j'<CR>]], { noremap = true, silent = true })
