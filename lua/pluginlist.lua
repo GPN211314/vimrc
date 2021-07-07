@@ -10,7 +10,7 @@ packer.startup(
         -- use { 'ayu-theme/ayu-vim' }
         use { 'morhetz/gruvbox' }
         use { 'tpope/vim-fugitive'}
-        use { 'tpope/vim-unimpaired'}
+        -- use { 'tpope/vim-unimpaired'}
         -- use { 'tpope/vim-repeat' }
         use { 'tpope/vim-commentary' }
         use { 'tpope/vim-surround' }
