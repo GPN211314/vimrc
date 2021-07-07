@@ -7,48 +7,86 @@ local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local utils = require('telescope.utils')
 local conf = require('telescope.config').values
+local entry_display = require('telescope.pickers.entry_display')
 
-_G.my_lsp_document_symbols = function(opts)
-  local params = vim.lsp.util.make_position_params()
-  local results_lsp, err = vim.lsp.buf_request_sync(0, "textDocument/documentSymbol", params, opts.timeout or 10000)
-  if err then
-    vim.api.nvim_err_writeln("Error when finding document symbols: " .. err)
-    return
+local treesitter_type_highlight = {
+  ["associated"] = "TSConstant",
+  ["constant"]   = "TSConstant",
+  ["field"]      = "TSField",
+  ["function"]   = "TSFunction",
+  ["method"]     = "TSMethod",
+  ["parameter"]  = "TSParameter",
+  ["property"]   = "TSProperty",
+  ["struct"]     = "Struct",
+  ["var"]        = "TSVariableBuiltin",
+}
+
+_G.gen_from_treesitter = function(opts)
+  opts = opts or {}
+
+  local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+
+  local display_items = {
+    { width = 70 },
+    { width = 12 },
+    { remaining = true },
+  }
+
+  if opts.show_line then
+    table.insert(display_items, 2, { width = 6 })
   end
 
-  if not results_lsp or vim.tbl_isempty(results_lsp) then
-    print("No results from textDocument/documentSymbol")
-    return
-  end
+  local displayer = entry_display.create {
+    separator = " ",
+    items = display_items,
+  }
 
-  local locations = {}
-  for _, server_results in pairs(results_lsp) do
-    vim.list_extend(locations, vim.lsp.util.symbols_to_items(server_results.result, 0) or {})
-  end
+  local type_highlight = opts.symbol_highlights or treesitter_type_highlight
 
-  locations = utils.filter_symbols(locations, opts)
-  if locations == nil then
-    -- error message already printed in `utils.filter_symbols`
-    return
-  end
+  local make_display = function(entry)
+    local msg = vim.api.nvim_buf_get_lines(
+      bufnr,
+      entry.lnum,
+      entry.lnum,
+      false
+      )[1] or ''
+    msg = vim.trim(msg)
 
-  if vim.tbl_isempty(locations) then
-    return
-  end
-
-  opts.ignore_filename = opts.ignore_filename or true
-  pickers.new(opts, {
-    prompt_title = 'LSP Document Symbols',
-    finder    = finders.new_table {
-      results = locations,
-      entry_maker = opts.entry_maker or make_entry.gen_from_lsp_symbols(opts)
-    },
-    previewer = conf.qflist_previewer(opts),
-    sorter = conf.prefilter_sorter{
-      tag = "symbol_type",
-      sorter = conf.generic_sorter(opts)
+    local display_columns = {
+      entry.text,
+      {entry.kind, type_highlight[entry.kind], type_highlight[entry.kind]},
+      msg
     }
-  }):find()
+    if opts.show_line then
+      table.insert(display_columns, 2, {entry.lnum .. ":" .. entry.col, "TelescopeResultsLineNr"})
+    end
+
+    return displayer(display_columns)
+  end
+
+  return function(entry)
+    local ts_utils = require('nvim-treesitter.ts_utils')
+    local start_row, start_col, end_row, _ = ts_utils.get_node_range(entry.node)
+    local node_text = ts_utils.get_node_text(entry.node)[1]
+    return {
+      valid = true,
+
+      value = entry.node,
+      kind = entry.kind,
+      ordinal = node_text .. " " .. (entry.kind or "unknown"),
+      display = make_display,
+
+      node_text = node_text,
+
+      filename = vim.api.nvim_buf_get_name(bufnr),
+      -- need to add one since the previewer substacts one
+      lnum = start_row + 1,
+      col = start_col,
+      text = node_text,
+      start = start_row,
+      finish = end_row
+    }
+  end
 end
 
 require('telescope').setup({
@@ -80,7 +118,7 @@ vim.api.nvim_set_keymap("n", "<space>r", ":Telescope live_grep<CR>", {noremap = 
 vim.api.nvim_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gr", ":Telescope lsp_references<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>a", ":Telescope lsp_code_actions<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>o", ":lua my_lsp_document_symbols({symbol_width=70, symbol_type_width=12, timeout=1000})<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>o", ":lua require'telescope.builtin'.treesitter({entry_maker = gen_from_treesitter(opts)})<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>s", ":Telescope lsp_dynamic_workspace_symbols<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>g", ":Telescope lsp_document_diagnostics<CR>", {noremap = true, silent = true})
 

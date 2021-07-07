@@ -33,7 +33,7 @@ packer.startup(
                 { 'jvgrootveld/telescope-zoxide' },
                 { 'nvim-telescope/telescope-project.nvim' },
                 { 'nvim-telescope/telescope-frecency.nvim' },
-                {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+                { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
             }
         }
         use {
