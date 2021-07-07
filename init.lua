@@ -23,6 +23,7 @@ vim.opt.smartindent = true
 vim.opt.breakindent = true
 vim.opt.cscopetag = true
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.breakindentopt = 'sbr,shift:4'
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.cscopeprg = 'gtags-cscope'
