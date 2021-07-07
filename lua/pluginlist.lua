@@ -6,9 +6,8 @@ packer.startup(
         -- use { 'Shougo/vinarise.vim' }
         -- use { 'jceb/vim-orgmode' }
         use { 'godlygeek/tabular' }
-        -- use { 'tweekmonster/startuptime.vim' }
+        use { 'tweekmonster/startuptime.vim' }
         -- use { 'ayu-theme/ayu-vim' }
-        use { 'morhetz/gruvbox' }
         use { 'tpope/vim-fugitive'}
         -- use { 'tpope/vim-unimpaired'}
         -- use { 'tpope/vim-repeat' }
@@ -18,6 +17,7 @@ packer.startup(
         -- use { 'vim-scripts/DrawIt' }
         -- use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
+        use { 'lifepillar/vim-gruvbox8' }
         use {
             'neovim/nvim-lspconfig',
             config = function() require('lsp') end,
@@ -36,17 +36,17 @@ packer.startup(
                 { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
             }
         }
-        use {
-            'kassio/neoterm',
-            config = function()
-                vim.g.neoterm_auto_repl_cmd = 0
-                vim.g.neoterm_default_mod = 'botright'
-                vim.g.neoterm_autojump = 1
-                vim.g.neoterm_size = '15'
-                vim.api.nvim_set_keymap('n', '<space>t', ':Ttoggle<CR>', { noremap = true, silent = true })
-                vim.cmd [[au Filetype neoterm setlocal nobuflisted]]
-            end
-        }
+        -- use {
+        --     'kassio/neoterm',
+        --     config = function()
+        --         vim.g.neoterm_auto_repl_cmd = 0
+        --         vim.g.neoterm_default_mod = 'botright'
+        --         vim.g.neoterm_autojump = 1
+        --         vim.g.neoterm_size = '15'
+        --         vim.api.nvim_set_keymap('n', '<space>t', ':Ttoggle<CR>', { noremap = true, silent = true })
+        --         vim.cmd [[au Filetype neoterm setlocal nobuflisted]]
+        --     end
+        -- }
         -- use {
         --     'vim-scripts/gtags.vim',
         --     lock = true,
@@ -69,7 +69,7 @@ packer.startup(
         use {
             "lukas-reineke/indent-blankline.nvim",
             config = function()
-                vim.g.indent_blankline_filetype_exclude               = {"help"       , "terminal"}
+                vim.g.indent_blankline_filetype_exclude               = {"help"       , "terminal", "dashboard"}
                 vim.g.indent_blankline_buftype_exclude                = {"terminal"}
                 vim.g.indent_blankline_show_trailing_blankline_indent = false
                 vim.g.indent_blankline_show_first_indent_level        = false
@@ -118,21 +118,13 @@ packer.startup(
             end
         }
         use {
-            'vim-airline/vim-airline',
-            cond = function()
-                return false
-            end,
-            config = function() require('airline') end,
-            requires = {'vim-airline/vim-airline-themes'}
-        }
-        use {
             'Shougo/deoplete.nvim',
             run = ':UpdateRemotePlugins',
             event = 'InsertEnter *',
             config = function()
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-                vim.cmd [[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]]
+                vim.cmd [[ autocmd InsertEnter * if &filetype ==#'TelescopePrompt' | call deoplete#custom#buffer_option('auto_complete', v:false) | endif ]]
                 vim.fn['deoplete#enable']()
             end,
             requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
@@ -164,24 +156,24 @@ packer.startup(
                 vim.g.auto_save_silent = 1
             end
         }
-        use {
-            'mg979/vim-visual-multi',
-            branch = 'master',
-            config = function()
-                vim.g.VM_theme = 'nord'
-                vim.g.VM_maps = {
-                    ["Select All"] = '<leader>a',
-                    ["Visual All"] = '<leader>a',
-                    ["Find Under"] = '<C-_>',
-                    ["Find Subword Under"] = '<C-_>',
-                    ["Align"] = '<leader>A',
-                    ["Add Cursor Up"] = '<S-Up>',
-                    ["Add Cursor Down"] = '<S-Down>'
-                }
-                vim.g.VM_mouse_mappings = 1
-                vim.g.VM_silent_exit = 1
-            end
-        }
+        -- use {
+        --     'mg979/vim-visual-multi',
+        --     branch = 'master',
+        --     config = function()
+        --         vim.g.VM_theme = 'nord'
+        --         vim.g.VM_maps = {
+        --             ["Select All"] = '<leader>a',
+        --             ["Visual All"] = '<leader>a',
+        --             ["Find Under"] = '<C-_>',
+        --             ["Find Subword Under"] = '<C-_>',
+        --             ["Align"] = '<leader>A',
+        --             ["Add Cursor Up"] = '<S-Up>',
+        --             ["Add Cursor Down"] = '<S-Down>'
+        --         }
+        --         vim.g.VM_mouse_mappings = 1
+        --         vim.g.VM_silent_exit = 1
+        --     end
+        -- }
         use {
             'lewis6991/gitsigns.nvim',
             config = function()
@@ -200,13 +192,13 @@ packer.startup(
                 vim.api.nvim_set_keymap('c', 'w!!', 'w suda://%', { noremap = true, silent = true })
             end
         }
-        use {
-            'joshdick/onedark.vim',
-            config = function()
-                -- vim.g.onedark_hide_endofbuffer = 1
-                -- vim.g.onedark_terminal_italics = 1
-            end
-        }
+        -- use {
+        --     'joshdick/onedark.vim',
+        --     config = function()
+        --         -- vim.g.onedark_hide_endofbuffer = 1
+        --         -- vim.g.onedark_terminal_italics = 1
+        --     end
+        -- }
         use {
             'rbgrouleff/bclose.vim',
             config = function()
@@ -214,6 +206,12 @@ packer.startup(
                 vim.api.nvim_set_keymap('n', '<space>x', ':Bclose!<CR>', { noremap = true, silent = true })
             end
         }
+        -- use {
+        --     'glepnir/dashboard-nvim',
+        --     config = function()
+        --         vim.g.dashboard_default_executive ='telescope'
+        --     end
+        -- }
         use {
             'mhinz/vim-startify',
             config = function()
@@ -236,14 +234,14 @@ packer.startup(
                 vim.api.nvim_set_keymap('x', '<space>e', '<Esc>:<C-u>call EasyMotion#Repeat(1)<CR>', { noremap = true, silent = true })
             end
         }
-        use {
-            'kevinhwang91/nvim-bqf',
-            config = function()
-                require('bqf').setup({
-                    auto_resize_height = false,
-                })
-            end
-        }
+        -- use {
+        --     'kevinhwang91/nvim-bqf',
+        --     config = function()
+        --         require('bqf').setup({
+        --             auto_resize_height = false,
+        --         })
+        --     end
+        -- }
     end,
     {
         display = {

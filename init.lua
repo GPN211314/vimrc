@@ -48,9 +48,10 @@ vim.g.clipboard = {
     ['cache_enabled'] = 1,
 }
 
+vim.g.gruvbox_italics = 0
 require('pluginlist')
 
-vim.cmd 'colorscheme gruvbox'
+vim.cmd 'colorscheme gruvbox8'
 vim.cmd 'autocmd TermOpen * setlocal nornu nonu signcolumn=no noruler'
 vim.api.nvim_set_keymap('n', '<space>d', ':!sdcv <cword><CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', [[:<C-U>execute 'normal!' (v:count > 1 ? "m'" . v:count : '') . 'k'<CR>]], { noremap = true, silent = true })
