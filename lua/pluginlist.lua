@@ -3,19 +3,19 @@ local use = packer.use
 packer.startup(
     function()
         use { 'wbthomason/packer.nvim' }
-        use { 'Shougo/vinarise.vim' }
-        use { 'jceb/vim-orgmode' }
+        -- use { 'Shougo/vinarise.vim' }
+        -- use { 'jceb/vim-orgmode' }
         use { 'godlygeek/tabular' }
-        use { 'tweekmonster/startuptime.vim' }
-        use { 'ayu-theme/ayu-vim' }
+        -- use { 'tweekmonster/startuptime.vim' }
+        -- use { 'ayu-theme/ayu-vim' }
         use { 'morhetz/gruvbox' }
         use { 'tpope/vim-fugitive'}
         use { 'tpope/vim-unimpaired'}
-        use { 'tpope/vim-repeat' }
+        -- use { 'tpope/vim-repeat' }
         use { 'tpope/vim-commentary' }
         use { 'tpope/vim-surround' }
         use { 'wellle/targets.vim' }
-        use { 'vim-scripts/DrawIt' }
+        -- use { 'vim-scripts/DrawIt' }
         -- use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
         use {
@@ -32,7 +32,8 @@ packer.startup(
                 { 'nvim-lua/plenary.nvim' },
                 { 'jvgrootveld/telescope-zoxide' },
                 { 'nvim-telescope/telescope-project.nvim' },
-                { 'nvim-telescope/telescope-frecency.nvim' }
+                { 'nvim-telescope/telescope-frecency.nvim' },
+                {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
             }
         }
         use {
@@ -60,9 +61,9 @@ packer.startup(
             config = function() require('treesitter') end,
             requires = {
                 { 'nvim-treesitter/nvim-treesitter-refactor' },
-                { 'nvim-treesitter/nvim-treesitter-textobjects' },
+                -- { 'nvim-treesitter/nvim-treesitter-textobjects' },
                 { 'romgrk/nvim-treesitter-context' },
-                { 'andymass/vim-matchup' },
+                -- { 'andymass/vim-matchup' },
             }
         }
         use {
@@ -118,13 +119,16 @@ packer.startup(
         }
         use {
             'vim-airline/vim-airline',
+            cond = function()
+                return false
+            end,
             config = function() require('airline') end,
             requires = {'vim-airline/vim-airline-themes'}
         }
         use {
             'Shougo/deoplete.nvim',
             run = ':UpdateRemotePlugins',
-            event = 'VimEnter *',
+            event = 'InsertEnter *',
             config = function()
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
@@ -179,11 +183,17 @@ packer.startup(
             end
         }
         use {
-            'airblade/vim-gitgutter',
+            'lewis6991/gitsigns.nvim',
             config = function()
-                vim.g.gitgutter_highlight_linenrs = 0
+                require('gitsigns').setup()
             end
         }
+        -- use {
+        --     'airblade/vim-gitgutter',
+        --     config = function()
+        --         vim.g.gitgutter_highlight_linenrs = 0
+        --     end
+        -- }
         use {
             'lambdalisue/suda.vim',
             config = function()

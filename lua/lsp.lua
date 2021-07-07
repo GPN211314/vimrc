@@ -46,7 +46,7 @@ vim.g.symbols_outline = {
     lsp_blacklist = {},
 }
 
-vim.api.nvim_set_keymap("n", "<space>o", ":SymbolsOutline<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>l", ":SymbolsOutline<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '[g', ':lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', ']g', ':lua vim.lsp.diagnostic.goto_next()<CR>', {noremap = true, silent = true})
