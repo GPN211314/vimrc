@@ -8,11 +8,11 @@ packer.startup(
         use { 'godlygeek/tabular' }
         use { 'tweekmonster/startuptime.vim' }
         -- use { 'ayu-theme/ayu-vim' }
-        use { 'tpope/vim-fugitive'}
         -- use { 'tpope/vim-unimpaired'}
         -- use { 'tpope/vim-repeat' }
         use { 'tpope/vim-commentary' }
         use { 'tpope/vim-surround' }
+        use { 'tpope/vim-fugitive' }
         use { 'wellle/targets.vim' }
         -- use { 'vim-scripts/DrawIt' }
         -- use { 'ludovicchabant/vim-gutentags' }
@@ -89,7 +89,6 @@ packer.startup(
             config = function()
                 vim.g.asyncrun_open = 15
                 vim.g.asyncrun_auto = "make"
-                vim.cmd 'command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>'
             end
         }
         use {
@@ -124,7 +123,7 @@ packer.startup(
             config = function()
                 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
                 vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-                vim.cmd [[ autocmd InsertEnter * if &filetype ==#'TelescopePrompt' | call deoplete#custom#buffer_option('auto_complete', v:false) | endif ]]
+                vim.cmd [[ autocmd Filetype TelescopePrompt,frecency call deoplete#custom#buffer_option('auto_complete', v:false) ]]
                 vim.fn['deoplete#enable']()
             end,
             requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
