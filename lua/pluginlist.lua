@@ -18,6 +18,30 @@ packer.startup(
         -- use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
         use { 'lifepillar/vim-gruvbox8' }
+        use { 'folke/lsp-colors.nvim' }
+        use { "kyazdani42/nvim-web-devicons" }
+        use {
+            "folke/trouble.nvim",
+            config = function()
+                require("trouble").setup {}
+            end
+        }
+        -- use {
+        --     'projekt0n/github-nvim-theme',
+        --     config = function()
+        --         require('github-theme').setup()
+        --     end
+        -- }
+        use {
+            'hoob3rt/lualine.nvim',
+            config = function()
+                require('lualine').setup {
+                    options = { theme = 'gruvbox'},
+                    sections = { lualine_b = {'branch', 'diff'}}
+                }
+          end,
+          requires = {{'kyazdani42/nvim-web-devicons', opt = true}, }
+        }
         use {
             'neovim/nvim-lspconfig',
             config = function() require('lsp') end,
@@ -116,36 +140,32 @@ packer.startup(
                 vim.g['far#source'] = 'rg'
             end
         }
+        -- use {
+        --     'Shougo/deoplete.nvim',
+        --     run = ':UpdateRemotePlugins',
+        --     event = 'InsertEnter *',
+        --     config = function()
+        --         vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
+        --         vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
+        --         vim.cmd [[ autocmd Filetype TelescopePrompt,frecency call deoplete#custom#buffer_option('auto_complete', v:false) ]]
+        --         vim.fn['deoplete#enable']()
+        --     end,
+        --     requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
+        -- }
         use {
-            'Shougo/deoplete.nvim',
-            run = ':UpdateRemotePlugins',
-            event = 'InsertEnter *',
+            'hrsh7th/nvim-compe',
             config = function()
-                vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
-                vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-                vim.cmd [[ autocmd Filetype TelescopePrompt,frecency call deoplete#custom#buffer_option('auto_complete', v:false) ]]
-                vim.fn['deoplete#enable']()
-            end,
-            requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
+                require('autocompletion')
+            end
         }
         use {
             'windwp/nvim-autopairs',
             config = function()
                 require('nvim-autopairs').setup()
-                local remap = vim.api.nvim_set_keymap
-                local npairs = require('nvim-autopairs')
-
-                -- skip it, if you use another global object
-                _G.MUtils= {}
-
-                MUtils.completion_confirm=function()
-                  if vim.fn.pumvisible() ~= 0  then
-                      return npairs.esc("<cr>")
-                  else
-                    return npairs.autopairs_cr()
-                  end
-                end
-                remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+                require("nvim-autopairs.completion.compe").setup({
+                  map_cr = true, --  map <CR> on insert mode
+                  map_complete = true -- it will auto insert `(` after select function or method item
+                })
             end
         }
         use {
@@ -176,7 +196,21 @@ packer.startup(
         use {
             'lewis6991/gitsigns.nvim',
             config = function()
-                require('gitsigns').setup()
+                vim.cmd [[
+                    hi! SignColumn guibg=bg
+                    hi! GitSignsAdd guifg=#b8bb26 guibg=#282828
+                    hi! GitSignsChange guifg=#8ec07c guibg=#282828
+                    hi! GitSignsDelete guifg=#fb4934 guibg=#282828
+                ]]
+                require('gitsigns').setup({
+                    signs = {
+                        add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+                        change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+                        delete       = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+                        topdelete    = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+                        changedelete = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+                    },
+                })
             end
         }
         -- use {
