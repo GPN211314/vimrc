@@ -13,4 +13,7 @@ vim.g['airline#extensions#tabline#left_sep']          = ''
 vim.g['airline#extensions#tabline#left_alt_sep']      = '  '
 vim.g['airline#extensions#tabline#ignore_bufadd_pat'] = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler|neoterm'
 vim.g['airline_stl_path_style']                       = 'short'
-vim.g['airline_theme']                                = 'gruvbox'
+vim.g['airline_theme']                                = 'gruvbox8'
+
+vim.api.nvim_set_keymap('n', '[b', ':bp<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', ']b', ':bn<CR>', { noremap = true, silent = true })

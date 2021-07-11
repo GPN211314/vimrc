@@ -6,7 +6,7 @@ packer.startup(
         -- use { 'Shougo/vinarise.vim' }
         -- use { 'jceb/vim-orgmode' }
         use { 'godlygeek/tabular' }
-        use { 'tweekmonster/startuptime.vim' }
+        use { 'dstein64/vim-startuptime' }
         -- use { 'ayu-theme/ayu-vim' }
         -- use { 'tpope/vim-unimpaired'}
         -- use { 'tpope/vim-repeat' }
@@ -22,6 +22,7 @@ packer.startup(
         use { "kyazdani42/nvim-web-devicons" }
         use {
             "folke/trouble.nvim",
+            event = 'User LspDiagnosticsChanged',
             config = function()
                 require("trouble").setup {}
             end
@@ -33,14 +34,9 @@ packer.startup(
         --     end
         -- }
         use {
-            'hoob3rt/lualine.nvim',
-            config = function()
-                require('lualine').setup {
-                    options = { theme = 'gruvbox'},
-                    sections = { lualine_b = {'branch', 'diff'}}
-                }
-          end,
-          requires = {{'kyazdani42/nvim-web-devicons', opt = true}, }
+            'vim-airline/vim-airline',
+            config = function() require('airline') end,
+            requires = {'vim-airline/vim-airline-themes'}
         }
         use {
             'neovim/nvim-lspconfig',
@@ -56,7 +52,6 @@ packer.startup(
                 { 'nvim-lua/plenary.nvim' },
                 { 'jvgrootveld/telescope-zoxide' },
                 { 'nvim-telescope/telescope-project.nvim' },
-                { 'nvim-telescope/telescope-frecency.nvim' },
                 { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
             }
         }
@@ -154,12 +149,14 @@ packer.startup(
         -- }
         use {
             'hrsh7th/nvim-compe',
+            event = 'InsertEnter *',
             config = function()
                 require('autocompletion')
             end
         }
         use {
             'windwp/nvim-autopairs',
+            event = 'InsertCharPre *',
             config = function()
                 require('nvim-autopairs').setup()
                 require("nvim-autopairs.completion.compe").setup({
@@ -193,32 +190,31 @@ packer.startup(
         --         vim.g.VM_silent_exit = 1
         --     end
         -- }
-        use {
-            'lewis6991/gitsigns.nvim',
-            config = function()
-                vim.cmd [[
-                    hi! SignColumn guibg=bg
-                    hi! GitSignsAdd guifg=#b8bb26 guibg=#282828
-                    hi! GitSignsChange guifg=#8ec07c guibg=#282828
-                    hi! GitSignsDelete guifg=#fb4934 guibg=#282828
-                ]]
-                require('gitsigns').setup({
-                    signs = {
-                        add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-                        change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-                        delete       = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-                        topdelete    = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-                        changedelete = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-                    },
-                })
-            end
-        }
         -- use {
-        --     'airblade/vim-gitgutter',
+        --     'lewis6991/gitsigns.nvim',
         --     config = function()
-        --         vim.g.gitgutter_highlight_linenrs = 0
+        --         vim.cmd [[
+        --             hi! GitSignsAdd guifg=#b8bb26 guibg=#282828
+        --             hi! GitSignsChange guifg=#8ec07c guibg=#282828
+        --             hi! GitSignsDelete guifg=#fb4934 guibg=#282828
+        --         ]]
+        --         require('gitsigns').setup({
+        --             signs = {
+        --                 add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+        --                 change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+        --                 delete       = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+        --                 topdelete    = {hl = 'GitSignsDelete', text = '│', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+        --                 changedelete = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+        --             },
+        --         })
         --     end
         -- }
+        use {
+            'airblade/vim-gitgutter',
+            config = function()
+                vim.g.gitgutter_highlight_linenrs = 0
+            end
+        }
         use {
             'lambdalisue/suda.vim',
             config = function()

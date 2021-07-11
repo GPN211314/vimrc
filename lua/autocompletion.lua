@@ -23,12 +23,12 @@ require'compe'.setup {
   source = {
     path = true;
     buffer = true;
-    calc = true;
+    calc = false;
     nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    ultisnips = true;
-    luasnip = true;
+    nvim_lua = false;
+    vsnip = false;
+    ultisnips = false;
+    luasnip = false;
   };
 }
 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })

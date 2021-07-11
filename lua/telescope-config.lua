@@ -1,12 +1,3 @@
-require'telescope'.load_extension('zoxide')
-require'telescope'.load_extension('project')
-require"telescope".load_extension("frecency")
-require('telescope').load_extension('fzf')
-local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
-local pickers = require('telescope.pickers')
-local utils = require('telescope.utils')
-local conf = require('telescope.config').values
 local entry_display = require('telescope.pickers.entry_display')
 
 local treesitter_type_highlight = {
@@ -109,10 +100,14 @@ require('telescope').setup({
     }
 })
 
-vim.api.nvim_set_keymap("n", "<space>z", ":Telescope zoxide list<CR>", {noremap = true, silent = true})
+require('telescope').load_extension('fzf')
+-- require'telescope'.load_extension('zoxide')
+-- require'telescope'.load_extension('project')
+
+vim.api.nvim_set_keymap("n", "<space>z", ":lua require'telescope'.extensions.zoxide.list{}<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>f", ":Telescope find_files previewer=false<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>m", ":Telescope oldfiles previewer=false<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>p", ":Telescope project<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>p", ":lua require'telescope'.extensions.project.project{}<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>b", ":Telescope buffers previewer=false<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>r", ":Telescope live_grep<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", {noremap = true, silent = true})
