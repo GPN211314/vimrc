@@ -21,6 +21,15 @@ packer.startup(
         use { 'folke/lsp-colors.nvim' }
         use { "kyazdani42/nvim-web-devicons" }
         use {
+            'romgrk/barbar.nvim',
+            config = function()
+                vim.api.nvim_set_keymap('n', '[b', ':BufferPrevious<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '[b', ':BufferNext<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', '<space>x', ':BufferClose<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', 'gb', ':BufferPick<CR>', { noremap = true, silent = true })
+            end
+        }
+        use {
             "folke/trouble.nvim",
             event = 'User LspDiagnosticsChanged',
             config = function()
@@ -33,10 +42,15 @@ packer.startup(
         --         require('github-theme').setup()
         --     end
         -- }
+        -- use {
+        --     'vim-airline/vim-airline',
+        --     config = function() require('airline') end,
+        --     requires = {'vim-airline/vim-airline-themes'}
+        -- }
         use {
-            'vim-airline/vim-airline',
-            config = function() require('airline') end,
-            requires = {'vim-airline/vim-airline-themes'}
+            'glepnir/galaxyline.nvim',
+                branch = 'main',
+                config = function() require('statusline') end,
         }
         use {
             'neovim/nvim-lspconfig',
@@ -228,25 +242,27 @@ packer.startup(
         --         -- vim.g.onedark_terminal_italics = 1
         --     end
         -- }
-        use {
-            'rbgrouleff/bclose.vim',
-            config = function()
-                vim.g.bclose_no_plugin_maps = true
-                vim.api.nvim_set_keymap('n', '<space>x', ':Bclose!<CR>', { noremap = true, silent = true })
-            end
-        }
+        -- use {
+        --     'rbgrouleff/bclose.vim',
+        --     config = function()
+        --         vim.g.bclose_no_plugin_maps = true
+        --         vim.api.nvim_set_keymap('n', '<space>x', ':Bclose!<CR>', { noremap = true, silent = true })
+        --     end
+        -- }
         -- use {
         --     'glepnir/dashboard-nvim',
         --     config = function()
         --         vim.g.dashboard_default_executive ='telescope'
         --     end
         -- }
-        use {
-            'mhinz/vim-startify',
-            config = function()
-                vim.g.startify_change_to_dir = 0
-            end
-        }
+        -- use {
+        --     'mhinz/vim-startify',
+        --     event = 'VimEnter *',
+        --     config = function()
+        --         vim.g.startify_change_to_dir = 0
+        --         vim.startify_enable_unsafe = 1
+        --     end
+        -- }
         use {
             'easymotion/vim-easymotion',
             config = function()
@@ -274,6 +290,7 @@ packer.startup(
     end,
     {
         display = {
+            open_fn = require('packer.util').float,
             border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
         }
     }

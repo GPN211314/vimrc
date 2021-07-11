@@ -33,6 +33,7 @@ vim.opt.showbreak = '↪'
 vim.opt.completeopt = 'menuone,noinsert,noselect'
 vim.opt.grepprg = 'rg --vimgrep --no-heading'
 vim.opt.grepformat = '%f:%l:%c:%m,%f:%l:%m'
+vim.opt.shortmess:append({ I = true })
 -- vim.opt.makeprg = 'pushd ${2:-.} && eval "bear zsh -c "${1:-b} && popd'
 
 vim.g.clipboard = {

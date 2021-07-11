@@ -9,14 +9,15 @@ local lspconfig = require('lspconfig')
 -- then look for a matching container, or run `clangd` normally if no matching container is found
 --    /path/to/my/project
 -- would look for a container named `project`, and `docker exec` a `clangd` instance there, etc.
-lspconfig.clangd.setup{
-    -- cmd = { 'cclangd', 'builder' },
-    init_options = {
-        clangdFileStatus = true
-    },
-    on_attach = function(client)
-    end,
-}
+-- lspconfig.clangd.setup{
+--     -- cmd = { 'cclangd', 'builder' },
+--     init_options = {
+--         clangdFileStatus = true
+--     },
+--     on_attach = function(client)
+--     end,
+-- }
+lspconfig.ccls.setup {}
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -47,7 +48,7 @@ vim.g.symbols_outline = {
 }
 
 vim.api.nvim_set_keymap("n", "<space>l", ":SymbolsOutline<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '[g', ':lua vim.lsp.diagnostic.goto_prev()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', ']g', ':lua vim.lsp.diagnostic.goto_next()<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', {noremap = true, silent = true})
