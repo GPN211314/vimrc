@@ -313,7 +313,7 @@ require ('galaxyline').section.left = {
     MidFileName = {
       highlight = 'GalaxyMapperCommon5',
       provider = function()
-        if #vim.fn.expand '%:p' == 0 then
+        if #vim.fn.expand '%:p' == 0 or vim.opt.filetype._value == "fzf" then
           return '-'
         end
         if vim.fn.winwidth(0) > 150 then

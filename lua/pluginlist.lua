@@ -3,29 +3,21 @@ local use = packer.use
 packer.startup(
     function()
         use { 'wbthomason/packer.nvim' }
-        -- use { 'Shougo/vinarise.vim' }
-        -- use { 'jceb/vim-orgmode' }
-        use {
-            'godlygeek/tabular',
-            enent = 'CmdlineEnter *'
-        }
         use { 'dstein64/vim-startuptime' }
-        -- use { 'ayu-theme/ayu-vim' }
-        -- use { 'tpope/vim-unimpaired'}
-        -- use { 'tpope/vim-repeat' }
         use { 'tpope/vim-commentary' }
         use { 'tpope/vim-surround' }
         use { 'tpope/vim-fugitive' }
         use { 'wellle/targets.vim' }
-        -- use { 'vim-scripts/DrawIt' }
-        -- use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
         use { 'lifepillar/vim-gruvbox8' }
-        -- use { 'folke/lsp-colors.nvim' }
         use { "kyazdani42/nvim-web-devicons" }
         use { 'nvim-lua/popup.nvim' }
         use { 'nvim-lua/plenary.nvim' }
         use { 'm-pilia/vim-ccls' }
+        use {
+            'godlygeek/tabular',
+            enent = 'CmdlineEnter *'
+        }
         use {
             'romgrk/barbar.nvim',
             config = function()
@@ -43,17 +35,6 @@ packer.startup(
                 require("trouble").setup {}
             end
         }
-        -- use {
-        --     'projekt0n/github-nvim-theme',
-        --     config = function()
-        --         require('github-theme').setup()
-        --     end
-        -- }
-        -- use {
-        --     'vim-airline/vim-airline',
-        --     config = function() require('airline') end,
-        --     requires = {'vim-airline/vim-airline-themes'}
-        -- }
         use {
             'glepnir/galaxyline.nvim',
             branch = 'main',
@@ -65,34 +46,14 @@ packer.startup(
             requires = { 'simrat39/symbols-outline.nvim' }
         }
         use {
-            'nvim-telescope/telescope.nvim',
-            config = function() require('telescope-config') end,
+            'junegunn/fzf.vim',
+            config = function() require('fzf') end,
             requires = {
-                { 'jvgrootveld/telescope-zoxide' },
-                { 'nvim-telescope/telescope-project.nvim' },
-                { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+                { 'junegunn/fzf', run = 'vim.fn["fzf#install"]()' },
+                { 'nanotee/zoxide.vim' },
+                { 'gfanto/fzf-lsp.nvim' }
             }
         }
-        -- use {
-        --     'kassio/neoterm',
-        --     config = function()
-        --         vim.g.neoterm_auto_repl_cmd = 0
-        --         vim.g.neoterm_default_mod = 'botright'
-        --         vim.g.neoterm_autojump = 1
-        --         vim.g.neoterm_size = '15'
-        --         vim.api.nvim_set_keymap('n', '<space>t', ':Ttoggle<CR>', { noremap = true, silent = true })
-        --         vim.cmd [[au Filetype neoterm setlocal nobuflisted]]
-        --     end
-        -- }
-        -- use {
-        --     'vim-scripts/gtags.vim',
-        --     lock = true,
-        --     config = function()
-        --         vim.g.Gtags_Close_When_Single = 1
-        --         vim.g.Gtags_No_Auto_Jump = 1
-        --         vim.g.Gtags_Auto_Update = 0
-        --     end
-        -- }
         use {
             "nvim-treesitter/nvim-treesitter",
             config = function() require('treesitter') end,
@@ -149,22 +110,11 @@ packer.startup(
         }
         use {
             'brooth/far.vim',
+            enent = 'CmdlineEnter *',
             config = function()
                 vim.g['far#source'] = 'rg'
             end
         }
-        -- use {
-        --     'Shougo/deoplete.nvim',
-        --     run = ':UpdateRemotePlugins',
-        --     event = 'InsertEnter *',
-        --     config = function()
-        --         vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
-        --         vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-        --         vim.cmd [[ autocmd Filetype TelescopePrompt,frecency call deoplete#custom#buffer_option('auto_complete', v:false) ]]
-        --         vim.fn['deoplete#enable']()
-        --     end,
-        --     requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
-        -- }
         use {
             'hrsh7th/nvim-compe',
             event = 'InsertEnter *',
@@ -190,6 +140,130 @@ packer.startup(
                 vim.g.auto_save_silent = 1
             end
         }
+        use {
+            'airblade/vim-gitgutter',
+            config = function()
+                vim.g.gitgutter_highlight_linenrs = 0
+            end
+        }
+        use {
+            'lambdalisue/suda.vim',
+            config = function()
+                vim.api.nvim_set_keymap('c', 'w!!', 'w suda://%', { noremap = true, silent = true })
+            end
+        }
+        use {
+            'easymotion/vim-easymotion',
+            config = function()
+                vim.g.EasyMotion_move_highlight = 0
+                vim.g.EasyMotion_enter_jump_first = 1
+
+                vim.api.nvim_set_keymap('n', '<C-n>', ':<C-u>call EasyMotion#NextPrevious(0,0)<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('x', '<C-n>', ':<C-u>call EasyMotion#NextPrevious(1,0)<CR>', { noremap = true, silent = true })
+
+                vim.api.nvim_set_keymap('n', '<C-p>', ':<C-u>call EasyMotion#NextPrevious(0,1)<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('x', '<C-p>', ':<C-u>call EasyMotion#NextPrevious(1,1)<CR>', { noremap = true, silent = true })
+
+                vim.api.nvim_set_keymap('n', '<space>e', ':<C-u>call EasyMotion#Repeat(0)<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('x', '<space>e', '<Esc>:<C-u>call EasyMotion#Repeat(1)<CR>', { noremap = true, silent = true })
+            end
+        }
+        use {
+            'kevinhwang91/nvim-bqf',
+            config = function()
+                require('bqf').setup({
+                    auto_resize_height = false,
+                })
+            end
+        }
+        -- use { 'ayu-theme/ayu-vim' }
+        -- use { 'tpope/vim-unimpaired'}
+        -- use { 'tpope/vim-repeat' }
+        -- use { 'Shougo/vinarise.vim' }
+        -- use { 'jceb/vim-orgmode' }
+        -- use { 'vim-scripts/DrawIt' }
+        -- use { 'ludovicchabant/vim-gutentags' }
+        -- use { 'folke/lsp-colors.nvim' }
+        -- use {
+        --     'projekt0n/github-nvim-theme',
+        --     config = function()
+        --         require('github-theme').setup()
+        --     end
+        -- }
+        -- use {
+        --     'kassio/neoterm',
+        --     config = function()
+        --         vim.g.neoterm_auto_repl_cmd = 0
+        --         vim.g.neoterm_default_mod = 'botright'
+        --         vim.g.neoterm_autojump = 1
+        --         vim.g.neoterm_size = '15'
+        --         vim.api.nvim_set_keymap('n', '<space>t', ':Ttoggle<CR>', { noremap = true, silent = true })
+        --         vim.cmd [[au Filetype neoterm setlocal nobuflisted]]
+        --     end
+        -- }
+        -- use {
+        --     'vim-scripts/gtags.vim',
+        --     lock = true,
+        --     config = function()
+        --         vim.g.Gtags_Close_When_Single = 1
+        --         vim.g.Gtags_No_Auto_Jump = 1
+        --         vim.g.Gtags_Auto_Update = 0
+        --     end
+        -- }
+        -- use {
+        --     'nvim-telescope/telescope.nvim',
+        --     config = function() require('telescope-config') end,
+        --     requires = {
+        --         { 'jvgrootveld/telescope-zoxide' },
+        --         { 'nvim-telescope/telescope-project.nvim' },
+        --         { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+        --     }
+        -- }
+        -- use {
+        --     'vim-airline/vim-airline',
+        --     config = function() require('airline') end,
+        --     requires = {'vim-airline/vim-airline-themes'}
+        -- }
+        -- use {
+        --     'joshdick/onedark.vim',
+        --     config = function()
+        --         -- vim.g.onedark_hide_endofbuffer = 1
+        --         -- vim.g.onedark_terminal_italics = 1
+        --     end
+        -- }
+        -- use {
+        --     'rbgrouleff/bclose.vim',
+        --     config = function()
+        --         vim.g.bclose_no_plugin_maps = true
+        --         vim.api.nvim_set_keymap('n', '<space>x', ':Bclose!<CR>', { noremap = true, silent = true })
+        --     end
+        -- }
+        -- use {
+        --     'glepnir/dashboard-nvim',
+        --     config = function()
+        --         vim.g.dashboard_default_executive ='telescope'
+        --     end
+        -- }
+        -- use {
+        --     'mhinz/vim-startify',
+        --     event = 'VimEnter *',
+        --     config = function()
+        --         vim.g.startify_change_to_dir = 0
+        --         vim.startify_enable_unsafe = 1
+        --     end
+        -- }
+        -- use {
+        --     'Shougo/deoplete.nvim',
+        --     run = ':UpdateRemotePlugins',
+        --     event = 'InsertEnter *',
+        --     config = function()
+        --         vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
+        --         vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
+        --         vim.cmd [[ autocmd Filetype TelescopePrompt,frecency call deoplete#custom#buffer_option('auto_complete', v:false) ]]
+        --         vim.fn['deoplete#enable']()
+        --     end,
+        --     requires = { { 'tbodt/deoplete-tabnine', run = './install.sh' }, { 'deoplete-plugins/deoplete-lsp' } }
+        -- }
         -- use {
         --     'mg979/vim-visual-multi',
         --     branch = 'master',
@@ -227,70 +301,6 @@ packer.startup(
         --         })
         --     end
         -- }
-        use {
-            'airblade/vim-gitgutter',
-            config = function()
-                vim.g.gitgutter_highlight_linenrs = 0
-            end
-        }
-        use {
-            'lambdalisue/suda.vim',
-            config = function()
-                vim.api.nvim_set_keymap('c', 'w!!', 'w suda://%', { noremap = true, silent = true })
-            end
-        }
-        -- use {
-        --     'joshdick/onedark.vim',
-        --     config = function()
-        --         -- vim.g.onedark_hide_endofbuffer = 1
-        --         -- vim.g.onedark_terminal_italics = 1
-        --     end
-        -- }
-        -- use {
-        --     'rbgrouleff/bclose.vim',
-        --     config = function()
-        --         vim.g.bclose_no_plugin_maps = true
-        --         vim.api.nvim_set_keymap('n', '<space>x', ':Bclose!<CR>', { noremap = true, silent = true })
-        --     end
-        -- }
-        -- use {
-        --     'glepnir/dashboard-nvim',
-        --     config = function()
-        --         vim.g.dashboard_default_executive ='telescope'
-        --     end
-        -- }
-        -- use {
-        --     'mhinz/vim-startify',
-        --     event = 'VimEnter *',
-        --     config = function()
-        --         vim.g.startify_change_to_dir = 0
-        --         vim.startify_enable_unsafe = 1
-        --     end
-        -- }
-        use {
-            'easymotion/vim-easymotion',
-            config = function()
-                vim.g.EasyMotion_move_highlight = 0
-                vim.g.EasyMotion_enter_jump_first = 1
-
-                vim.api.nvim_set_keymap('n', '<C-n>', ':<C-u>call EasyMotion#NextPrevious(0,0)<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('x', '<C-n>', ':<C-u>call EasyMotion#NextPrevious(1,0)<CR>', { noremap = true, silent = true })
-
-                vim.api.nvim_set_keymap('n', '<C-p>', ':<C-u>call EasyMotion#NextPrevious(0,1)<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('x', '<C-p>', ':<C-u>call EasyMotion#NextPrevious(1,1)<CR>', { noremap = true, silent = true })
-
-                vim.api.nvim_set_keymap('n', '<space>e', ':<C-u>call EasyMotion#Repeat(0)<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('x', '<space>e', '<Esc>:<C-u>call EasyMotion#Repeat(1)<CR>', { noremap = true, silent = true })
-            end
-        }
-        use {
-            'kevinhwang91/nvim-bqf',
-            config = function()
-                require('bqf').setup({
-                    auto_resize_height = false,
-                })
-            end
-        }
     end,
     {
         display = {

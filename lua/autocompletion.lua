@@ -24,17 +24,14 @@ require'compe'.setup {
     path = {
         dup = false,
         menu = '',
-        ignored_filetypes = { 'TelescopePrompt' }
     },
     buffer = {
         dup = false,
         menu = '',
-        ignored_filetypes = { 'TelescopePrompt' }
     },
     nvim_lsp = {
         dup = false,
         menu = '',
-        ignored_filetypes = { 'TelescopePrompt' }
     },
   };
 }
