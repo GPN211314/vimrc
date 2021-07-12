@@ -5,7 +5,10 @@ packer.startup(
         use { 'wbthomason/packer.nvim' }
         -- use { 'Shougo/vinarise.vim' }
         -- use { 'jceb/vim-orgmode' }
-        use { 'godlygeek/tabular' }
+        use {
+            'godlygeek/tabular',
+            enent = 'CmdlineEnter *'
+        }
         use { 'dstein64/vim-startuptime' }
         -- use { 'ayu-theme/ayu-vim' }
         -- use { 'tpope/vim-unimpaired'}
@@ -18,13 +21,17 @@ packer.startup(
         -- use { 'ludovicchabant/vim-gutentags' }
         use { 'antoinemadec/FixCursorHold.nvim' }
         use { 'lifepillar/vim-gruvbox8' }
-        use { 'folke/lsp-colors.nvim' }
+        -- use { 'folke/lsp-colors.nvim' }
         use { "kyazdani42/nvim-web-devicons" }
+        use { 'nvim-lua/popup.nvim' }
+        use { 'nvim-lua/plenary.nvim' }
+        use { 'm-pilia/vim-ccls' }
         use {
             'romgrk/barbar.nvim',
             config = function()
+                vim.g.bufferline = { auto_hide = true }
                 vim.api.nvim_set_keymap('n', '[b', ':BufferPrevious<CR>', { noremap = true, silent = true })
-                vim.api.nvim_set_keymap('n', '[b', ':BufferNext<CR>', { noremap = true, silent = true })
+                vim.api.nvim_set_keymap('n', ']b', ':BufferNext<CR>', { noremap = true, silent = true })
                 vim.api.nvim_set_keymap('n', '<space>x', ':BufferClose<CR>', { noremap = true, silent = true })
                 vim.api.nvim_set_keymap('n', 'gb', ':BufferPick<CR>', { noremap = true, silent = true })
             end
@@ -49,8 +56,8 @@ packer.startup(
         -- }
         use {
             'glepnir/galaxyline.nvim',
-                branch = 'main',
-                config = function() require('statusline') end,
+            branch = 'main',
+            config = function() require('statusline') end,
         }
         use {
             'neovim/nvim-lspconfig',
@@ -61,9 +68,6 @@ packer.startup(
             'nvim-telescope/telescope.nvim',
             config = function() require('telescope-config') end,
             requires = {
-                { 'tami5/sql.nvim' },
-                { 'nvim-lua/popup.nvim' },
-                { 'nvim-lua/plenary.nvim' },
                 { 'jvgrootveld/telescope-zoxide' },
                 { 'nvim-telescope/telescope-project.nvim' },
                 { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
@@ -279,14 +283,14 @@ packer.startup(
                 vim.api.nvim_set_keymap('x', '<space>e', '<Esc>:<C-u>call EasyMotion#Repeat(1)<CR>', { noremap = true, silent = true })
             end
         }
-        -- use {
-        --     'kevinhwang91/nvim-bqf',
-        --     config = function()
-        --         require('bqf').setup({
-        --             auto_resize_height = false,
-        --         })
-        --     end
-        -- }
+        use {
+            'kevinhwang91/nvim-bqf',
+            config = function()
+                require('bqf').setup({
+                    auto_resize_height = false,
+                })
+            end
+        }
     end,
     {
         display = {

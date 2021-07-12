@@ -21,14 +21,21 @@ require'compe'.setup {
   };
 
   source = {
-    path = true;
-    buffer = true;
-    calc = false;
-    nvim_lsp = true;
-    nvim_lua = false;
-    vsnip = false;
-    ultisnips = false;
-    luasnip = false;
+    path = {
+        dup = false,
+        menu = '',
+        ignored_filetypes = { 'TelescopePrompt' }
+    },
+    buffer = {
+        dup = false,
+        menu = '',
+        ignored_filetypes = { 'TelescopePrompt' }
+    },
+    nvim_lsp = {
+        dup = false,
+        menu = '',
+        ignored_filetypes = { 'TelescopePrompt' }
+    },
   };
 }
 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
