@@ -14,6 +14,7 @@ packer.startup(
         use { 'nvim-lua/popup.nvim' }
         use { 'nvim-lua/plenary.nvim' }
         use { 'm-pilia/vim-ccls' }
+        use { 'stevearc/stickybuf.nvim' }
         use {
             'godlygeek/tabular',
             enent = 'CmdlineEnter *'
@@ -43,7 +44,9 @@ packer.startup(
         use {
             'neovim/nvim-lspconfig',
             config = function() require('lsp') end,
-            requires = { 'simrat39/symbols-outline.nvim' }
+            -- requires = { 'simrat39/symbols-outline.nvim' }
+            requires = { 'stevearc/aerial.nvim' }
+
         }
         use {
             'junegunn/fzf.vim',
