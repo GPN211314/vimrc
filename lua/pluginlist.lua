@@ -53,6 +53,7 @@ packer.startup(
             event = 'User LspDiagnosticsChanged',
             config = function()
                 require("trouble").setup {}
+                vim.api.nvim_set_keymap('n', '<space>t', ':TroubleToggle<CR>', { noremap = true, silent = true })
             end
         }
         use {

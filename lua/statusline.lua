@@ -348,7 +348,7 @@ require ('galaxyline').section.right = {
           vim.cmd('highlight link GalaxyRightLspError GalaxyRightLspErrorActive')
         end
 
-        return '   E:' .. vim.lsp.diagnostic.get_count(0, 'Error') .. ' '
+        return '   :' .. vim.lsp.diagnostic.get_count(0, 'Error') .. ' '
       end
     }
   },
@@ -365,24 +365,7 @@ require ('galaxyline').section.right = {
           vim.cmd('highlight link GalaxyRightLspWarning GalaxyRightLspWarningActive')
         end
 
-        return 'W:' .. vim.lsp.diagnostic.get_count(0, 'Warning') .. ' '
-      end
-    }
-  },
-  {
-    RightLspInformation = {
-      provider = function()
-        if #vim.tbl_keys(vim.lsp.buf_get_clients()) <= 0 then
-           return
-        end
-
-        if vim.lsp.diagnostic.get_count(0, 'Information') == 0 then
-          vim.cmd('highlight link GalaxyRightLspInformation GalaxyMapperCommon4')
-        else
-          vim.cmd('highlight link GalaxyRightLspInformation GalaxyRightLspInformationActive')
-        end
-
-        return 'I:' .. vim.lsp.diagnostic.get_count(0, 'Information') .. ' '
+        return ':' .. vim.lsp.diagnostic.get_count(0, 'Warning') .. ' '
       end
     }
   },
@@ -399,7 +382,24 @@ require ('galaxyline').section.right = {
           vim.cmd('highlight link GalaxyRightLspHint GalaxyRightLspHintActive')
         end
 
-        return 'H:' .. vim.lsp.diagnostic.get_count(0, 'Hint') .. ' '
+        return ':' .. vim.lsp.diagnostic.get_count(0, 'Hint') .. ' '
+      end
+    }
+  },
+  {
+    RightLspInformation = {
+      provider = function()
+        if #vim.tbl_keys(vim.lsp.buf_get_clients()) <= 0 then
+           return
+        end
+
+        if vim.lsp.diagnostic.get_count(0, 'Information') == 0 then
+          vim.cmd('highlight link GalaxyRightLspInformation GalaxyMapperCommon4')
+        else
+          vim.cmd('highlight link GalaxyRightLspInformation GalaxyRightLspInformationActive')
+        end
+
+        return ':' .. vim.lsp.diagnostic.get_count(0, 'Information') .. ' '
       end
     }
   },
