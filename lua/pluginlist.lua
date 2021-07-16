@@ -15,25 +15,7 @@ packer.startup(
         use { 'nvim-lua/plenary.nvim' }
         use { 'm-pilia/vim-ccls' }
         use { 'stevearc/stickybuf.nvim' }
-        use {
-            'vhyrro/neorg',
-            config = function()
-                require('neorg').setup {
-                    -- Tell Neorg what modules to load
-                    load = {
-                        ["core.defaults"] = {}, -- Load all the default modules
-                        ["core.norg.concealer"] = {}, -- Allows for use of icons
-                        ["core.norg.dirman"] = { -- Manage your directories with Neorg
-                            config = {
-                                workspaces = {
-                                    my_workspace = "~/neorg"
-                                }
-                            }
-                        }
-                    },
-                }
-            end
-        }
+        use { 'kyazdani42/nvim-tree.lua' }
         use {
             'godlygeek/tabular',
             enent = 'CmdlineEnter *'
@@ -140,9 +122,31 @@ packer.startup(
         }
         use {
             'hrsh7th/nvim-compe',
+            ft = 'norg',
             event = 'InsertEnter *',
             config = function()
                 require('autocompletion')
+            end
+        }
+        use {
+            'vhyrro/neorg',
+            ft = 'norg',
+            after = 'nvim-compe',
+            config = function()
+                require('neorg').setup {
+                    -- Tell Neorg what modules to load
+                    load = {
+                        ["core.defaults"] = {}, -- Load all the default modules
+                        ["core.norg.concealer"] = {}, -- Allows for use of icons
+                        ["core.norg.dirman"] = { -- Manage your directories with Neorg
+                            config = {
+                                workspaces = {
+                                    my_workspace = "~/neorg"
+                                }
+                            }
+                        }
+                    },
+                }
             end
         }
         use {

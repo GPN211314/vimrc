@@ -33,6 +33,10 @@ require'compe'.setup {
         dup = false,
         menu = '',
     },
+    neorg = {
+        dup = false,
+        menu = '',
+    }
   };
 }
 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { noremap = true, expr = true })
